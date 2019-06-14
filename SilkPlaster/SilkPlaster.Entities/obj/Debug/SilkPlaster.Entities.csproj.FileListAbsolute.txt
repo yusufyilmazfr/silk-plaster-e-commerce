@@ -1,0 +1,6 @@
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Debug\SilkPlaster.Entities.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Debug\SilkPlaster.Entities.pdb
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Debug\SilkPlaster.Entities.csprojAssemblyReference.cache
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Debug\SilkPlaster.Entities.csproj.CoreCompileInputs.cache
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Debug\SilkPlaster.Entities.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Debug\SilkPlaster.Entities.pdb
