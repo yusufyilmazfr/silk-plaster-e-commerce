@@ -1,0 +1,54 @@
+﻿@model List<SilkPlaster.UI.Models.ProductDetailsModel>
+@if (Model.Count == 0)
+{
+    <h1 style="text-align: center; text-decoration: underline; margin-top:100px; margin-bottom: 100px">
+        İstek Listeniz Boş!
+    </h1>
+    return;
+}
+<main id="mt-main">
+    <div class="paddingbootom-md hidden-xs"></div>
+    <!-- Mt Product Table of the Page -->
+    <div class="mt-product-table wow fadeInUp" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+        <div class="container">
+            @foreach (var item in Model)
+            {
+                <div class="row border">
+                    <div class="col-xs-12 col-sm-2">
+                        <div class="img-holder">
+                            <img src="~/images/products/@item.FirstImage" width="105" height="105" alt="@item.Name">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-5" style="height: 150px !important; display: flex; justify-content: center; align-items: center;">
+                        <strong class="product-name y-break" style="padding:0">
+                            @{
+                                if (item.Name.Length > 40)
+                                {
+                                    <span>@item.Name.Substring(0, 40)..</span>
+                                }
+                                else
+                                {
+                                    <span>@item.Name</span>
+                                }
+                            }
+                        </strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-2">
+                        <strong class="price">@item.NewPrice.ToString("c")</strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-2">
+                        <form action="#" class="coupon-form">
+                            <fieldset>
+                                <button type="submit" style="margin-top:15px ">SEPETE EKLE</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="col-xs-12 col-sm-1">
+                        <a href="javascript: void(0)" onclick="RemoveProductInWishList(@item.Id)"><i class="fa fa-close"></i></a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div><!-- Mt Product Table of the Page end -->
+    <div class="paddingbootom-md hidden-xs"></div>
+</main>
