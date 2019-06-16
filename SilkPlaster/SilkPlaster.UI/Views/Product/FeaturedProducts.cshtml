@@ -1,0 +1,132 @@
+﻿@model List<SilkPlaster.UI.Models.ProductDetailsModel>
+@using SilkPlaster.UI.Models.Helpers
+
+<!-- mt producttabs start here -->
+<div class="mt-producttabs wow fadeInUp" data-wow-delay="0.4s">
+    <!-- producttabs start here -->
+    <ul class="producttabs">
+        <li><a href="#tab1" class="active">FEATURED</a></li>
+        @*<li><a href="#tab2">LATEST</a></li>*@
+        @*<li><a href="#tab3">BEST SELLER</a></li>*@
+    </ul>
+    <!-- producttabs end here -->
+    <div class="tab-content text-center">
+        <div id="tab1">
+            <!-- tabs slider start here -->
+            <div class="tabs-slider">
+
+                @foreach (var item in Model)
+                {
+
+                    <!-- slide start here -->
+                    <div class="slide">
+                        <!-- mt product1 center start here -->
+                        <div class="mt-product1 mt-paddingbottom20">
+                            <div class="box">
+                                <div class="b1">
+                                    <div class="b2">
+                                        <a href="/Product/Details/@item.Id">
+                                            <img src="~/images/products/@item.FirstImage" width="215" height="215" alt="@item.Name">
+                                        </a>
+                                        <span class="caption">
+                                            @{
+                                                TimeSpan difference = DateTime.Now - item.AddedDate;
+                                                if (difference.TotalDays < 15)
+                                                {
+                                                    <span class="new">NEW</span>
+                                                }
+                                            }
+                                        </span>
+                                        @*<ul class="mt-stars">
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star-o"></i></li>
+                                            </ul>*@
+                                        <ul class="links">
+                                            @if (CurrentSession.MemberIsLogged)
+                                            {
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="alert('coming soon')">
+                                                        <i class="icon-handbag"></i>
+                                                        <span>Sepete Ekle</span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="AddWishList(@item.Id)">
+                                                        <i class="icomoon icon-heart-empty"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                        <i class="icon-handbag"></i>
+                                                        <span>Sepete Ekle</span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                        <i class="icomoon icon-heart-empty"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="txt">
+                                @if (item.Name.Length > 30)
+                                {
+                                    <strong class="title"><a href="/Product/Details/@item.Id">@item.Name.Substring(0, 30)..</a></strong>
+                                }
+                                else
+                                {
+                                    <strong class="title"><a href="/Product/Details/@item.Id">@item.Name</a></strong>
+                                }
+                                <span class="price">@*<i class="fa fa-eur"></i>*@ <span>@item.NewPrice.ToString("c")</span></span>
+                            </div>
+                        </div><!-- mt product1 center end here -->
+                        <!-- mt product1 center start here -->
+                        @*<div class="mt-product1 mt-paddingbottom20">
+                                <div class="box">
+                                    <div class="b1">
+                                        <div class="b2">
+                                            <a href="product-detail.html"><img src="http://placehold.it/215x215" alt="image description"></a>
+                                            <ul class="mt-stars">
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star-o"></i></li>
+                                            </ul>
+                                            <ul class="links">
+                                                <li><a href="#"><i class="icon-handbag"></i><span>Sepete Ekle</span></a></li>
+                                                <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
+                                                <li><a href="#"><i class="icomoon icon-exchange"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="txt">
+                                    <strong class="title"><a href="product-detail.html">@item.Name.Substring(0, 25)</a></strong>
+                                    <span class="price"><i class="fa fa-eur"></i> <span>@item.NewPrice.ToString("c")</span></span>
+                                </div>
+                            </div>*@
+
+                        <!-- mt product1 center end here -->
+                    </div>
+                    <!-- slide end here -->
+
+                }
+
+
+            </div>
+            <!-- tabs slider end here -->
+        </div>
+
+    </div>
+</div>
+<!-- mt producttabs end here -->

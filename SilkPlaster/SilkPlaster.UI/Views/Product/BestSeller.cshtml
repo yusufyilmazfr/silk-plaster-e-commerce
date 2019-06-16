@@ -1,0 +1,76 @@
+﻿@using SilkPlaster.UI.Models.Helpers
+@model List<SilkPlaster.UI.Models.ProductDetailsModel>
+
+<div class="mt-bestseller bg-grey text-center wow fadeInUp" data-wow-delay="0.4s">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 mt-heading text-uppercase">
+                <h2 class="heading">BEST SELLER</h2>
+                <p>EXCEPTEUR SINT OCCAECAT</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="bestseller-slider">
+                    @foreach (var item in Model)
+                    {
+                        <div class="slide">
+                            <!-- mt product1 center start here -->
+                            <div class="mt-product1 large">
+                                <div class="box">
+                                    <div class="b1">
+                                        <div class="b2">
+                                            <a href="/Product/Details/@item.Id">
+                                                <img src="~/images/products/@item.FirstImage" alt="@item.Name" width="275" height="285">
+                                            </a>
+                                            <span class="caption">
+                                                <span class="best-price">Best Price</span>
+                                            </span>
+                                            <ul class="links add">
+                                                @if (CurrentSession.MemberIsLogged)
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="alert('coming soon')">
+                                                            <i class="icon-handbag"></i>
+                                                            <span>Sepete Ekle</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="AddWishList(@item.Id)">
+                                                            <i class="icomoon icon-heart-empty"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                            <i class="icon-handbag"></i>
+                                                            <span>Sepete Ekle</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                            <i class="icomoon icon-heart-empty"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="txt">
+                                    <strong class="title"><a href="/Product/Details/@item.Id">@item.Name.Substring(0, 25)</a></strong>
+                                    <span class="price"><i class="fa fa-eur"></i> <span>@item.NewPrice.ToString("c")</span></span>
+                                </div>
+                            </div><!-- mt product1 center end here -->
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
