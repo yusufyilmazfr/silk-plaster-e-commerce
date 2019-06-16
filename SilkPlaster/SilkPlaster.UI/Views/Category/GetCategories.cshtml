@@ -1,0 +1,23 @@
+﻿@model List<SilkPlaster.UI.Models.CategoryModel>
+
+<section class="shop-widget">
+    <h2>KATEGORİLER</h2>
+    <!-- category list start here -->
+    <ul class="list-unstyled category-list">
+
+        @foreach (var item in Model)
+        {
+            if (item.ProductCount == 0)
+            {
+                continue;
+            }
+            <li>
+                <a href="#">
+                    <span class="name">@item.Name</span>
+                    <span class="num">@item.ProductCount</span>
+                </a>
+            </li>
+        }
+
+    </ul><!-- category list end here -->
+</section>
