@@ -1,0 +1,57 @@
+﻿@model List<SilkPlaster.UI.Models.BasketModel>
+
+<a href="#" class="cart-opener">
+    <span class="icon-handbag"></span>
+    <span class="num">@Model.Count</span>
+</a>
+<!-- mt drop start here -->
+<div class="mt-drop">
+    <!-- mt drop sub start here -->
+    <div class="mt-drop-sub">
+        <!-- mt side widget start here -->
+        <div class="mt-side-widget">
+            @foreach (var item in Model)
+            {
+                <!-- cart row start here -->
+                <div class="cart-row">
+                    <a href="/Product/Details/@item.Product.Id" class="img"><img src="~/images/products/@item.Product.FirstImage" alt="image" class="img-responsive"></a>
+                    <div class="mt-h">
+                        <span class="mt-h-title">
+                            <a href="/Product/Details/@item.Product.Id">
+                                @{
+                                    if (item.Product.Name.Length > 20)
+                                    {
+                                        <span>@item.Product.Name.Substring(0, 20)..</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.Product.Name</span>
+                                    }
+
+                                }
+                            </a>
+                        </span>
+                        <span class="price">@item.Product.NewPrice.ToString("c")</span>
+                        <span class="mt-h-title">Adet: @item.Quantity</span>
+                    </div>
+                    <a href="#" class="close fa fa-times"></a>
+                </div><!-- cart row end here -->
+            }
+
+            @if (Model.Count == 0)
+            {
+                <h2 style="text-decoration: underline">Sepetiniz Boş!</h2>
+            }
+            else
+            {
+                <div class="cart-btn-row">
+                    <a href="#" class="btn-type2">VIEW CART</a>
+                    <a href="#" class="btn-type3">CHECKOUT</a>
+                </div>
+            }
+        </div><!-- mt side widget end here -->
+    </div>
+    <!-- mt drop sub end here -->
+</div><!-- mt drop end here -->
+<span class="mt-mdropover"></span>
+

@@ -1,0 +1,57 @@
+﻿@model List<SilkPlaster.UI.Models.ProductDetailsModel>
+
+<!-- mt drop sub start here -->
+<div class="mt-drop-sub">
+    <!-- mt side widget start here -->
+    <div class="mt-side-widget">
+        <!-- cart row start here -->
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+                if (i == 3)
+                {
+                    <h1>...</h1>
+                    break;
+                }
+                <div class="cart-row">
+                    <a href="/Product/Details/@item.Id" class="img"><img src="~/images/products/@item.FirstImage" width="75" height="75" alt="@item.Name" class="img-responsive"></a>
+                    <div class="mt-h">
+                        <span class="mt-h-title">
+                            <a href="/Products/Details/@item.Id">
+                                @{
+                                    if (item.Name.Length > 20)
+                                    {
+                                        <span>@item.Name.Substring(0, 20)..</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.Name</span>
+                                    }
+                                }
+                            </a>
+                        </span>
+                        <span class="price"><i class="fa fa-eur" aria-hidden="true"></i> @item.NewPrice.ToString("c")</span>
+                    </div>
+                    <a href="#" class="close fa fa-times"></a>
+                </div>
+                i++;
+
+            }
+        }
+        <!-- cart row end here -->
+        @if (Model.Count == 0)
+        {
+            <h2 style="text-decoration: underline">İstek Listeniz Boş!</h2>
+        }
+        else
+        {
+            <!-- cart row total start here -->
+            <div class="cart-row-total">
+                <span class="mt-total-txt"><a href="/WishList" class="btn-type2">Tümünü Görüntüle</a></span>
+            </div>
+            <!-- cart row total end here -->
+        }
+    </div><!-- mt side widget end here -->
+</div>
+<!-- mt drop sub end here -->
