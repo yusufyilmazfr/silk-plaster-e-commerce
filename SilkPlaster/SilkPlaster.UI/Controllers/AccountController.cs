@@ -2,6 +2,7 @@
 using SilkPlaster.BusinessLayer.Result;
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Entities;
+using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Helpers;
 using SilkPlaster.UI.Models.Session;
 using System;
@@ -84,6 +85,107 @@ namespace SilkPlaster.UI.Controllers
 
             return View(model);
         }
+
+        public ActionResult EditMyInformation()
+        {
+            int loggedInMemberId = CurrentSession.Member.Id;
+
+            MemberDetailsModel model = _memberManager
+                .ListQueryable()
+                .Where(i => i.Id == loggedInMemberId)
+                .Select(i => new MemberDetailsModel
+                {
+                    FirstName = i.FirstName,
+                    LastName = i.LastName,
+                    Email = i.Email
+                })
+                .FirstOrDefault();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditMyInformation(MemberDetailsModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                int loggedInMemberId = CurrentSession.Member.Id;
+
+                Member member = _memberManager.Find(i => i.Id == loggedInMemberId);
+
+                member.FirstName = model.FirstName;
+                member.LastName = model.LastName;
+                member.Email = model.Email;
+
+
+                BusinessLayerResult<Member> layerResult = _memberManager.Update(member);
+
+                if (layerResult.Errors.Count > 0)
+                {
+                    layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
+                    return View(model);
+                }
+
+                return View("Index");
+            }
+
+            return View(model);
+        }
+
+        public ActionResult EditPassword()
+        {
+            int loggedInMemberId = CurrentSession.Member.Id;
+
+            MemberPasswordModel model = _memberManager
+                .ListQueryable()
+                .Where(i => i.Id == loggedInMemberId)
+                .Select(i => new MemberPasswordModel
+                {
+                    Password = i.Password
+                })
+                .FirstOrDefault();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditPassword(MemberPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                int loggedInMemberId = CurrentSession.Member.Id;
+
+                Member member = _memberManager.Find(i => i.Id == loggedInMemberId && i.Password == model.Password);
+
+                if (member == null)
+                {
+                    ModelState.AddModelError("", "Geçersiz şifre!");
+                    return View(model);
+                }
+
+                member.Password = model.NewPassword;
+
+                BusinessLayerResult<Member> layerResult = _memberManager.Update(member);
+
+                if (layerResult.Errors.Count > 0)
+                {
+                    layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
+
+                    return View(model);
+                }
+
+                return View("Index");
+            }
+
+            return View(model);
+        }
+
+        public ActionResult MyAddresses()
+        {
+
+            return View();
+        }
+
 
         public ActionResult Logout()
         {
