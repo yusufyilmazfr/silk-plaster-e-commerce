@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -88,19 +91,148 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\animate.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\icon-fonts.css" />
+    <Content Include="css\main.css" />
+    <Content Include="css\rating.css" />
+    <Content Include="css\responsive.css" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontello.svg" />
+    <Content Include="fonts\Simple-Line-Icons.dev.svg" />
+    <Content Include="fonts\Simple-Line-Icons.svg" />
+    <Content Include="fonts\slick.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\ajax-loader.gif" />
+    <Content Include="images\bank-card.png" />
+    <Content Include="images\bank-card2.png" />
+    <Content Include="images\bankcard.png" />
+    <Content Include="images\categories\smallwriting.jpg" />
+    <Content Include="images\categories\smallwriting2.jpg" />
+    <Content Include="images\categories\smallwriting3.jpg" />
+    <Content Include="images\categories\smallwriting4.jpg" />
+    <Content Include="images\fancybox\blank.gif" />
+    <Content Include="images\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="images\fancybox\fancybox_loading.gif" />
+    <Content Include="images\fancybox\fancybox_overlay.png" />
+    <Content Include="images\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="images\fancybox\fancybox_sprite.png" />
+    <Content Include="images\login-background.jpg" />
+    <Content Include="images\logo-white.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\logo2.png" />
+    <Content Include="images\logo\img01.jpg" />
+    <Content Include="images\logo\img02.jpg" />
+    <Content Include="images\logo\img03.jpg" />
+    <Content Include="images\logo\img04.jpg" />
+    <Content Include="images\logo\img05.jpg" />
+    <Content Include="images\logo\img06.jpg" />
+    <Content Include="images\map-logo.png" />
+    <Content Include="images\mt-logo.png" />
+    <Content Include="images\mt-logo2.png" />
+    <Content Include="images\products\1.jpg" />
+    <Content Include="images\products\10.jpg" />
+    <Content Include="images\products\11.jpg" />
+    <Content Include="images\products\12.jpg" />
+    <Content Include="images\products\13.jpg" />
+    <Content Include="images\products\14.jpg" />
+    <Content Include="images\products\15.jpg" />
+    <Content Include="images\products\16.jpg" />
+    <Content Include="images\products\17.jpg" />
+    <Content Include="images\products\18.jpg" />
+    <Content Include="images\products\19.jpg" />
+    <Content Include="images\products\2.jpg" />
+    <Content Include="images\products\2.png" />
+    <Content Include="images\products\20.jpg" />
+    <Content Include="images\products\3.jpg" />
+    <Content Include="images\products\3.png" />
+    <Content Include="images\products\4.jpg" />
+    <Content Include="images\products\4.png" />
+    <Content Include="images\products\5.jpg" />
+    <Content Include="images\products\5.png" />
+    <Content Include="images\products\6.jpg" />
+    <Content Include="images\products\6.png" />
+    <Content Include="images\products\7.jpg" />
+    <Content Include="images\products\8.jpg" />
+    <Content Include="images\products\9.jpg" />
+    <Content Include="images\svg\rings.svg" />
+    <Content Include="images\Untitled-1.jpg" />
+    <Content Include="js\ajax.js" />
+    <Content Include="js\app.js" />
+    <Content Include="js\jquery.js" />
+    <Content Include="js\jquery.main.js" />
+    <Content Include="js\particles.js" />
+    <Content Include="js\plugins.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BasketController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\WishListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BasketModel.cs" />
+    <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\CommentModel.cs" />
+    <Compile Include="Models\Helpers\CurrentSession.cs" />
+    <Compile Include="Models\MemberDetailsModel.cs" />
+    <Compile Include="Models\MemberPasswordModel.cs" />
+    <Compile Include="Models\ProductDetailsModel.cs" />
+    <Compile Include="Models\ProductImagesModel.cs" />
+    <Compile Include="Models\Session\MemberSessionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontello.eot" />
+    <Content Include="fonts\fontello.ttf" />
+    <Content Include="fonts\fontello.woff" />
+    <Content Include="fonts\fontello.woff2" />
+    <Content Include="fonts\Simple-Line-Icons.eot" />
+    <Content Include="fonts\Simple-Line-Icons.ttf" />
+    <Content Include="fonts\Simple-Line-Icons.woff" />
+    <Content Include="fonts\slick.eot" />
+    <Content Include="fonts\slick.ttf" />
+    <Content Include="fonts\slick.woff" />
+    <Content Include="js\il-ilce.json" />
     <None Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\navbar-footer.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Basket\WiewQuicklyBasket.cshtml" />
+    <Content Include="Views\Basket\WiewQuicklyWishList.cshtml" />
+    <Content Include="Views\Category\GetCategories.cshtml" />
+    <Content Include="Views\WishList\MyWishList.cshtml" />
+    <Content Include="Views\WishList\Index.cshtml" />
+    <Content Include="Views\Product\MixedFeaturedProducts.cshtml" />
+    <Content Include="Views\Product\Search.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Product\FeaturedProducts.cshtml" />
+    <Content Include="Views\Product\BestSeller.cshtml" />
+    <Content Include="Views\Product\ShowSomeProducts.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\WishList\GetMyWishListCount.cshtml" />
+    <Content Include="Views\Account\EditPassword.cshtml" />
+    <Content Include="Views\Account\EditMyInformation.cshtml" />
+    <Content Include="Views\Account\MyAddresses.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -110,8 +242,21 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Comment\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SilkPlaster.BusinessLayer\SilkPlaster.BusinessLayer.csproj">
+      <Project>{11FAD42D-D812-4B02-B56F-F30AA5AEC23F}</Project>
+      <Name>SilkPlaster.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SilkPlaster.Common\SilkPlaster.Common.csproj">
+      <Project>{1F776D43-4A84-4BF8-A61A-70EF87968BF8}</Project>
+      <Name>SilkPlaster.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SilkPlaster.Entities\SilkPlaster.Entities.csproj">
+      <Project>{898B9791-BC80-410A-8262-FC31E9DFB54E}</Project>
+      <Name>SilkPlaster.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
