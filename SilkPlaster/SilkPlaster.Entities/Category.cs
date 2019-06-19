@@ -14,8 +14,8 @@ namespace SilkPlaster.Entities
     public class Category : EntityBase, IEntity
     {
         [Required,
-        DisplayName("Ad"),
-        StringLength(25, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
+        DisplayName("Kategori Adı"),
+        StringLength(50, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
         public string Name { get; set; }
 
         [Required,

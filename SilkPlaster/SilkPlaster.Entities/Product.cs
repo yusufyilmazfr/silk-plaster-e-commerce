@@ -36,11 +36,19 @@ namespace SilkPlaster.Entities
         public decimal NewPrice { get; set; }
 
         [Required,
+        DisplayName("Ürün Resimi"),
         MaxLength(500)]
         public string FirstImage { get; set; }
 
+        [Required,
+        DisplayName("Stok Adeti")]
+        public int Quantity { get; set; }
+
+        [DisplayName("Öne Çıkarılan?")]
         public bool IsFeatured { get; set; }
+        [DisplayName("Satışa Devam Ediyor?")]
         public bool IsContinued { get; set; }
+        [DisplayName("Stokta Var?")]
         public bool InStock { get; set; }
 
 
