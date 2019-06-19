@@ -68,8 +68,7 @@ namespace SilkPlaster.UI.Controllers
                         {
                             Id = j.Member.Id,
                             FirstName = j.Member.FirstName,
-                            LastName = j.Member.LastName,
-                            AddedDate = j.Member.AddedDate
+                            LastName = j.Member.LastName
                         }
 
                     }).ToList()
@@ -259,5 +258,7 @@ namespace SilkPlaster.UI.Controllers
             }
             return Json(new { result = false }, JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }

@@ -182,16 +182,13 @@ namespace SilkPlaster.UI.Controllers
 
         public ActionResult MyAddresses()
         {
-
             return View();
         }
-
 
         public ActionResult Logout()
         {
             CurrentSession.Remove("Member");
             return View("Login");
         }
-
     }
 }
