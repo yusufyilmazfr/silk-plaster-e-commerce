@@ -21,6 +21,7 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
         }
 
         public DbSet<Member> Members { get; set; }
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -30,5 +31,6 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Slider> Sliders { get; set; }
     }
 }
