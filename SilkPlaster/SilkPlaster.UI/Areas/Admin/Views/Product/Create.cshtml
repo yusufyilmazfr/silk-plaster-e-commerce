@@ -81,6 +81,7 @@
 
                         <div class="form-row">
                             @Html.LabelFor(model => model.LongDescription)
+                            <br />
                             @Html.TextAreaFor(model => model.LongDescription, new { @class = "form-control ckeditor", rows = "3", placeholder = "Uzun Açıklama" })
                         </div>
 
@@ -118,8 +119,13 @@
                         </div>
 
                         <div class="position-relative form-group">
-                            <label for="exampleFile" class="">File</label>
+                            <label for="exampleFile" class="">Öne Çıkarılan Fotoğraf</label>
                             <input name="file" id="exampleFile" type="file" class="form-control-file">
+                        </div>
+                        
+                        <div class="position-relative form-group">
+                            <label for="exampleFile" class="">Diğer Fotoğraflar (Çoklu Seçim Yapılabilir)</label>
+                            <input name="otherFiles" id="exampleFile" type="file" multiple class="form-control-file">
                         </div>
 
                         <br />
