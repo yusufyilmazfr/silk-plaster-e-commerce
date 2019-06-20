@@ -84,6 +84,7 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
                     AddedDate = FakeData.DateTimeData.GetDatetime(),
                     ModifiedDate = DateTime.Now,
                     CategoryId = random.Next(1, 10),
+                    Quantity = random.Next(40, 80),
                     ProductImages = new List<ProductImage>()
                     {
                         new ProductImage{Name = "5.jpg"},
@@ -167,8 +168,26 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
                 context.WishLists.Add(wishList);
             }
 
-            context.SaveChanges();
+            Admin admin = new Admin
+            {
+                FirstName = "Yusuf",
+                LastName = "Yılmaz",
+                Email = "yusufyilmazfr@gmail.com",
+                Password = "123"
+            };
 
+            Admin admin2 = new Admin
+            {
+                FirstName = "Halit",
+                LastName = "Akkuş",
+                Email = "halit@halit.org",
+                Password = "123"
+            };
+
+            context.Admins.Add(admin);
+            context.Admins.Add(admin2);
+
+            context.SaveChanges();
         }
     }
 }
