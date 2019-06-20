@@ -13,6 +13,8 @@ namespace SilkPlaster.Common.Message
         FailedToAddRecord = 102,
         ObjectAlreadyExists = 103,
         ObjectNotFound = 104,
-        FailedToDeleteRecord = 105
+        FailedToDeleteRecord = 105,
+        UserNotFound = 106,
+        FailedToModifiedRecord = 107
     }
 }
