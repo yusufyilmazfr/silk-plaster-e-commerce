@@ -3,6 +3,7 @@ using SilkPlaster.BusinessLayer.Result;
 using SilkPlaster.Common.Message;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
+using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Web.Mvc;
 
 namespace SilkPlaster.UI.Controllers
 {
+    [MemberAuthFilter]
     public class WishListController : Controller
     {
         WishListManager _wishListManager = new WishListManager();

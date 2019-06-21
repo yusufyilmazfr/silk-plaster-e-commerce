@@ -1,5 +1,6 @@
 ﻿using SilkPlaster.BusinessLayer;
 using SilkPlaster.UI.Models;
+using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,12 @@ namespace SilkPlaster.UI.Controllers
         WishListManager _wishListManager = new WishListManager();
         BasketManager _basketManager = new BasketManager();
 
-        // GET: Basket
         public ActionResult Index()
         {
             return View();
         }
 
+        [MemberAuthFilter]
         public PartialViewResult WiewQuicklyBasket()
         {
             int loggedInMemberId = CurrentSession.Member.Id;
@@ -48,6 +49,7 @@ namespace SilkPlaster.UI.Controllers
             return PartialView(baskets);
         }
 
+        [MemberAuthFilter]
         public PartialViewResult WiewQuicklyWishList()
         {
             int loggedInMemberId = CurrentSession.Member.Id;

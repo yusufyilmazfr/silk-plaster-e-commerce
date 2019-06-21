@@ -3,6 +3,7 @@ using SilkPlaster.BusinessLayer.Result;
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
+using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
 using System;
 using System.Collections.Generic;
@@ -237,6 +238,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [HttpPost]
+        [MemberAuthFilter]
         public JsonResult AddComment(CommentViewModel model)
         {
             if (ModelState.IsValid)
@@ -258,7 +260,5 @@ namespace SilkPlaster.UI.Controllers
             }
             return Json(new { result = false }, JsonRequestBehavior.AllowGet);
         }
-
-
     }
 }

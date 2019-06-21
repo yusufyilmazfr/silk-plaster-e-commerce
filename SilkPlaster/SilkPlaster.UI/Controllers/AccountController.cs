@@ -3,6 +3,7 @@ using SilkPlaster.BusinessLayer.Result;
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
+using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
 using SilkPlaster.UI.Models.Session;
 using System;
@@ -17,14 +18,16 @@ namespace SilkPlaster.UI.Controllers
     {
         MemberManager _memberManager = new MemberManager();
 
-        // GET: Account
+        [MemberAuthFilter]
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl = "/")
         {
+            TempData["returnUrl"] = returnUrl;
+
             return View();
         }
 
@@ -54,7 +57,8 @@ namespace SilkPlaster.UI.Controllers
                         LastName = member.LastName
                     });
 
-                    return RedirectToAction("Index");
+                    string returnUrl = TempData["returnUrl"].ToString();
+                    return Redirect(returnUrl);
                 }
             }
 
@@ -86,6 +90,7 @@ namespace SilkPlaster.UI.Controllers
             return View(model);
         }
 
+        [MemberAuthFilter]
         public ActionResult EditMyInformation()
         {
             int loggedInMemberId = CurrentSession.Member.Id;
@@ -105,6 +110,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [HttpPost]
+        [MemberAuthFilter]
         public ActionResult EditMyInformation(MemberDetailsModel model)
         {
             if (ModelState.IsValid)
@@ -132,6 +138,7 @@ namespace SilkPlaster.UI.Controllers
             return View(model);
         }
 
+        [MemberAuthFilter]
         public ActionResult EditPassword()
         {
             int loggedInMemberId = CurrentSession.Member.Id;
@@ -149,6 +156,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [HttpPost]
+        [MemberAuthFilter]
         public ActionResult EditPassword(MemberPasswordModel model)
         {
             if (ModelState.IsValid)
@@ -180,6 +188,7 @@ namespace SilkPlaster.UI.Controllers
             return View(model);
         }
 
+        [MemberAuthFilter]
         public ActionResult MyAddresses()
         {
             return View();
