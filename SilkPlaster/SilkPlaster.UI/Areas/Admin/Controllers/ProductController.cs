@@ -11,11 +11,13 @@ using SilkPlaster.BusinessLayer;
 using SilkPlaster.BusinessLayer.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
+using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
 using SilkPlaster.UI.Models.Helpers.Image;
 
 namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class ProductController : Controller
     {
         ProductManager _productManager = new ProductManager();

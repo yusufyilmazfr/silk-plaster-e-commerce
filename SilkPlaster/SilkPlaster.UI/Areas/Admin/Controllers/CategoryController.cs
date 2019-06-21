@@ -10,9 +10,11 @@ using SilkPlaster.BusinessLayer;
 using SilkPlaster.BusinessLayer.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
+using SilkPlaster.UI.Models.Filters;
 
 namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class CategoryController : Controller
     {
         CategoryManager _categoryManager = new CategoryManager();

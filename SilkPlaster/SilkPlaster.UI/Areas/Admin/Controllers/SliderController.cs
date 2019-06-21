@@ -10,10 +10,12 @@ using SilkPlaster.BusinessLayer;
 using SilkPlaster.BusinessLayer.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
+using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers.Image;
 
 namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class SliderController : Controller
     {
         SliderManager _sliderManager = new SliderManager();
