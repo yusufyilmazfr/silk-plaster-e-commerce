@@ -15,7 +15,7 @@ using SilkPlaster.UI.Models.Helpers.Image;
 
 namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
-    [AdminAuthFilter]
+    //[AdminAuthFilter]
     public class SliderController : Controller
     {
         SliderManager _sliderManager = new SliderManager();
