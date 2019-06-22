@@ -1,4 +1,24 @@
-﻿function AddWishList(productId) {
+﻿function RemoveProductInBasket(productId) {
+    new Post('/Basket/Remove', { productId: productId }, function (data) {
+        data = JSON.parse(data);
+
+        if (data.result) {
+
+            ShowSweetAlert('success', 'Silme İşlemi Başarılı!', 'Ürün başarıyla silindi!');
+
+            GetMyGetBasketPage(function (value) {
+                document.getElementById('myBasketPage').innerHTML = value;
+            });
+
+            FillQuicklyBasket();
+        }
+        else {
+            ShowSweetAlert('error', 'Oops..', data.message.ErrorMessage);
+        }
+    });
+}
+
+function AddWishList(productId) {
     new Post('/WishList/Add', { productId: productId }, function (status) {
         let result = JSON.parse(status).result;
 
@@ -42,8 +62,22 @@ function FillQuicklyWishList() {
     });
 }
 
+function FillQuicklyBasket() {
+    GetBasket(function (data) {
+        document.getElementById('myBasket').innerHTML = data;
+    });
+
+    GetBasketItemCount(function (data) {
+        document.getElementById('basketItemCount').innerHTML = data;
+    });
+}
+
 function GetMyGetWishListPage(callback) {
     new Get('/WishList/MyWishList', callback);
+}
+
+function GetMyGetBasketPage(callback) {
+    new Get('/Basket/MyBasket', callback);
 }
 
 function ShowSweetAlert(type, title, text, footer) {
@@ -70,4 +104,16 @@ function GetMyWishListCount(callback) {
 
 function GetBasket(callback) {
     new Get('/Basket/WiewQuicklyBasket', callback);
+}
+
+function GetBasketItemCount(callback) {
+    new Get('/Basket/GetBasketItemCount', callback);
+}
+
+function QuicklyViewProduct(productId) {
+    let relativePath = '/Product/QuicklyViewProduct/' + productId;
+
+    new Get(relativePath, function (value) {
+        document.getElementById('popup1').innerHTML = value;
+    });
 }
