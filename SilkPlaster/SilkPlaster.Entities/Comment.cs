@@ -21,6 +21,7 @@ namespace SilkPlaster.Entities
         public byte StarCount { get; set; }
         public int ParentId { get; set; }
 
+        [DisplayName("Onaylı Mı?")]
         public bool IsValid { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }

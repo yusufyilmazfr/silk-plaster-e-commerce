@@ -20,7 +20,7 @@ namespace SilkPlaster.Entities
 
         [Required,
         DisplayName("Kısa Açıklama"),
-        StringLength(250, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
+        StringLength(1000, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
         public string ShortDescription { get; set; }
 
         [Required,
