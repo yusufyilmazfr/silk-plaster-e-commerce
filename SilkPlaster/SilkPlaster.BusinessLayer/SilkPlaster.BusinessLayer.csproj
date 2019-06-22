@@ -52,6 +52,7 @@
     <Compile Include="ProductManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result\BusinessLayerResult.cs" />
+    <Compile Include="SliderManager.cs" />
     <Compile Include="WishListManager.cs" />
   </ItemGroup>
   <ItemGroup>
