@@ -22,12 +22,27 @@
                     {
                         <strong><a href="/Product/Details/@item.Id" class="y-break">@item.Name</a></strong>
                     }
-                    @*<ul class="mt-stars">
-            <li><i class="fa fa-star"></i></li>
-            <li><i class="fa fa-star"></i></li>
-            <li><i class="fa fa-star"></i></li>
-            <li><i class="fa fa-star-o"></i></li>
-        </ul>*@
+
+                    @{
+                        if (item.Comments.Count > 0)
+                        {
+                            <ul class="mt-stars">
+                                @{
+
+                                    var avgStar = Math.Ceiling(item.Comments.Average(i => i.StarCount));
+
+                                    for (int i = 0; i < avgStar; i++)
+                                    {
+                                        <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                    }
+                                    for (int i = 0; i < 5 - avgStar; i++)
+                                    {
+                                        <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+                                    }
+                                }
+                            </ul>
+                        }
+                    }
                 </div>
                 <del class="off">@item.LastPrice.ToString("c")</del>
                 <span class="price">@item.NewPrice.ToString("c")</span>

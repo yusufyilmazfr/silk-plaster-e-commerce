@@ -1,0 +1,128 @@
+﻿@using SilkPlaster.UI.Models.Helpers
+@model SilkPlaster.UI.Models.ProductDetailsModel
+
+
+
+<!-- Mt Product Detial of the Page -->
+<section class="mt-product-detial">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- Slider of the Page -->
+                <div class="slider">
+                    <!-- Comment List of the Page -->
+                    <ul class="list-unstyled comment-list">
+                        @*<li><a href="#"><i class="fa fa-heart"></i>27</a></li>
+                            <li><a href="#"><i class="fa fa-comments"></i>12</a></li>
+                            <li><a href="#"><i class="fa fa-share-alt"></i>14</a></li>*@
+                    </ul><!-- Comment List of the Page end -->
+                    <!-- Product Slider of the Page -->
+                    <div class="product-slider">
+
+                        <div class="slide">
+                            <img src="~/images/products/@Model.FirstImage" width="500" height="450" alt="@Model.Name">
+                        </div>
+
+                        @*@foreach (var item in Model.Images)
+                        {
+                            <div class="slide">
+                                <img src="~/images/products/@item.Name" width="500" height="450" alt="@Model.Name">
+                            </div>
+                        }*@
+
+                    </div><!-- Product Slider of the Page end -->
+                    <!-- Pagg Slider of the Page -->
+                    @*<ul class="list-unstyled slick-slider pagg-slider">
+                        <li><img src="~/images/products/@Model.FirstImage" width="120" height="95" alt="@Model.Name"></li>
+
+                        @foreach (var item in Model.Images)
+                        {
+                            <li><img src="~/images/products/@item.Name" width="120" height="95" alt="@Model.Name"></li>
+                        }
+
+                    </ul>*@
+                <!-- Pagg Slider of the Page end -->
+                </div><!-- Slider of the Page end -->
+                <!-- Detail Holder of the Page -->
+                <div class="detial-holder">
+                    <!-- Breadcrumbs of the Page -->
+                    @*<ul class="list-unstyled breadcrumbs">
+                            <li><a href="#">Chairs <i class="fa fa-angle-right"></i></a></li>
+                            <li>Products</li>
+                        </ul>*@
+                    <!-- Breadcrumbs of the Page end -->
+                    <h2 class="y-break">
+                        @Model.Name
+                    </h2>
+                    <!-- Rank Rating of the Page -->
+                    <div class="rank-rating">
+                        <ul class="list-unstyled rating-list">
+                            @{
+                                if (Model.Comments.Count > 0)
+                                {
+                                    double avgStar = Math.Ceiling(Model.Comments.Average(i => i.StarCount));
+
+                                    for (int i = 0; i < avgStar; i++)
+                                    {
+                                        <li><i class="fa fa-star"></i></li>
+                                    }
+                                    for (int i = 0; i < 5 - avgStar; i++)
+                                    {
+                                        <li><i class="fa fa-star-o"></i></li>
+                                    }
+                                }
+                            }
+                        </ul>
+                        <span class="total-price">Yorumlar (@Model.Comments.Count)</span>
+                    </div><!-- Rank Rating of the Page end -->
+                    <ul class="list-unstyled list">
+                        @*<li><a href="#"><i class="fa fa-share-alt"></i>SHARE</a></li>*@
+                        @*<li><a href="#"><i class="fa fa-exchange"></i>COMPARE</a></li>*@
+
+                        @if (CurrentSession.MemberIsLogged)
+                        {
+                            <li>
+                                <a href="javascript:void(0)" onclick="AddWishList(@Model.Id)">
+                                    <i class="icomoon fa fa-heart"></i>
+                                    İstek Listeme Ekle
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                    <i class="icomoon fa fa-heart"></i>
+                                    İstek Listeme Ekle
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                    <div class="txt-wrap">
+                        <p class="y-break">
+                            @Model.ShortDescription
+                        </p>
+                    </div>
+                    <div class="text-holder">
+                        <span class="price">@Model.NewPrice.ToString("c") <del>@Model.LastPrice.ToString("c")</del></span>
+                    </div><!-- Product Form of the Page -->
+                    <form action="#" class="product-form">
+                        <fieldset>
+                            <div class="row-val">
+                                <label for="qty">qty</label>
+                                <select id="clr">
+                                    <option>1</option>
+                                </select>
+                            </div>
+                            <div class="row-val">
+                                <button type="submit">ADD TO CART</button>
+                            </div>
+                        </fieldset>
+                    </form><!-- Product Form of the Page end -->
+                </div><!-- Detail Holder of the Page end -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Mt Product Detial of the Page end -->

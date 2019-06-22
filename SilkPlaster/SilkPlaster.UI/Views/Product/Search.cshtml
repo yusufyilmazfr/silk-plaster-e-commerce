@@ -1,4 +1,5 @@
 ﻿@using SilkPlaster.UI.Models
+@using SilkPlaster.UI.Models.Helpers
 @model List<SilkPlaster.UI.Models.ProductDetailsModel>
 
 <main id="mt-main">
@@ -160,9 +161,43 @@
                                                 }
                                             </ul>
                                             <ul class="links">
-                                                <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-                                                <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                <li><a href="#"><i class="icomoon icon-eye"></i></a></li>
+
+                                                @if (CurrentSession.MemberIsLogged)
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="alert('coming soon')">
+                                                            <i class="icon-handbag"></i>
+                                                            <span>Sepete Ekle</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="AddWishList(@item.Id)">
+                                                            <i class="icomoon icon-heart-empty"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                            <i class="icon-handbag"></i>
+                                                            <span>Sepete Ekle</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                            <i class="icomoon icon-heart-empty"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+
+                                                <li>
+                                                    <a href="#popup1" onclick="QuicklyViewProduct(@item.Id)" class="lightbox">
+                                                        <i class="icomoon icon-eye"></i>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -214,3 +249,4 @@
         </div>
     </div>
 </main>
+

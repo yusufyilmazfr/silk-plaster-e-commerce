@@ -79,7 +79,16 @@
                                     <li class="drop">
                                         @if (CurrentSession.MemberIsLogged)
                                         {
-                                            @Html.Action("WiewQuicklyBasket", "Basket")
+                                            <a href="#" class="cart-opener" id="basketItemCount">
+                                                @Html.Action("GetBasketItemCount", "Basket")
+                                            </a>
+
+                                            <div class="mt-drop" id="myBasket">
+                                                <!-- mt drop start here -->
+                                                @Html.Action("WiewQuicklyBasket", "Basket")
+                                            </div><!-- mt drop end here -->
+                                            <span class="mt-mdropover"></span>
+
                                         }
                                         else
                                         {
@@ -592,6 +601,15 @@
         </div><!-- W1 end here -->
         <span id="back-top" class="fa fa-arrow-up"></span>
     </div>
+
+    <!-- Popup Holder of the Page -->
+    <div class="popup-holder" style="z-index:200">
+        <!-- Popup of the Page -->
+        <div id="popup1" class="lightbox">
+            <img width="10" style="padding: 40px" src="/images/ajax-loader.gif" alt="loading gif" />
+        </div><!-- Popup of the Page end -->
+    </div>
+    <!-- Popup Holder of the Page end -->
     <!-- include jQuery -->
     <script src="/js/jquery.js"></script>
     <!-- include jQuery -->
