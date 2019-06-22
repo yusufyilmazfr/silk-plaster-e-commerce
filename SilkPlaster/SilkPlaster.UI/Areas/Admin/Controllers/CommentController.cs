@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SilkPlaster.BusinessLayer;
+using SilkPlaster.BusinessLayer.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
@@ -35,7 +36,11 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = _commentManager.Find(i => i.Id == Id.Value);
+            Comment comment = _commentManager
+                .ListQueryable()
+                .Include("Member")
+                .Where(i => i.Id == Id.Value)
+                .FirstOrDefault();
 
             if (comment == null)
             {
@@ -50,8 +55,15 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.Entry(comment).State = EntityState.Modified;
-                //db.SaveChanges();
+                BusinessLayerResult<Comment> layerResult = _commentManager.Update(comment);
+
+                if (layerResult.Errors.Count > 0)
+                {
+                    //comment.StarCount = comment.StarCount <= 5 && comment.StarCount >= 1 ? comment.StarCount : (byte)5;
+                    layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
+                    return View(comment);
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -64,10 +76,16 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = _commentManager.Find(i => i.Id == Id.Value);
+
+            Comment comment = _commentManager
+                .ListQueryable()
+                .Include("Member")
+                .FirstOrDefault(i => i.Id == Id.Value);
+
             if (comment == null)
             {
                 return HttpNotFound();
+
             }
             return View(comment);
         }
