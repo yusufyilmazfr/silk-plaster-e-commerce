@@ -57,7 +57,7 @@ namespace SilkPlaster.UI.Controllers
                         Name = k.Name
                     }).ToList(),
 
-                    Comments = i.Comments.Select(j => new CommentModel
+                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
                     {
                         Id = j.Id,
                         Text = j.Text,
@@ -101,7 +101,7 @@ namespace SilkPlaster.UI.Controllers
                     NewPrice = i.NewPrice,
                     AddedDate = i.AddedDate,
 
-                    Comments = i.Comments.Select(j => new CommentModel
+                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
                     {
                         StarCount = j.StarCount
                     }).ToList()
@@ -114,6 +114,38 @@ namespace SilkPlaster.UI.Controllers
             ViewBag.ProductCount = _productManager.GetAll().Count;
 
             return View(products);
+        }
+
+        public PartialViewResult QuicklyViewProduct(int Id)
+        {
+            ProductDetailsModel product = _productManager
+                .ListQueryable()
+                .Include("Comment")
+                .Include("ProductImages")
+                .Where(i => i.Id == Id)
+                .Select(i => new ProductDetailsModel
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    NewPrice = i.NewPrice,
+                    LastPrice = i.LastPrice,
+                    FirstImage = i.FirstImage,
+                    ShortDescription = i.ShortDescription,
+
+                    Images = i.ProductImages.Select(j => new ProductImagesModel
+                    {
+                        Name = j.Name
+                    }).ToList(),
+
+                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+                    {
+                        StarCount = j.StarCount
+                    }).ToList()
+
+                })
+                .FirstOrDefault();
+
+            return PartialView(product);
         }
 
         [ChildActionOnly]
@@ -162,7 +194,7 @@ namespace SilkPlaster.UI.Controllers
                 ProductDetailsModel product = _productManager
                  .ListQueryable()
                  .Include("Comments")
-                 .Where(k => k.Id == id)
+                 .Where(k => k.Id == id && k.InStock && k.IsContinued)
                  .Select(j => new ProductDetailsModel
                  {
                      Id = j.Id,
@@ -190,14 +222,26 @@ namespace SilkPlaster.UI.Controllers
         {
             ViewBag.Title = "Öne Çıkarılanlar";
 
-            List<ProductDetailsModel> products = _productManager.ListQueryable().Where(i => i.IsFeatured).OrderByDescending(i => i.AddedDate).Take(3).Select(i => new ProductDetailsModel
-            {
-                Id = i.Id,
-                Name = i.Name,
-                FirstImage = i.FirstImage,
-                LastPrice = i.LastPrice,
-                NewPrice = i.NewPrice
-            }).ToList();
+            List<ProductDetailsModel> products = _productManager
+                .ListQueryable()
+                .Where(i => i.IsFeatured && i.IsContinued && i.IsContinued)
+                .OrderByDescending(i => i.AddedDate)
+                .Take(3)
+                .Select(i => new ProductDetailsModel
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    FirstImage = i.FirstImage,
+                    LastPrice = i.LastPrice,
+                    NewPrice = i.NewPrice,
+
+                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+                    {
+                        StarCount = j.StarCount
+                    }).ToList()
+
+                })
+                .ToList();
 
             return PartialView("ShowSomeProducts", products);
         }
@@ -207,14 +251,26 @@ namespace SilkPlaster.UI.Controllers
         {
             ViewBag.Title = "Yeni Ürünler";
 
-            List<ProductDetailsModel> products = _productManager.ListQueryable().OrderByDescending(i => i.AddedDate).Take(3).Select(i => new ProductDetailsModel
-            {
-                Id = i.Id,
-                Name = i.Name,
-                FirstImage = i.FirstImage,
-                LastPrice = i.LastPrice,
-                NewPrice = i.NewPrice
-            }).ToList();
+            List<ProductDetailsModel> products = _productManager
+                .ListQueryable()
+                .Where(i => i.InStock && i.IsFeatured && i.IsContinued)
+                .OrderByDescending(i => i.AddedDate)
+                .Take(3)
+                .Select(i => new ProductDetailsModel
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    FirstImage = i.FirstImage,
+                    LastPrice = i.LastPrice,
+                    NewPrice = i.NewPrice,
+
+                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+                    {
+                        StarCount = j.StarCount
+                    }).ToList()
+
+                })
+                .ToList();
 
             return PartialView("ShowSomeProducts", products);
         }
@@ -222,7 +278,7 @@ namespace SilkPlaster.UI.Controllers
         [ChildActionOnly]
         public PartialViewResult GetBestProducts()
         {
-            ViewBag.Title = "En Beğenilen Ürünler";
+            ViewBag.Title = "En Çok İncelenen Ürünler";
 
             List<ProductDetailsModel> products = _productManager.ListQueryable().OrderByDescending(i => i.Comments.Count).Take(3).Select(i => new ProductDetailsModel
             {
@@ -230,7 +286,13 @@ namespace SilkPlaster.UI.Controllers
                 Name = i.Name,
                 FirstImage = i.FirstImage,
                 LastPrice = i.LastPrice,
-                NewPrice = i.NewPrice
+                NewPrice = i.NewPrice,
+
+                Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+                {
+                    StarCount = j.StarCount
+                }).ToList()
+
             }).ToList();
 
             return PartialView("ShowSomeProducts", products);
@@ -249,7 +311,6 @@ namespace SilkPlaster.UI.Controllers
                     StarCount = (byte)model.StarCount,
                     ProductId = model.ProductId,
                     MemberId = CurrentSession.Member.Id,
-                    IsValid = true
                 });
 
                 if (layerResult.Errors.Count == 0)

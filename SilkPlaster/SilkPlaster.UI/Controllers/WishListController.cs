@@ -47,7 +47,6 @@ namespace SilkPlaster.UI.Controllers
 
         public JsonResult Remove(int productId)
         {
-
             if (ModelState.IsValid)
             {
                 int loggedInMemberId = CurrentSession.Member.Id;
