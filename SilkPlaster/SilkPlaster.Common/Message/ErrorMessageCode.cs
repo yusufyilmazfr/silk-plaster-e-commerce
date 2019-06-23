@@ -15,6 +15,10 @@ namespace SilkPlaster.Common.Message
         ObjectNotFound = 104,
         FailedToDeleteRecord = 105,
         UserNotFound = 106,
-        FailedToModifiedRecord = 107
+        FailedToModifiedRecord = 107,
+        ClosedForSale = 108,
+        OutOfStock = 109,
+        QuantityOverflow = 110,
+        ValuesNotCorrect = 111
     }
 }
