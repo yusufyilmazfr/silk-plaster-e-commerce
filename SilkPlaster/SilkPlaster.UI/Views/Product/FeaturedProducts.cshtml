@@ -33,9 +33,21 @@
                                                 TimeSpan difference = DateTime.Now - item.AddedDate;
                                                 if (difference.TotalDays < 15)
                                                 {
-                                                    <span class="new">NEW</span>
+                                                    <span class="new">YENİ ÜRÜN</span>
+                                                    <br /><br />
+                                                }
+                                                if (item.NewPrice < item.LastPrice)
+                                                {
+                                                    var x = 100 - (item.NewPrice / item.LastPrice) * 100;
+
+                                                    <span class="best-price">%@Math.Floor(x) DAHA UCUZ</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="best-price">En İyi Fiyat</span>
                                                 }
                                             }
+
                                         </span>
                                         @*<ul class="mt-stars">
                                                 <li><i class="fa fa-star"></i></li>
@@ -47,7 +59,7 @@
                                             @if (CurrentSession.MemberIsLogged)
                                             {
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="alert('coming soon')">
+                                                    <a href="javascript:void(0)" onclick="AddProductInBasket(@item.Id,1)">
                                                         <i class="icon-handbag"></i>
                                                         <span>Sepete Ekle</span>
                                                     </a>

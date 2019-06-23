@@ -33,6 +33,23 @@ function AddWishList(productId) {
     });
 }
 
+function AddProductInBasket(productId, productCount) {
+    new Post('/Basket/AddProductInBasket', { productId: productId, productCount: productCount }, function (data) {
+
+        data = JSON.parse(data);
+
+        if (data.result) {
+            ShowSweetAlert('success', 'Başarılı!', 'Ürün sepetinize eklendi:)');
+
+            FillQuicklyBasket();
+        }
+        else {
+            ShowSweetAlert('error', 'Oops..', data.message.ErrorMessage);
+        }
+
+    });
+}
+
 function RemoveProductInWishList(productId) {
     new Post('/WishList/Remove', { productId: productId }, function (data) {
         data = JSON.parse(data);

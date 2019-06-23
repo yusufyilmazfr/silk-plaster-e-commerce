@@ -24,13 +24,25 @@
                                                 <img src="~/images/products/@item.FirstImage" alt="@item.Name" width="275" height="285">
                                             </a>
                                             <span class="caption">
-                                                <span class="best-price">Best Price</span>
+                                                @{
+                                                    if (item.NewPrice < item.LastPrice)
+                                                    {
+                                                        var x = 100 - (item.NewPrice / item.LastPrice) * 100;
+
+                                                        <span class="best-price">%@Math.Floor(x) Daha Ucuz</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="best-price">En İyi Fiyat</span>
+                                                    }
+                                                }
+
                                             </span>
                                             <ul class="links add">
                                                 @if (CurrentSession.MemberIsLogged)
                                                 {
                                                     <li>
-                                                        <a href="javascript:void(0)" onclick="alert('coming soon')">
+                                                        <a href="javascript:void(0)" onclick="AddProductInBasket(@item.Id,1)">
                                                             <i class="icon-handbag"></i>
                                                             <span>Sepete Ekle</span>
                                                         </a>
@@ -67,7 +79,7 @@
                                 </div>
                                 <div class="txt">
                                     <strong class="title"><a href="/Product/Details/@item.Id">@item.Name.Substring(0, 25)</a></strong>
-                                    <span class="price"><i class="fa fa-eur"></i> <span>@item.NewPrice.ToString("c")</span></span>
+                                    <span class="price"><span>@item.NewPrice.ToString("c")</span></span>
                                 </div>
                             </div><!-- mt product1 center end here -->
                         </div>
