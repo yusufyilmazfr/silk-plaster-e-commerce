@@ -24,6 +24,24 @@ namespace SilkPlaster.UI.Controllers
             return View();
         }
 
+
+        [MemberAuthFilter]
+        [HttpPost]
+        public JsonResult AddProductInBasket(int productId, int productCount)
+        {
+            int loggedInMemberId = CurrentSession.Member.Id;
+
+            BusinessLayerResult<Basket> layerResult = _basketManager.AddProductInBasket(loggedInMemberId, productId, productCount);
+
+            if (layerResult.Errors.Count > 0)
+            {
+                return Json(new { result = false, message = layerResult.Errors.FirstOrDefault() }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { result = true, message = "" }, JsonRequestBehavior.AllowGet);
+
+        }
+
         [MemberAuthFilter]
         public PartialViewResult MyBasket()
         {
