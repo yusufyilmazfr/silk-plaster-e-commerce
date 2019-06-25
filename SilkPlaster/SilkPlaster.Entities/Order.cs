@@ -19,20 +19,20 @@ namespace SilkPlaster.Entities
         public string OrderNumber { get; set; }
 
         [Required,
-        DisplayName("Adres"),
-        StringLength(250, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
-        public string Address { get; set; }
-
-        [Required,
         DisplayName("Açıklama"),
         StringLength(250, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
         public string Description { get; set; }
 
         public string Status { get; set; }
 
-        [Required]
+        public int AddressId { get; set; }
+        public Address Address { get; set; }
+
         public int MemberId { get; set; }
         public Member Member { get; set; }
+
+        public int PaymentMethodId { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
 
         public List<OrderDetail> OrderDetails { get; set; }
     }

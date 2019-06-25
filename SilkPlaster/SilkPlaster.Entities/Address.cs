@@ -18,12 +18,14 @@ namespace SilkPlaster.Entities
         StringLength(50, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
         public string Name { get; set; }
 
-        [Required,
-        DisplayName("Açıklama"),
-        StringLength(250, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
-        public string Description { get; set; }
+        [Required]
+        public int CountyId { get; set; }
+        public County County { get; set; }
 
+        [Required]
         public int MemberId { get; set; }
         public Member Member { get; set; }
+
+        public List<Order> Orders { get; set; }
     }
 }
