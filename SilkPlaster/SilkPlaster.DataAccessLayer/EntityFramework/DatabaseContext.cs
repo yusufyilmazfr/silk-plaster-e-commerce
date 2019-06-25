@@ -30,6 +30,9 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
         public DbSet<WishList> WishLists { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<County> Counties { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Slider> Sliders { get; set; }
     }
