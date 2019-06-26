@@ -34,6 +34,9 @@ namespace SilkPlaster.Entities
         public int PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 
+        public int OrderStatusId { get; set; }
+        public OrderStatus OrderStatus { get; set; }
+
         public List<OrderDetail> OrderDetails { get; set; }
     }
 
