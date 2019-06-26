@@ -135,9 +135,7 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
                 {
                     OrderNumber = random.Next(0, 999999).ToString(),
                     Description = FakeData.TextData.GetAlphabetical(50),
-                    Address = FakeData.PlaceData.GetAddress(),
                     MemberId = random.Next(1, 10),
-                    Status = "Waiting",
                     OrderDetails = new List<OrderDetail>()
                     {
                         new OrderDetail()

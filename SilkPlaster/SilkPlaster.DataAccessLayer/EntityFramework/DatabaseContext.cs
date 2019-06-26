@@ -15,11 +15,6 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
             Database.SetInitializer(new MyInitializer());
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
-        }
-
         public DbSet<Member> Members { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -29,11 +24,24 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<WishList> WishLists { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<County> Counties { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Slider> Sliders { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+
+            //Fluent API
+
+            modelBuilder.Entity<Member>()
+                .HasMany(n => n.Orders)
+                .WithRequired(n => n.Member)
+                .WillCascadeOnDelete(false);
+        }
     }
 }
