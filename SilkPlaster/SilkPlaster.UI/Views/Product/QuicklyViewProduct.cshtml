@@ -24,24 +24,24 @@
                         </div>
 
                         @*@foreach (var item in Model.Images)
-                        {
-                            <div class="slide">
-                                <img src="~/images/products/@item.Name" width="500" height="450" alt="@Model.Name">
-                            </div>
-                        }*@
+                            {
+                                <div class="slide">
+                                    <img src="~/images/products/@item.Name" width="500" height="450" alt="@Model.Name">
+                                </div>
+                            }*@
 
                     </div><!-- Product Slider of the Page end -->
                     <!-- Pagg Slider of the Page -->
                     @*<ul class="list-unstyled slick-slider pagg-slider">
-                        <li><img src="~/images/products/@Model.FirstImage" width="120" height="95" alt="@Model.Name"></li>
+                            <li><img src="~/images/products/@Model.FirstImage" width="120" height="95" alt="@Model.Name"></li>
 
-                        @foreach (var item in Model.Images)
-                        {
-                            <li><img src="~/images/products/@item.Name" width="120" height="95" alt="@Model.Name"></li>
-                        }
+                            @foreach (var item in Model.Images)
+                            {
+                                <li><img src="~/images/products/@item.Name" width="120" height="95" alt="@Model.Name"></li>
+                            }
 
-                    </ul>*@
-                <!-- Pagg Slider of the Page end -->
+                        </ul>*@
+                    <!-- Pagg Slider of the Page end -->
                 </div><!-- Slider of the Page end -->
                 <!-- Detail Holder of the Page -->
                 <div class="detial-holder">
@@ -107,19 +107,30 @@
                     <div class="text-holder">
                         <span class="price">@Model.NewPrice.ToString("c") <del>@Model.LastPrice.ToString("c")</del></span>
                     </div><!-- Product Form of the Page -->
-                    <form action="#" class="product-form">
+
+                    <form action="#" onsubmit="return false" class="product-form">
                         <fieldset>
                             <div class="row-val">
-                                <label for="qty">qty</label>
-                                <select id="clr">
-                                    <option>1</option>
-                                </select>
+                                <label for="qty">Adet</label>
+                                <input type="number" id="qty_y" value="1" min="1">
                             </div>
                             <div class="row-val">
-                                <button type="submit">ADD TO CART</button>
+                                @if (CurrentSession.MemberIsLogged)
+                                {
+                                    <button type="submit" onclick="AddProductInBasket(document.getElementById('qty_y').value,@Model.Id)" id="submit_btn_y">SEPETE EKLE</button>
+                                }
+                                else
+                                {
+                                    <button type="submit" onclick="ShowLoginSweetAlert()" id="submit_btn_y">SEPETE EKLE</button>
+                                }
                             </div>
                         </fieldset>
-                    </form><!-- Product Form of the Page end -->
+                    </form>
+
+                    <script>
+                    </script>
+
+
                 </div><!-- Detail Holder of the Page end -->
             </div>
         </div>
