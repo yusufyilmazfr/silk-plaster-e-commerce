@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SilkPlaster.Entities
 {
-    [Table("OrderStatus")]
+    [Table("OrderStatuses")]
     public class OrderStatus : EntityBase, IEntity
     {
         [Required]

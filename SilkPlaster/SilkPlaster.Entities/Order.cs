@@ -23,8 +23,6 @@ namespace SilkPlaster.Entities
         StringLength(250, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
         public string Description { get; set; }
 
-        public string Status { get; set; }
-
         public int AddressId { get; set; }
         public Address Address { get; set; }
 
