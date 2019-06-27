@@ -117,7 +117,7 @@
                             <div class="row-val">
                                 @if (CurrentSession.MemberIsLogged)
                                 {
-                                    <button type="submit" onclick="AddProductInBasket(document.getElementById('qty_y').value,@Model.Id)" id="submit_btn_y">SEPETE EKLE</button>
+                                    <button type="submit" onclick="AddProductInBasket(@Model.Id,document.getElementById('qty_y').value)" id="submit_btn_y">SEPETE EKLE</button>
                                 }
                                 else
                                 {
