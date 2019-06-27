@@ -1,0 +1,146 @@
+﻿@model SilkPlaster.Common.EntityValueObjects.AddressViewModel
+@{
+    ViewBag.Title = "CreateNewAddress";
+    Layout = "~/Views/Shared/member-navbar-footer.cshtml";
+}
+
+<section class="mt-about-sec" style="padding-bottom: 0;"></section>
+<section class="mt-detail-sec toppadding-zero wow fadeInUp" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-6 col-md-offset-3">
+                <!-- Bill Detail of the Page -->
+                @using (Html.BeginForm("CreateNewAddress", "Account", FormMethod.Post, new { @class = "bill-detail" }))
+                {
+                    @Html.ValidationSummary(false)
+
+                    <fieldset>
+                        <div class="form-group">
+                            @Html.DropDownList("CityId", (IEnumerable<SelectListItem>)ViewBag.Cities, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            <select name="CountyId" class="form-control" id="CountyId">
+                                <option value="1">İlçe Seçiniz</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name)
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Adres Başlığı", required = "required", maxlength = "50" })
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col">
+                                @Html.LabelFor(model => model.FirstName)
+                                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", placeholder = "İsim", required = "required", maxlength = "25" })
+                            </div>
+
+                            <div class="col">
+                                @Html.LabelFor(model => model.LastName)
+                                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", placeholder = "Soyisim", required = "required", maxlength = "25" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description)
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Adres", required = "required", maxlength = "250" })
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col">
+                                @Html.LabelFor(model => model.PhoneNumber)
+                                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", type = "tel", placeholder = "5xxxxxxxxx", required = "required", maxlength = "11" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col">
+                                <label>
+                                    <input type="radio" checked name="billType" data-name="individual" value="true" />
+                                    Fatura Şahısa
+                                </label>
+                            </div>
+                            <div class="col">
+                                <label>
+                                    <input type="radio" name="billType" data-name="company" value="false" />
+                                    Fatura Firmaya
+                                </label>
+                            </div>
+                        </div>
+
+                        <script>
+                            document.getElementsByName('billType').forEach(function (element) {
+                                element.addEventListener('change', function (e) {
+                                    var billType = this.getAttribute('data-name')
+
+                                    if (billType === 'individual') {
+                                        document.getElementById('company_y').style.display = 'none';
+                                        document.getElementById('individual_y').style.display = 'block';
+                                    }
+                                    else if (billType == 'company') {
+                                        document.getElementById('company_y').style.display = 'block';
+                                        document.getElementById('individual_y').style.display = 'none';
+                                    }
+
+                                });
+                            });
+
+                            document.getElementById('CityId').addEventListener('change', function () {
+                                let cityId = this.value;
+                                let url = `/County/GetCountyWithCities?cityId=${cityId}`;
+                                new Get(url, function (data) {
+
+                                    let counties = document.getElementById('CountyId');
+
+                                    data = JSON.parse(data);
+                                    data = Array.from(data);
+
+                                    counties.innerHTML = "";
+                                    data.forEach(function (item) {
+                                        counties.innerHTML += `<option value="${item.Id}">${item.Name}</option>`
+                                    });
+                                });
+                            });
+
+                        </script>
+
+                        <div id="individual_y">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CitizenshipNumber)
+                                @Html.TextBoxFor(model => model.CitizenshipNumber, new { @class = "form-control", placeholder = "T.C. No", maxlength = "11" })
+                            </div>
+                        </div>
+
+                        <div id="company_y" style="display:none">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CompanyName)
+                                @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control", placeholder = "Firma Adı", maxlength = "500" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TaxAdministration)
+                                @Html.TextBoxFor(model => model.TaxAdministration, new { @class = "form-control", placeholder = "Vergi Dairesi", maxlength = "100" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TaxNumber)
+                                @Html.TextBoxFor(model => model.TaxNumber, new { @class = "form-control", placeholder = "Firma Adı", maxlength = "10" })
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <div class="col-md-4" style="margin-bottom: 5px">
+                        <button type="submit" class="btn btn-block w-100 y-b-n" style="background-color:transparent; border: 2px solid #ddd; outline:none">
+                            Adres Ekle
+                        </button>
+
+                    </div>
+                }
+
+                <!-- Bill Detail of the Page end -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Mt Detail Section of the Page end -->
