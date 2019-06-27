@@ -42,6 +42,11 @@ namespace SilkPlaster.DataAccessLayer.EntityFramework
                 .HasMany(n => n.Orders)
                 .WithRequired(n => n.Member)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<City>()
+                .HasMany(n => n.Counties)
+                .WithRequired(n => n.City)
+                .WillCascadeOnDelete(false);
         }
     }
 }
