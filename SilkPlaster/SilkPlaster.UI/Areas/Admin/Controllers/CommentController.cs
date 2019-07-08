@@ -7,7 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SilkPlaster.BusinessLayer;
-using SilkPlaster.BusinessLayer.Result;
+using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
@@ -16,17 +17,16 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
     public class CommentController : Controller
     {
-        CommentManager _commentManager = new CommentManager();
+        private ICommentManager _commentManager { get; set; }
+
+        public CommentController(ICommentManager commentManager)
+        {
+            _commentManager = commentManager;
+        }
 
         public ActionResult Index()
         {
-            var comments = _commentManager
-                .ListQueryable()
-                .Include("Product")
-                .Include("Member")
-                .OrderByDescending(i => i.AddedDate)
-                .ToList();
-
+            var comments = _commentManager.GetCommentsWithProductsAndMembers();
             return View(comments);
         }
 
@@ -36,11 +36,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = _commentManager
-                .ListQueryable()
-                .Include("Member")
-                .Where(i => i.Id == Id.Value)
-                .FirstOrDefault();
+            Comment comment = _commentManager.GetCommentWithMemberById(Id.Value);
 
             if (comment == null)
             {
@@ -55,7 +51,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                BusinessLayerResult<Comment> layerResult = _commentManager.Update(comment);
+                BusinessLayerResult<Comment> layerResult = _commentManager.UpdateComment(comment);
 
                 if (layerResult.Errors.Count > 0)
                 {
@@ -77,10 +73,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Comment comment = _commentManager
-                .ListQueryable()
-                .Include("Member")
-                .FirstOrDefault(i => i.Id == Id.Value);
+            Comment comment = _commentManager.GetCommentWithMemberById(Id.Value);
 
             if (comment == null)
             {
@@ -93,8 +86,8 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int Id)
         {
-            Comment comment = _commentManager.Find(i => i.Id == Id);
-            _commentManager.Delete(comment);
+            Comment comment = _commentManager.GetCommentById(Id);
+            _commentManager.RemoveComment(comment);
 
             return RedirectToAction("Index");
         }

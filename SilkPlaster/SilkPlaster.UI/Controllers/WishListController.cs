@@ -1,5 +1,6 @@
 ﻿using SilkPlaster.BusinessLayer;
-using SilkPlaster.BusinessLayer.Result;
+using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Common.Message;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
@@ -17,7 +18,12 @@ namespace SilkPlaster.UI.Controllers
     [MemberAuthFilter]
     public class WishListController : Controller
     {
-        WishListManager _wishListManager = new WishListManager();
+        private IWishListManager _wishListManager { get; set; }
+
+        public WishListController(IWishListManager wishListManager)
+        {
+            _wishListManager = wishListManager;
+        }
 
         public ActionResult Index()
         {
@@ -29,7 +35,7 @@ namespace SilkPlaster.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                BusinessLayerResult<WishList> layerResult = _wishListManager.Insert(new WishList
+                BusinessLayerResult<WishList> layerResult = _wishListManager.AddProductInWishList(new WishList
                 {
                     MemberId = CurrentSession.Member.Id,
                     ProductId = productId
@@ -51,7 +57,7 @@ namespace SilkPlaster.UI.Controllers
             {
                 int loggedInMemberId = CurrentSession.Member.Id;
 
-                BusinessLayerResult<WishList> layerResult = _wishListManager.Delete(new WishList
+                BusinessLayerResult<WishList> layerResult = _wishListManager.DeleteProductInWishList(new WishList
                 {
                     ProductId = productId,
                     MemberId = loggedInMemberId
@@ -70,11 +76,7 @@ namespace SilkPlaster.UI.Controllers
         {
             int loggedInMemberId = CurrentSession.Member.Id;
 
-            List<ProductDetailsModel> products = _wishListManager
-                .ListQueryable()
-                .Include("Product")
-                .Include("Member")
-                .Where(i => i.Member.Id == loggedInMemberId)
+            List<ProductDetailsModel> products = _wishListManager.GetMyWishListItemsByMemberId(loggedInMemberId)
                 .Select(i => new ProductDetailsModel
                 {
                     Id = i.Product.Id,
@@ -90,12 +92,7 @@ namespace SilkPlaster.UI.Controllers
         {
             int loggedInMemberId = CurrentSession.Member.Id;
 
-            int count = _wishListManager
-                .ListQueryable()
-                .Include("Product")
-                .Include("Member")
-                .Where(i => i.Member.Id == loggedInMemberId)
-                .Count();
+            int count = _wishListManager.GetMyWishListCountByMemberId(loggedInMemberId);
 
             return PartialView(count);
         }

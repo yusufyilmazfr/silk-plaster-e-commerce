@@ -7,7 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SilkPlaster.BusinessLayer;
-using SilkPlaster.BusinessLayer.Result;
+using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
@@ -17,7 +18,12 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
     //[AdminAuthFilter]
     public class CategoryController : Controller
     {
-        CategoryManager _categoryManager = new CategoryManager();
+        private ICategoryManager _categoryManager { get; set; }
+
+        public CategoryController(ICategoryManager categoryManager)
+        {
+            _categoryManager = categoryManager;
+        }
 
         public ActionResult Index()
         {
@@ -36,9 +42,9 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                BusinessLayerResult<Category> layerResult = _categoryManager.Insert(category);
+                BusinessLayerResult<Category> layerResult = _categoryManager.AddCategory(category);
 
-                if (layerResult.Errors.Count > 0)
+                if (layerResult.HasError())
                 {
                     layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
                     return View(category);
@@ -57,7 +63,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Category category = _categoryManager.Find(i => i.Id == Id.Value);
+            Category category = _categoryManager.GetCategoryById(Id.Value);
 
             if (category == null)
             {
@@ -71,9 +77,9 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                BusinessLayerResult<Category> layerResult = _categoryManager.Update(category);
+                BusinessLayerResult<Category> layerResult = _categoryManager.UpdateCategory(category);
 
-                if (layerResult.Errors.Count > 0)
+                if (layerResult.HasError())
                 {
                     layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
                     return View(category);
@@ -90,7 +96,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = _categoryManager.Find(i => i.Id == Id.Value);
+            Category category = _categoryManager.GetCategoryById(Id.Value);
             if (category == null)
             {
                 return HttpNotFound();
@@ -101,8 +107,8 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int Id)
         {
-            Category category = _categoryManager.Find(i => i.Id == Id);
-            _categoryManager.Delete(category);
+            Category category = _categoryManager.GetCategoryById(Id);
+            _categoryManager.RemoveCategory(category);
             return RedirectToAction("Index");
         }
     }

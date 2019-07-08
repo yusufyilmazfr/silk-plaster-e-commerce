@@ -8,7 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SilkPlaster.BusinessLayer;
-using SilkPlaster.BusinessLayer.Result;
+using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
@@ -20,13 +21,21 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
     //[AdminAuthFilter]
     public class ProductController : Controller
     {
-        ProductManager _productManager = new ProductManager();
-        CategoryManager _categoryManager = new CategoryManager();
+        private IProductManager _productManager { get; set; }
+        private ICategoryManager _categoryManager { get; set; }
+
+
+        public ProductController(IProductManager productManager, ICategoryManager categoryManager)
+        {
+            _productManager = productManager;
+            _categoryManager = categoryManager;
+        }
+
 
         public ActionResult Index()
         {
-            var products = _productManager.ListQueryable().Include(p => p.Category).OrderByDescending(i => i.AddedDate);
-            return View(products.ToList());
+            var products = _productManager.GetProductsWithCategoriesDesc();
+            return View(products);
         }
 
         public ActionResult Create()
@@ -92,10 +101,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Product product = _productManager
-                .ListQueryable()
-                .Include("ProductImages")
-                .FirstOrDefault(i => i.Id == Id.Value);
+            Product product = _productManager.GetProductWithImages(Id.Value);
 
             if (product == null)
             {
@@ -169,7 +175,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = _productManager.Find(i => i.Id == Id.Value);
+            Product product = _productManager.GetProductById(Id.Value);
 
             if (product == null)
             {
@@ -181,15 +187,12 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int Id)
         {
-            Product product = _productManager
-                .ListQueryable()
-                .Include("ProductImages")
-                .FirstOrDefault(i => i.Id == Id);
+            Product product = _productManager.GetProductWithImages(Id);
 
             List<string> images = product.ProductImages.Select(i => i.Name).ToList();
             images.Add(product.FirstImage);
 
-            int count = _productManager.Delete(product);
+            int count = _productManager.RemoveProduct(product);
 
             if (count > 0)
             {

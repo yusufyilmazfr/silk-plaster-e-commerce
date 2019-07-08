@@ -1,5 +1,6 @@
 ﻿using SilkPlaster.BusinessLayer;
-using SilkPlaster.BusinessLayer.Result;
+using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
@@ -17,7 +18,19 @@ namespace SilkPlaster.UI.Controllers
 {
     public class AccountController : Controller
     {
-        MemberManager _memberManager = new MemberManager();
+
+        private IMemberManager _memberManager { get; set; }
+        private IAddressManager _addressManager { get; set; }
+        private ICityManager _cityManager { get; set; }
+        private ICountyManager _countyManager { get; set; }
+
+        public AccountController(IMemberManager memberManager, IAddressManager addressManager, ICityManager cityManager, ICountyManager countyManager)
+        {
+            _memberManager = memberManager;
+            _addressManager = addressManager;
+            _cityManager = cityManager;
+            _countyManager = countyManager;
+        }
 
         [MemberAuthFilter]
         public ActionResult Index()
@@ -42,7 +55,7 @@ namespace SilkPlaster.UI.Controllers
 
             if (ModelState.IsValid)
             {
-                Member member = _memberManager.Find(i => i.Email == model.Email && i.Password == model.Password);
+                Member member = _memberManager.GetMemberWithEmailAndPassword(model.Email, model.Password);
 
                 if (member == null)
                 {
@@ -94,20 +107,20 @@ namespace SilkPlaster.UI.Controllers
         [MemberAuthFilter]
         public ActionResult EditMyInformation()
         {
-            int loggedInMemberId = CurrentSession.Member.Id;
+            //int loggedInMemberId = CurrentSession.Member.Id;
 
-            MemberDetailsModel model = _memberManager
-                .ListQueryable()
-                .Where(i => i.Id == loggedInMemberId)
-                .Select(i => new MemberDetailsModel
-                {
-                    FirstName = i.FirstName,
-                    LastName = i.LastName,
-                    Email = i.Email
-                })
-                .FirstOrDefault();
+            //MemberDetailsModel model = _memberManager
+            //    .ListQueryable()
+            //    .Where(i => i.Id == loggedInMemberId)
+            //    .Select(i => new MemberDetailsModel
+            //    {
+            //        FirstName = i.FirstName,
+            //        LastName = i.LastName,
+            //        Email = i.Email
+            //    })
+            //    .FirstOrDefault();
 
-            return View(model);
+            return View(/*model*/);
         }
 
         [HttpPost]
@@ -118,14 +131,14 @@ namespace SilkPlaster.UI.Controllers
             {
                 int loggedInMemberId = CurrentSession.Member.Id;
 
-                Member member = _memberManager.Find(i => i.Id == loggedInMemberId);
+                Member member = _memberManager.GetMemberById(loggedInMemberId);
 
                 member.FirstName = model.FirstName;
                 member.LastName = model.LastName;
                 member.Email = model.Email;
 
 
-                BusinessLayerResult<Member> layerResult = _memberManager.Update(member);
+                BusinessLayerResult<Member> layerResult = _memberManager.UpdateMember(member);
 
                 if (layerResult.Errors.Count > 0)
                 {
@@ -144,14 +157,9 @@ namespace SilkPlaster.UI.Controllers
         {
             int loggedInMemberId = CurrentSession.Member.Id;
 
-            MemberPasswordModel model = _memberManager
-                .ListQueryable()
-                .Where(i => i.Id == loggedInMemberId)
-                .Select(i => new MemberPasswordModel
-                {
-                    Password = i.Password
-                })
-                .FirstOrDefault();
+            MemberPasswordModel model = new MemberPasswordModel();
+
+            model.Password = _memberManager.GetMemberById(loggedInMemberId).Password;
 
             return View(model);
         }
@@ -164,7 +172,7 @@ namespace SilkPlaster.UI.Controllers
             {
                 int loggedInMemberId = CurrentSession.Member.Id;
 
-                Member member = _memberManager.Find(i => i.Id == loggedInMemberId && i.Password == model.Password);
+                Member member = _memberManager.GetMemberByPassword(loggedInMemberId, model.Password);
 
                 if (member == null)
                 {
@@ -174,7 +182,7 @@ namespace SilkPlaster.UI.Controllers
 
                 member.Password = model.NewPassword;
 
-                BusinessLayerResult<Member> layerResult = _memberManager.Update(member);
+                BusinessLayerResult<Member> layerResult = _memberManager.UpdateMember(member);
 
                 if (layerResult.Errors.Count > 0)
                 {
@@ -194,18 +202,14 @@ namespace SilkPlaster.UI.Controllers
         {
             int loggedInMemberId = CurrentSession.Member.Id;
 
-            AddressManager addressManager = new AddressManager();
-
-            List<AddressModel> addressModel = addressManager
-                .ListQueryable()
-                .Where(i => i.MemberId == loggedInMemberId)
+            List<AddressModel> addressModel = _addressManager
+                .GetAddressesWithMemberId(loggedInMemberId)
                 .Select(i => new AddressModel
                 {
                     Id = i.Id,
                     Name = i.Name,
                     Description = i.Description
-                })
-                .ToList();
+                }).ToList();
 
             return View(addressModel);
         }
@@ -213,9 +217,7 @@ namespace SilkPlaster.UI.Controllers
         [MemberAuthFilter]
         public ActionResult CreateNewAddress()
         {
-            CityManager cityManager = new CityManager();
-
-            ViewBag.Cities = new SelectList(cityManager.GetAll(), "Id", "Name");
+            ViewBag.Cities = new SelectList(_cityManager.GetAll(), "Id", "Name");
 
             return View();
         }
@@ -239,14 +241,11 @@ namespace SilkPlaster.UI.Controllers
 
             model.MemberId = CurrentSession.Member.Id;
 
-            CityManager cityManager = new CityManager();
-            ViewBag.Cities = new SelectList(cityManager.GetAll(), "Id", "Name");
+            ViewBag.Cities = new SelectList(_cityManager.GetAll(), "Id", "Name");
 
             if (ModelState.IsValid)
             {
-                AddressManager addressManager = new AddressManager();
-
-                BusinessLayerResult<Address> layerResult = addressManager.Insert(model);
+                BusinessLayerResult<Address> layerResult = _addressManager.Insert(model);
 
                 if (layerResult.Errors.Count > 0)
                 {
@@ -268,21 +267,17 @@ namespace SilkPlaster.UI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            AddressManager addressManager = new AddressManager();
-            CityManager cityManager = new CityManager();
-            CountyManager countyManager = new CountyManager();
-
             int loggedInMemberId = CurrentSession.Member.Id;
 
-            BusinessLayerResult<AddressViewModel> layerResult = addressManager.Find(i => i.Id == Id && i.MemberId == loggedInMemberId);
+            BusinessLayerResult<AddressViewModel> layerResult = _addressManager.Find(i => i.Id == Id && i.MemberId == loggedInMemberId);
 
             if (layerResult.Result == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.Cities = new SelectList(cityManager.GetAll(), "Id", "Name");
-            ViewBag.Counties = new SelectList(countyManager.GetAll(i => i.CityId == layerResult.Result.CityId), "Id", "Name");
+            ViewBag.Cities = new SelectList(_cityManager.GetAll(), "Id", "Name");
+            ViewBag.Counties = new SelectList(_countyManager.GetAllByCityId(layerResult.Result.CityId), "Id", "Name");
 
             return View(layerResult.Result);
         }
@@ -309,9 +304,7 @@ namespace SilkPlaster.UI.Controllers
 
             if (ModelState.IsValid)
             {
-                AddressManager addressManager = new AddressManager();
-
-                BusinessLayerResult<AddressViewModel> layerResult = addressManager.Update(model);
+                BusinessLayerResult<AddressViewModel> layerResult = _addressManager.Update(model);
 
                 if (layerResult.Errors.Count == 0)
                 {
@@ -320,25 +313,19 @@ namespace SilkPlaster.UI.Controllers
 
                 layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
             }
-            CityManager cityManager = new CityManager();
-            CountyManager countyManager = new CountyManager();
 
-            ViewBag.Cities = new SelectList(cityManager.GetAll(), "Id", "Name", model.CityId);
-            ViewBag.Counties = new SelectList(countyManager.GetAll(i => i.CityId == model.CityId), "Id", "Name", model.CountyId);
+            ViewBag.Cities = new SelectList(_cityManager.GetAll(), "Id", "Name", model.CityId);
+            ViewBag.Counties = new SelectList(_countyManager.GetAllByCityId(model.CityId), "Id", "Name", model.CountyId);
 
             return View(model);
         }
-
-
 
         [HttpPost]
         public JsonResult DeleteAddress(int Id)
         {
             int loggedInMemberId = CurrentSession.Member.Id;
 
-            AddressManager addressManager = new AddressManager();
-
-            BusinessLayerResult<Address> layerResult = addressManager.Delete(new Address
+            BusinessLayerResult<Address> layerResult = _addressManager.Delete(new Address
             {
                 Id = Id,
                 MemberId = loggedInMemberId

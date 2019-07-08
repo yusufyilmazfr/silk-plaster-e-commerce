@@ -7,7 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SilkPlaster.BusinessLayer;
-using SilkPlaster.BusinessLayer.Result;
+using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
@@ -18,7 +19,12 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
     //[AdminAuthFilter]
     public class SliderController : Controller
     {
-        SliderManager _sliderManager = new SliderManager();
+        private ISliderManager _sliderManager { get; set; }
+
+        public SliderController(ISliderManager sliderManager)
+        {
+            _sliderManager = sliderManager;
+        }
 
         public ActionResult Index()
         {
@@ -45,7 +51,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
                 {
                     slider.Image = message.FileName;
 
-                    BusinessLayerResult<Slider> result = _sliderManager.Insert(slider);
+                    BusinessLayerResult<Slider> result = _sliderManager.AddSlider(slider);
 
                     if (result.Errors.Count > 0)
                     {
@@ -69,7 +75,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Slider slider = _sliderManager.Find(i => i.Id == Id.Value);
+            Slider slider = _sliderManager.GetSliderById(Id.Value);
 
             if (slider == null)
             {
@@ -93,7 +99,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
                     slider.Image = message.FileName;
                 }
 
-                BusinessLayerResult<Slider> layerResult = _sliderManager.Update(slider);
+                BusinessLayerResult<Slider> layerResult = _sliderManager.UpdateSlider(slider);
 
                 if (layerResult.Errors.Count > 0)
                 {
@@ -114,7 +120,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Slider slider = _sliderManager.Find(i => i.Id == Id.Value);
+            Slider slider = _sliderManager.GetSliderById(Id.Value);
 
             if (slider == null)
             {
@@ -126,11 +132,10 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int Id)
         {
-
-            Slider slider = _sliderManager.Find(i => i.Id == Id);
+            Slider slider = _sliderManager.GetSliderById(Id);
 
             ImageHelper.Remove(slider.Image);
-            _sliderManager.Delete(slider);
+            _sliderManager.RemoveSlider(slider);
 
             return RedirectToAction("Index");
         }

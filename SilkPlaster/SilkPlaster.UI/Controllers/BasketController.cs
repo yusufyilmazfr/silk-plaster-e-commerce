@@ -1,5 +1,7 @@
 ﻿using SilkPlaster.BusinessLayer;
-using SilkPlaster.BusinessLayer.Result;
+using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
+using SilkPlaster.Common.OrderMessageObj;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
@@ -15,8 +17,14 @@ namespace SilkPlaster.UI.Controllers
 {
     public class BasketController : Controller
     {
-        WishListManager _wishListManager = new WishListManager();
-        BasketManager _basketManager = new BasketManager();
+        IWishListManager _wishListManager { get; set; }
+        IBasketManager _basketManager { get; set; }
+
+        public BasketController(IWishListManager wishListManager, IBasketManager basketManager)
+        {
+            _wishListManager = wishListManager;
+            _basketManager = basketManager;
+        }
 
         [MemberAuthFilter]
         public ActionResult Index()
@@ -24,6 +32,34 @@ namespace SilkPlaster.UI.Controllers
             return View();
         }
 
+        [MemberAuthFilter]
+        public PartialViewResult MyBasket()
+        {
+            int loggedInMemberId = CurrentSession.Member.Id;
+
+            List<BasketModel> baskets = _basketManager
+                .GetBasketItemsByMemberId(loggedInMemberId)
+                .Select(i => new BasketModel
+                {
+                    Id = i.Id,
+                    Quantity = i.ProductCount,
+                    Product = new ProductDetailsModel
+                    {
+                        Id = i.Product.Id,
+                        Name = i.Product.Name,
+                        NewPrice = i.Product.NewPrice,
+                        FirstImage = i.Product.FirstImage
+                    }
+                }).ToList();
+
+            return PartialView(baskets);
+        }
+
+        [HttpPost]
+        public ActionResult Confirm()
+        {
+            return PartialView();
+        }
 
         [MemberAuthFilter]
         [HttpPost]
@@ -43,45 +79,11 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
-        public PartialViewResult MyBasket()
-        {
-            int loggedInMemberId = CurrentSession.Member.Id;
-
-            List<BasketModel> baskets = _basketManager
-                .ListQueryable()
-                .Include("Product")
-                .Include("Member")
-                .Where(i => i.MemberId == loggedInMemberId)
-                .Select(i => new BasketModel
-                {
-                    Id = i.Id,
-                    Quantity = i.ProductCount,
-                    Product = new ProductDetailsModel
-                    {
-                        Id = i.Product.Id,
-                        Name = i.Product.Name,
-                        NewPrice = i.Product.NewPrice,
-                        FirstImage = i.Product.FirstImage
-                    }
-                }).ToList()
-
-                .ToList();
-
-            return PartialView(baskets);
-        }
-
-        [MemberAuthFilter]
         public PartialViewResult GetBasketItemCount()
         {
             int loggedInMemberId = CurrentSession.Member.Id;
 
-            int count = _basketManager
-                .ListQueryable()
-                .Include("Product")
-                .Include("Member")
-                .Where(i => i.Member.Id == loggedInMemberId)
-                .Count();
-
+            int count = _basketManager.GetBasketItemsCountByMemberId(loggedInMemberId);
             return PartialView(count);
         }
 
@@ -90,11 +92,7 @@ namespace SilkPlaster.UI.Controllers
         {
             int loggedInMemberId = CurrentSession.Member.Id;
 
-            List<BasketModel> baskets = _basketManager
-                .ListQueryable()
-                .Include("Product")
-                .Include("Member")
-                .Where(i => i.Member.Id == loggedInMemberId)
+            List<BasketModel> baskets = _basketManager.GetBasketItemsByMemberId(loggedInMemberId)
                 .Select(j => new BasketModel
                 {
                     Id = j.Id,
@@ -119,10 +117,7 @@ namespace SilkPlaster.UI.Controllers
             int loggedInMemberId = CurrentSession.Member.Id;
 
             List<ProductDetailsModel> products = _wishListManager
-                .ListQueryable()
-                .Include("Product")
-                .Include("Member")
-                .Where(i => i.Member.Id == loggedInMemberId)
+                .GetMyWishListItemsByMemberId(loggedInMemberId)
                 .Select(i => new ProductDetailsModel
                 {
                     Id = i.Product.Id,
@@ -135,13 +130,43 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        public JsonResult IncreaseProductCount(int productId)
+        {
+            int loggedInMemberId = CurrentSession.Member.Id;
+
+            BusinessLayerResult<Basket> layerResult = _basketManager.AddProductInBasket(loggedInMemberId, productId, 1);
+
+            if (layerResult.HasError())
+            {
+                return Json(new { message = layerResult.Errors.Select(i => i.ErrorMessage).FirstOrDefault(), result = false }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { result = true });
+        }
+
+        [MemberAuthFilter]
+        public JsonResult DecreaseProductCount(int productId)
+        {
+            int loggedInMemberId = CurrentSession.Member.Id;
+
+            BusinessLayerResult<Basket> layerResult = _basketManager.DecreaseProductCount(loggedInMemberId, productId, 1);
+
+            if (layerResult.HasError())
+            {
+                return Json(new { message = layerResult.Errors.Select(i => i.ErrorMessage).FirstOrDefault(), result = false }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { result = true });
+        }
+
+
+
+        [MemberAuthFilter]
         public JsonResult Remove(int productId)
         {
             if (ModelState.IsValid)
             {
                 int loggedInMemberId = CurrentSession.Member.Id;
 
-                BusinessLayerResult<Basket> layerResult = _basketManager.Delete(new Basket
+                BusinessLayerResult<Basket> layerResult = _basketManager.DeleteBasketItem(new Basket
                 {
                     ProductId = productId,
                     MemberId = loggedInMemberId
@@ -157,6 +182,5 @@ namespace SilkPlaster.UI.Controllers
             return Json(new { result = false, message = "lütfen bütün alanları doldurunuz!" }, JsonRequestBehavior.AllowGet);
 
         }
-
     }
 }

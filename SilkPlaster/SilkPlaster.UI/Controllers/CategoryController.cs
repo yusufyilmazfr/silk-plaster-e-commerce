@@ -1,4 +1,5 @@
 ﻿using SilkPlaster.BusinessLayer;
+using SilkPlaster.BusinessLayer.Abstract;
 using SilkPlaster.UI.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,12 @@ namespace SilkPlaster.UI.Controllers
 {
     public class CategoryController : Controller
     {
-        CategoryManager _categoryManager = new CategoryManager();
+        private ICategoryManager _categoryManager { get; set; }
+
+        public CategoryController(ICategoryManager categoryManager)
+        {
+            _categoryManager = categoryManager;
+        }
 
         // GET: Category
         public ActionResult Index()
@@ -23,14 +29,14 @@ namespace SilkPlaster.UI.Controllers
         public PartialViewResult GetCategories()
         {
             List<CategoryModel> categories = _categoryManager
-                .ListQueryable()
-                .Include("Products")
+                .GetCategoriesWithProducts()
                 .Select(i => new CategoryModel
                 {
                     Id = i.Id,
                     Name = i.Name,
                     ProductCount = i.Products.Count
-                }).ToList();
+                }
+                ).ToList();
 
             return PartialView(categories);
         }

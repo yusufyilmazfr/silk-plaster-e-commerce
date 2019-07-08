@@ -1,6 +1,7 @@
-﻿using SilkPlaster.BusinessLayer;
-using SilkPlaster.BusinessLayer.Result;
+﻿using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Common.EntityValueObjects;
+using SilkPlaster.Common.HelperClasses;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
@@ -17,9 +18,16 @@ namespace SilkPlaster.UI.Controllers
 {
     public class ProductController : Controller
     {
-        ProductManager _productManager = new ProductManager();
-        OrderDetailsManager _orderDetailsManager = new OrderDetailsManager();
-        CommentManager _commentManager = new CommentManager();
+        private IProductManager _productManager { get; set; }
+        private IOrderDetailManager _orderDetailManager { get; set; }
+        private ICommentManager _commentManager { get; set; }
+
+        public ProductController(IProductManager productManager, IOrderDetailManager orderDetailManager, ICommentManager commentManager)
+        {
+            _productManager = productManager;
+            _orderDetailManager = orderDetailManager;
+            _commentManager = commentManager;
+        }
 
         // GET: Product
         public ActionResult Index()
@@ -34,65 +42,119 @@ namespace SilkPlaster.UI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ProductDetailsModel product = _productManager
-                .ListQueryable()
-                .Include("Comments")
-                .Include("Member")
-                .Where(i => i.Id == Id.Value)
-                .Select(i => new ProductDetailsModel
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    LastPrice = i.LastPrice,
-                    NewPrice = i.NewPrice,
-                    FirstImage = i.FirstImage,
-                    InStock = i.InStock,
-                    IsContinued = i.InStock,
-                    ShortDescription = i.ShortDescription,
-                    LongDescription = i.LongDescription,
-                    AddedDate = i.AddedDate,
-
-                    Images = i.ProductImages.Select(k => new ProductImagesModel
-                    {
-                        Name = k.Name
-                    }).ToList(),
-
-                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
-                    {
-                        Id = j.Id,
-                        Text = j.Text,
-                        StarCount = j.StarCount,
-                        AddedDate = j.AddedDate,
-                        ParentId = j.ParentId,
-
-                        Member = new MemberDetailsModel
-                        {
-                            Id = j.Member.Id,
-                            FirstName = j.Member.FirstName,
-                            LastName = j.Member.LastName
-                        }
-
-                    }).ToList()
-                }).FirstOrDefault();
-
+            Product product = _productManager.GetProductDetails(Id.Value);
 
             if (product == null)
             {
                 return HttpNotFound();
             }
 
+            ProductDetailsModel productDetails = new ProductDetailsModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                LastPrice = product.LastPrice,
+                NewPrice = product.NewPrice,
+                FirstImage = product.FirstImage,
+                InStock = product.InStock,
+                IsContinued = product.InStock,
+                ShortDescription = product.ShortDescription,
+                LongDescription = product.LongDescription,
+                AddedDate = product.AddedDate,
 
-            return View(product);
+                Images = product.ProductImages.Select(k => new ProductImagesModel
+                {
+                    Name = k.Name
+                }).ToList(),
+
+                Comments = product.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+                {
+                    Id = j.Id,
+                    Text = j.Text,
+                    StarCount = j.StarCount,
+                    AddedDate = j.AddedDate,
+                    ParentId = j.ParentId,
+
+                    Member = new MemberDetailsModel
+                    {
+                        Id = j.Member.Id,
+                        FirstName = j.Member.FirstName,
+                        LastName = j.Member.LastName
+                    }
+
+                }).ToList()
+            };
+
+            return View(productDetails);
         }
 
         public ActionResult Search(string q, int page = 1)
         {
-            page = page < 1 ? 1 : page;
+            //page = page < 1 ? 1 : page;
 
-            List<ProductDetailsModel> products = _productManager
-                .ListQueryable()
-                .Where(i => i.InStock && i.IsContinued && (i.Name.Contains(q) || i.ShortDescription.Contains(q) || i.LongDescription.Contains(q)))
-                .Select(i => new ProductDetailsModel
+            //List<ProductDetailsModel> products = _productManager
+            //    .ListQueryable()
+            //    .Where(i => i.InStock && i.IsContinued && (i.Name.Contains(q) || i.ShortDescription.Contains(q) || i.LongDescription.Contains(q)))
+            //    .Select(i => new ProductDetailsModel
+            //    {
+            //        Id = i.Id,
+            //        Name = i.Name,
+            //        FirstImage = i.FirstImage,
+            //        LastPrice = i.LastPrice,
+            //        NewPrice = i.NewPrice,
+            //        AddedDate = i.AddedDate,
+
+            //        Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+            //        {
+            //            StarCount = j.StarCount
+            //        }).ToList()
+            //    })
+            //    .OrderByDescending(z => z.AddedDate)
+            //    .Skip((page - 1) * 12)
+            //    .Take(12)
+            //    .ToList();
+
+            //ViewBag.ProductCount = _productManager.GetAllProductCount();
+
+            return View(/*products*/);
+        }
+
+        public PartialViewResult QuicklyViewProduct(int Id)
+        {
+            Product product = _productManager.GetProductDetails(Id);
+
+            ProductDetailsModel productDetails = new ProductDetailsModel()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                NewPrice = product.NewPrice,
+                LastPrice = product.LastPrice,
+                FirstImage = product.FirstImage,
+                ShortDescription = product.ShortDescription,
+
+                Images = product.ProductImages.Select(j => new ProductImagesModel
+                {
+                    Name = j.Name
+                }).ToList(),
+
+                Comments = product.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+                {
+                    StarCount = j.StarCount
+                }).ToList()
+            };
+
+            return PartialView(productDetails);
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult FeaturedProducts()
+        {
+            var productsList = _productManager.GetFeaturedProducts(100);
+            List<ProductDetailsModel> products = null;
+
+            if (!ObjectHelper.ObjectIsNull(productsList))
+            {
+                products = productsList.Select(i => new ProductDetailsModel
                 {
                     Id = i.Id,
                     Name = i.Name,
@@ -100,70 +162,8 @@ namespace SilkPlaster.UI.Controllers
                     LastPrice = i.LastPrice,
                     NewPrice = i.NewPrice,
                     AddedDate = i.AddedDate,
-
-                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
-                    {
-                        StarCount = j.StarCount
-                    }).ToList()
-                })
-                .OrderByDescending(z => z.AddedDate)
-                .Skip((page - 1) * 12)
-                .Take(12)
-                .ToList();
-
-            ViewBag.ProductCount = _productManager.GetAll().Count;
-
-            return View(products);
-        }
-
-        public PartialViewResult QuicklyViewProduct(int Id)
-        {
-            ProductDetailsModel product = _productManager
-                .ListQueryable()
-                .Include("Comment")
-                .Include("ProductImages")
-                .Where(i => i.Id == Id)
-                .Select(i => new ProductDetailsModel
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    NewPrice = i.NewPrice,
-                    LastPrice = i.LastPrice,
-                    FirstImage = i.FirstImage,
-                    ShortDescription = i.ShortDescription,
-
-                    Images = i.ProductImages.Select(j => new ProductImagesModel
-                    {
-                        Name = j.Name
-                    }).ToList(),
-
-                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
-                    {
-                        StarCount = j.StarCount
-                    }).ToList()
-
-                })
-                .FirstOrDefault();
-
-            return PartialView(product);
-        }
-
-        [ChildActionOnly]
-        public PartialViewResult FeaturedProducts()
-        {
-            List<ProductDetailsModel> products = _productManager
-                    .ListQueryable()
-                    .Where(i => i.IsFeatured && i.InStock && i.IsContinued)
-                    .OrderByDescending(i => i.AddedDate)
-                    .Select(i => new ProductDetailsModel
-                    {
-                        Id = i.Id,
-                        Name = i.Name,
-                        FirstImage = i.FirstImage,
-                        LastPrice = i.LastPrice,
-                        NewPrice = i.NewPrice,
-                        AddedDate = i.AddedDate,
-                    }).ToList();
+                }).ToList();
+            }
 
             return PartialView(products);
         }
@@ -171,45 +171,21 @@ namespace SilkPlaster.UI.Controllers
         [ChildActionOnly]
         public PartialViewResult BestSeller()
         {
-
-            // This place will be corrected later
-
-            // Get Most Saled Products Id
-            var mostSaledProductsId = _orderDetailsManager
-                .ListQueryable()
-                .GroupBy(i => i.ProductId)
-                .OrderByDescending(i => i.Count())
-                .Take(100)
+            List<ProductDetailsModel> products = _productManager
+                    .GetBestSellers(20)
+                    .Select(j => new ProductDetailsModel
+                    {
+                        Id = j.Id,
+                        Name = j.Name,
+                        LastPrice = j.LastPrice,
+                        NewPrice = j.NewPrice,
+                        FirstImage = j.FirstImage
+                    })
                 .ToList();
-
-            List<ProductDetailsModel> products = new List<ProductDetailsModel>();
-
-
-            // I Added most saled product in products
-
-            for (int i = 0; i < mostSaledProductsId.Count; i++)
-            {
-                int id = mostSaledProductsId[i].Key;
-
-                ProductDetailsModel product = _productManager
-                 .ListQueryable()
-                 .Include("Comments")
-                 .Where(k => k.Id == id && k.InStock && k.IsContinued)
-                 .Select(j => new ProductDetailsModel
-                 {
-                     Id = j.Id,
-                     Name = j.Name,
-                     LastPrice = j.LastPrice,
-                     NewPrice = j.NewPrice,
-                     FirstImage = j.FirstImage
-                 })
-                 .FirstOrDefault();
-
-                products.Add(product);
-            }
 
             return PartialView(products);
         }
+
 
         [ChildActionOnly]
         public PartialViewResult MixedFeaturedProducts()
@@ -222,26 +198,23 @@ namespace SilkPlaster.UI.Controllers
         {
             ViewBag.Title = "Öne Çıkarılanlar";
 
-            List<ProductDetailsModel> products = _productManager
-                .ListQueryable()
-                .Where(i => i.IsFeatured && i.IsContinued && i.IsContinued)
-                .OrderByDescending(i => i.AddedDate)
-                .Take(3)
-                .Select(i => new ProductDetailsModel
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    FirstImage = i.FirstImage,
-                    LastPrice = i.LastPrice,
-                    NewPrice = i.NewPrice,
+            List<ProductDetailsModel> products = products = _productManager
+                        .GetFeaturedProducts(3)
+                        .Select(i => new ProductDetailsModel()
+                        {
+                            Id = i.Id,
+                            Name = i.Name,
+                            FirstImage = i.FirstImage,
+                            LastPrice = i.LastPrice,
+                            NewPrice = i.NewPrice,
 
-                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
-                    {
-                        StarCount = j.StarCount
-                    }).ToList()
+                            Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+                            {
+                                StarCount = j.StarCount
+                            }).ToList()
 
-                })
-                .ToList();
+                        }).ToList();
+
 
             return PartialView("ShowSomeProducts", products);
         }
@@ -251,11 +224,7 @@ namespace SilkPlaster.UI.Controllers
         {
             ViewBag.Title = "Yeni Ürünler";
 
-            List<ProductDetailsModel> products = _productManager
-                .ListQueryable()
-                .Where(i => i.InStock && i.IsFeatured && i.IsContinued)
-                .OrderByDescending(i => i.AddedDate)
-                .Take(3)
+            List<ProductDetailsModel> products = _productManager.GetNewProducts(3)
                 .Select(i => new ProductDetailsModel
                 {
                     Id = i.Id,
@@ -280,20 +249,23 @@ namespace SilkPlaster.UI.Controllers
         {
             ViewBag.Title = "En Çok İncelenen Ürünler";
 
-            List<ProductDetailsModel> products = _productManager.ListQueryable().OrderByDescending(i => i.Comments.Count).Take(3).Select(i => new ProductDetailsModel
-            {
-                Id = i.Id,
-                Name = i.Name,
-                FirstImage = i.FirstImage,
-                LastPrice = i.LastPrice,
-                NewPrice = i.NewPrice,
-
-                Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+            List<ProductDetailsModel> products =
+                _productManager
+                .GetMostCommentedProducts(3)
+                .Select(i => new ProductDetailsModel
                 {
-                    StarCount = j.StarCount
-                }).ToList()
+                    Id = i.Id,
+                    Name = i.Name,
+                    FirstImage = i.FirstImage,
+                    LastPrice = i.LastPrice,
+                    NewPrice = i.NewPrice,
 
-            }).ToList();
+                    Comments = i.Comments.Where(x => x.IsValid).Select(j => new CommentModel
+                    {
+                        StarCount = j.StarCount
+                    }).ToList()
+
+                }).ToList();
 
             return PartialView("ShowSomeProducts", products);
 
@@ -305,7 +277,7 @@ namespace SilkPlaster.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                BusinessLayerResult<Comment> layerResult = _commentManager.Insert(new Comment
+                BusinessLayerResult<Comment> layerResult = _commentManager.AddComment(new Comment
                 {
                     Text = model.Text,
                     StarCount = (byte)model.StarCount,

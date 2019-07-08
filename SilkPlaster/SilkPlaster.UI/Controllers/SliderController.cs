@@ -1,4 +1,5 @@
 ﻿using SilkPlaster.BusinessLayer;
+using SilkPlaster.BusinessLayer.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,12 @@ namespace SilkPlaster.UI.Controllers
 {
     public class SliderController : Controller
     {
-        SliderManager _sliderManager = new SliderManager();
+        private ISliderManager _sliderManager { get; set; }
+
+        public SliderController(ISliderManager sliderManager)
+        {
+            _sliderManager = sliderManager;
+        }
 
         public PartialViewResult Index()
         {
