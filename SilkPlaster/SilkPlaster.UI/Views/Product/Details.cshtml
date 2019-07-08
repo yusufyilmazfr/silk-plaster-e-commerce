@@ -64,9 +64,9 @@
                             <div class="detial-holder">
                                 <!-- Breadcrumbs of the Page -->
                                 @*<ul class="list-unstyled breadcrumbs">
-                                        <li><a href="#">Chairs <i class="fa fa-angle-right"></i></a></li>
-                                        <li>Products</li>
-                                    </ul>*@
+            <li><a href="#">Chairs <i class="fa fa-angle-right"></i></a></li>
+            <li>Products</li>
+        </ul>*@
                                 <!-- Breadcrumbs of the Page end -->
                                 <h2 style="word-wrap: break-word">@Model.Name</h2>
                                 <!-- Rank Rating of the Page -->
@@ -136,16 +136,29 @@
                                     </fieldset>
                                 </form>
 
-                                <script>
+                                @if (CurrentSession.MemberIsLogged)
+                                {
+                                    <script>
                                     document.addEventListener('DOMContentLoaded', function () {
                                             document.getElementById('submit_btn').addEventListener('click', function (e) {
                                             var productCount = document.getElementById('qty').value;
                                             var productId = @Model.Id;
-
                                             AddProductInBasket(productId, productCount);
                                         });
                                     });
-                                </script>
+                                    </script>
+                                }
+                                else
+                                {
+                                    <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                            document.getElementById('submit_btn').addEventListener('click', function (e) {
+                                                ShowLoginSweetAlert();
+                                        });
+                                    });
+                                    </script>
+                                }
+
 
                                 <!-- Product Form of the Page end -->
                             </div>

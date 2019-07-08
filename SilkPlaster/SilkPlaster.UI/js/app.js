@@ -1,4 +1,40 @@
-﻿function RemoveProductInBasket(productId) {
+﻿function DecreaseProductCount(productId) {
+    new Post('/Basket/DecreaseProductCount', { productId: productId }, function (data) {
+        data = JSON.parse(data);
+
+        if (data.result) {
+
+            GetMyGetBasketPage(function (value) {
+                document.getElementById('myBasketPage').innerHTML = value;
+            });
+
+            FillQuicklyBasket();
+        }
+        else {
+            ShowSweetAlert('error', 'Ooopss!', data.message);
+        }
+    });
+}
+
+function IncreaseProductCountInBasketItem(productId) {
+    new Post('/Basket/IncreaseProductCount', { productId: productId }, function (data) {
+        data = JSON.parse(data);
+
+        if (data.result) {
+
+            GetMyGetBasketPage(function (value) {
+                document.getElementById('myBasketPage').innerHTML = value;
+            });
+
+            FillQuicklyBasket();
+        }
+        else {
+            ShowSweetAlert('error', 'Ooopss!', data.message);
+        }
+    });
+}
+
+function RemoveProductInBasket(productId) {
     new Post('/Basket/Remove', { productId: productId }, function (data) {
         data = JSON.parse(data);
 
@@ -103,9 +139,9 @@ function ShowSweetAlert(type, title, text, footer) {
         text,
         type,
         footer
-    }
+        }
     );
-}
+        }
 
 function ShowLoginSweetAlert() {
     ShowSweetAlert('error', 'Giriş Yapın.', 'Bu işlemi gerçekleştirmeden önce lütfen giriş yapınız..', `<a href='/account/login'><b>Giriş Yap</b></a>`);

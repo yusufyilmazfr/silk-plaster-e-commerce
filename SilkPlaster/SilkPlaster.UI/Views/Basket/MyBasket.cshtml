@@ -1,4 +1,5 @@
-﻿@model List<SilkPlaster.UI.Models.BasketModel>
+﻿@using SilkPlaster.Common.OrderMessageObj
+@model List<SilkPlaster.UI.Models.BasketModel>
 
 
 @if (Model.Count == 0)
@@ -11,66 +12,87 @@
 
 <main id="mt-main">
 
-    <!-- Mt Product Table of the Page -->
-    <div class="mt-product-table wow fadeInUp" data-wow-delay="0s" style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;">
-        <div class="container">
-            <div class="row border">
-                <div class="col-xs-12 col-sm-6">
-                    <strong class="title">ÜRÜN</strong>
-                </div>
-                <div class="col-xs-12 col-sm-2">
-                    <strong class="title">FİYAT</strong>
-                </div>
-                <div class="col-xs-12 col-sm-2">
-                    <strong class="title">ADET</strong>
-                </div>
-                <div class="col-xs-12 col-sm-2">
-                    <strong class="title">TOPLAM</strong>
-                </div>
-            </div>
-            @foreach (var item in Model)
-            {
-                <div class="row border">
-                    <div class="col-xs-12 col-sm-2">
-                        <div class="img-holder">
-                            <img src="~/images/products/@item.Product.FirstImage" width="105" height="105" alt="@item.Product.Name">
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-4">
-                        <strong class="product-name">
-                            @if (item.Product.Name.Length > 30)
-                            {
-                                <span>@item.Product.Name.Substring(0, 30)</span>
-                            }
-                            else
-                            {
-                                <span>@item.Product.Name</span>
-                            }
-                        </strong>
-                    </div>
-                    <div class="col-xs-12 col-sm-2">
-                        <strong class="price">@item.Product.NewPrice.ToString("c")</strong>
-                    </div>
-                    <div class="col-xs-12 col-sm-2">
-                        <div class="row-val">
-                            <input class="y-product-quantity" style="margin-top:69px" min="0" type="number" id="qty" value="@item.Quantity">
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-2">
-                        <strong class="price">@((item.Quantity * item.Product.NewPrice).ToString("c"))</strong>
-                        <a href="#" onclick="RemoveProductInBasket(@item.Product.Id)"><i class="fa fa-close"></i></a>
-                    </div>
-                </div>
-            }
+    <div class="container col-md-10 col-md-offset-1" style="margin-top:80px">
+        <div class="table-responsive">
+            <!--Table-->
+            <table class="table">
 
+                <!--Table head-->
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Ürün</th>
+                        <th></th>
+                        <th>Fiyat</th>
+                        <th>Adet</th>
+                        <th>Toplam</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <!--Table head-->
+                <!--Table body-->
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">#1</th>
+                            <td>
+                                <div class="img-holder">
+                                    <img src="~/images/products/@item.Product.FirstImage" style="width:105px; height:105px" alt="@item.Product.Name">
+                                </div>
+                            </td>
+                            <td>
+                                @if (item.Product.Name.Length > 30)
+                                {
+                                    <span style="display:block; margin-top:32px;">@item.Product.Name.Substring(0, 30)</span>
+                                }
+                                else
+                                {
+                                    <span style="display:block; margin-top:32px">@item.Product.Name</span>
+                                }
+                            </td>
+                            <td>
+                                <strong style="display:block; margin-top:32px">@item.Product.NewPrice.ToString("c")</strong>
+                            </td>
+                            <td style="display:flex; justify-content:center;align-items:center">
+
+                                <button style="margin-top:32px" onclick="DecreaseProductCount(@item.Product.Id)">-</button>
+
+                                <input disabled class="y-product-quantity" style="display:block; margin-top:32px; border:none" min="0" type="number" id="qty" value="@item.Quantity">
+
+                                <button style="margin-top:32px" onclick="IncreaseProductCountInBasketItem(@item.Product.Id)">+</button>
+
+                            </td>
+                            <td>
+                                <strong class="price" style="display:block; margin-top:32px">@((item.Quantity * item.Product.NewPrice).ToString("c"))</strong>
+                            </td>
+                            <td>
+                                <a href="#" onclick="RemoveProductInBasket(@item.Product.Id)"><i class="fa fa-close" style="color:red; font-size:20px; display:block; margin-top:32px"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <!--Table body-->
+            </table>
+            <!--Table-->
         </div>
     </div>
-    <!-- Mt Product Table of the Page end -->
+
     <!-- Mt Detail Section of the Page -->
     <section class="mt-detail-sec style1 wow fadeInUp" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 col-sm-offset-6 col-sm-6">
+
+                <div class="col-xs-12  col-sm-6">
+                    <h2>Ödeme Yöntemi</h2>
+                    @Html.DropDownList("PaymentType",
+                    EnumHelper.GetSelectList(typeof(EnumPaymentTypes)) ,
+                    "Bir Ödeme Yöntemi Seçin",
+                    new { @class = "form-control" })
+
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
                     <h2>CART TOTAL</h2>
                     <ul class="list-unstyled block cart">
                         <li>
