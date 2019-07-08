@@ -42,11 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityValueObjects\AddressViewModel.cs" />
     <Compile Include="EntityValueObjects\CommentViewModel.cs" />
     <Compile Include="EntityValueObjects\LoginViewModel.cs" />
     <Compile Include="EntityValueObjects\RegisterViewModel.cs" />
+    <Compile Include="HelperClasses\ObjectHelper.cs" />
     <Compile Include="Message\ErrorMessageCode.cs" />
     <Compile Include="Message\ErrorMessageObject.cs" />
+    <Compile Include="OrderMessageObj\EnumPaymentTypes.cs" />
+    <Compile Include="OrderMessageObj\EnumOrderState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
