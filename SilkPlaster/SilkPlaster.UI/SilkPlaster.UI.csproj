@@ -50,6 +50,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -510,6 +513,7 @@
     <Content Include="ckeditor\skins\moono-lisa\images\refresh.png" />
     <Content Include="ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="ckeditor\styles.js" />
+    <Content Include="css\starrating.css" />
     <Content Include="static\admin\assets\fonts\fa-solid-900.svg" />
     <Content Include="static\admin\assets\fonts\Pe-icon-7-stroke.svg" />
     <Content Include="static\admin\assets\images\avatars\1.jpg" />
@@ -612,6 +616,7 @@
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\CountyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SliderController.cs" />
@@ -619,6 +624,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Ninject\NinjectControllerFactory.cs" />
+    <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\BasketModel.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
@@ -723,6 +730,8 @@
     <Content Include="Views\Basket\GetBasketItemCount.cshtml" />
     <Content Include="Views\Basket\MyBasket.cshtml" />
     <Content Include="Views\Product\QuicklyViewProduct.cshtml" />
+    <Content Include="Views\Account\CreateNewAddress.cshtml" />
+    <Content Include="Views\Account\EditAddress.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -737,6 +746,7 @@
     <Folder Include="images\sliders\" />
     <Folder Include="static\admin\assets\css\" />
     <Folder Include="Views\Comment\" />
+    <Folder Include="Views\County\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SilkPlaster.BusinessLayer\SilkPlaster.BusinessLayer.csproj">

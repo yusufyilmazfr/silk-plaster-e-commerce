@@ -1,4 +1,5 @@
-﻿using SilkPlaster.Entities.Abstract;
+﻿using SilkPlaster.Common.OrderMessageObj;
+using SilkPlaster.Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,13 +30,25 @@ namespace SilkPlaster.Entities
         public int MemberId { get; set; }
         public Member Member { get; set; }
 
-        public int PaymentMethodId { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
+        public EnumOrderState OrderState { get; set; }
+        public EnumPaymentTypes PaymentType { get; set; }
 
-        public int OrderStatusId { get; set; }
-        public OrderStatus OrderStatus { get; set; }
+        public string PaymentId { get; set; }
+        public string PaymentToken { get; set; }
+        public string ConversationId { get; set; }
+
+
 
         public List<OrderDetail> OrderDetails { get; set; }
+
+
+        //public int PaymentMethodId { get; set; }
+        //public PaymentMethod PaymentMethod { get; set; }
+
+
+        //public int OrderStatusId { get; set; }
+        //public OrderStatus OrderStatus { get; set; }
+
     }
 
 }
