@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SilkPlaster.BusinessLayer.DependencyResolver.Ninject;
+using SilkPlaster.UI.Infrastructure.Ninject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +15,7 @@ namespace SilkPlaster.UI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(new BusinessModule()));
         }
     }
 }
