@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SilkPlaster.BusinessLayer.Result
+namespace SilkPlaster.BusinessLayer.Concrete.Result
 {
-    public class BusinessLayerResult<T>
+    public class BusinessLayerResult<T> : IDisposable
     {
         public BusinessLayerResult()
         {
@@ -20,6 +20,16 @@ namespace SilkPlaster.BusinessLayer.Result
         public void AddError(ErrorMessageCode messageCode, string message)
         {
             Errors.Add(new ErrorMessageObject { ErrorCode = messageCode, ErrorMessage = message });
+        }
+
+        public bool HasError()
+        {
+            return Errors.Count > 0 ? true : false;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose();
         }
     }
 }

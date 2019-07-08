@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SilkPlaster.BusinessLayer
+namespace SilkPlaster.BusinessLayer.Concrete
 {
-    public class OrderDetailsManager : ManagerBase<OrderDetail>
+    public class AdminManager : IAdminManager
     {
 
     }

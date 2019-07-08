@@ -1,5 +1,5 @@
-﻿using SilkPlaster.Core.Abstract;
-using SilkPlaster.DataAccessLayer.EntityFramework;
+﻿using SilkPlaster.DataAccessLayer.Abstract;
+using SilkPlaster.DataAccessLayer.Concrete;
 using SilkPlaster.Entities.Abstract;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,12 @@ namespace SilkPlaster.BusinessLayer.Abstract
 {
     public abstract class ManagerBase<T> : IRepository<T> where T : class, IEntity, new()
     {
-        Repository<T> _repository = new Repository<T>();
+        private EntityRepository<T> _repository { get; set; }
+
+        public ManagerBase()
+        {
+            _repository = new EntityRepository<T>();
+        }
 
         public virtual int Delete(T obj)
         {

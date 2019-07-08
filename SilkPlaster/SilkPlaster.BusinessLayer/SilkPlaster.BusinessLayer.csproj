@@ -31,7 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,19 +51,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IProductManager.cs" />
+    <Compile Include="Abstract\IWishListManager.cs" />
+    <Compile Include="Abstract\ISliderManager.cs" />
+    <Compile Include="Abstract\IOrderDetailManager.cs" />
+    <Compile Include="Abstract\IOrderManager.cs" />
+    <Compile Include="Abstract\IMemberManager.cs" />
+    <Compile Include="Abstract\ICountyManager.cs" />
+    <Compile Include="Abstract\ICityManager.cs" />
+    <Compile Include="Abstract\ICommentManager.cs" />
+    <Compile Include="Abstract\ICategoryManager.cs" />
+    <Compile Include="Abstract\IBasketManager.cs" />
+    <Compile Include="Abstract\IAdminManager.cs" />
+    <Compile Include="Abstract\IAddressManager.cs" />
     <Compile Include="Abstract\ManagerBase.cs" />
-    <Compile Include="AdminManager.cs" />
-    <Compile Include="BasketManager.cs" />
-    <Compile Include="CategoryManager.cs" />
-    <Compile Include="CommentManager.cs" />
-    <Compile Include="MemberManager.cs" />
-    <Compile Include="OrderDetailsManager.cs" />
-    <Compile Include="OrderManager.cs" />
-    <Compile Include="ProductManager.cs" />
+    <Compile Include="Concrete\AddressManager.cs" />
+    <Compile Include="Concrete\AdminManager.cs" />
+    <Compile Include="Concrete\BasketManager.cs" />
+    <Compile Include="Concrete\CategoryManager.cs" />
+    <Compile Include="Concrete\CityManager.cs" />
+    <Compile Include="Concrete\CommentManager.cs" />
+    <Compile Include="Concrete\CountyManager.cs" />
+    <Compile Include="Concrete\MemberManager.cs" />
+    <Compile Include="Concrete\OrderDetailManager.cs" />
+    <Compile Include="Concrete\OrderManager.cs" />
+    <Compile Include="Concrete\ProductManager.cs" />
+    <Compile Include="DependencyResolver\Ninject\BusinessModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result\BusinessLayerResult.cs" />
-    <Compile Include="SliderManager.cs" />
-    <Compile Include="WishListManager.cs" />
+    <Compile Include="Concrete\Result\BusinessLayerResult.cs" />
+    <Compile Include="Concrete\SliderManager.cs" />
+    <Compile Include="Concrete\WishListManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SilkPlaster.Common\SilkPlaster.Common.csproj">
@@ -73,5 +100,10 @@
       <Name>SilkPlaster.Entities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
