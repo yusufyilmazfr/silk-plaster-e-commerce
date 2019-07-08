@@ -18,3 +18,6 @@ D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.DataAcce
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.DataAccessLayer\obj\Debug\SilkPlaster.DataAccessLayer.csproj.CopyComplete
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.DataAccessLayer\obj\Debug\SilkPlaster.DataAccessLayer.dll
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.DataAccessLayer\obj\Debug\SilkPlaster.DataAccessLayer.pdb
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.DataAccessLayer\bin\Debug\SilkPlaster.DataContext.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.DataAccessLayer\bin\Debug\SilkPlaster.DataContext.pdb
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.DataAccessLayer\bin\Debug\SilkPlaster.DataContext.dll.config

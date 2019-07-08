@@ -51,10 +51,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityFramework\DatabaseContext.cs" />
-    <Compile Include="EntityFramework\MyInitializer.cs" />
-    <Compile Include="EntityFramework\Repository.cs" />
-    <Compile Include="MySql\Repository.cs" />
+    <Compile Include="Abstract\IAddressDal.cs" />
+    <Compile Include="Abstract\IAdminDal.cs" />
+    <Compile Include="Abstract\IBasketDal.cs" />
+    <Compile Include="Abstract\ICategoryDal.cs" />
+    <Compile Include="Abstract\ICityDal.cs" />
+    <Compile Include="Abstract\ICommentDal.cs" />
+    <Compile Include="Abstract\ICountyDal.cs" />
+    <Compile Include="Abstract\IMemberDal.cs" />
+    <Compile Include="Abstract\IOrderDal.cs" />
+    <Compile Include="Abstract\IOrderDetailDal.cs" />
+    <Compile Include="Abstract\IProductDal.cs" />
+    <Compile Include="Abstract\IRepository.cs" />
+    <Compile Include="Abstract\ISliderDal.cs" />
+    <Compile Include="Abstract\IWishListDal.cs" />
+    <Compile Include="Concrete\AddressDal.cs" />
+    <Compile Include="Concrete\AdminDal.cs" />
+    <Compile Include="Concrete\BasketDal.cs" />
+    <Compile Include="Concrete\CategoryDal.cs" />
+    <Compile Include="Concrete\CityDal.cs" />
+    <Compile Include="Concrete\CommentDal.cs" />
+    <Compile Include="Concrete\CountyDal.cs" />
+    <Compile Include="Concrete\EntityRepository.cs" />
+    <Compile Include="Concrete\MemberDal.cs" />
+    <Compile Include="Concrete\OrderDal.cs" />
+    <Compile Include="Concrete\OrderDetailDal.cs" />
+    <Compile Include="Concrete\ProductDal.cs" />
+    <Compile Include="Concrete\SliderDal.cs" />
+    <Compile Include="Concrete\WishListDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,10 +94,15 @@
       <Project>{91d83800-ecdc-412e-ab2d-3eb5641b1d58}</Project>
       <Name>SilkPlaster.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SilkPlaster.DataContext\SilkPlaster.DataContext.csproj">
+      <Project>{f633b931-3817-4eff-bfe6-038ab09dbe52}</Project>
+      <Name>SilkPlaster.DataContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SilkPlaster.Entities\SilkPlaster.Entities.csproj">
       <Project>{898b9791-bc80-410a-8262-fc31e9dfb54e}</Project>
       <Name>SilkPlaster.Entities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
