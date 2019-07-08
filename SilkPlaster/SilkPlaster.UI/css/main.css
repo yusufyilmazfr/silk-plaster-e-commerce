@@ -127,15 +127,15 @@
     background-color: #838182 !important;
 }
 .y-product-quantity {
-    font-size: 18px;
-    line-height: 20px;
+    /*font-size: 18px;*/
+    /*line-height: 20px;*/
     font-family: "Montserrat", sans-serif;
     font-weight: 700;
     padding: 0 0 0 20px;
     border-radius: 25px;
     outline: none;
     width: 72px;
-    height: 42px;
+    /*height: 42px;*/
     color: #a9a9a9;
     background: #fff;
 }
