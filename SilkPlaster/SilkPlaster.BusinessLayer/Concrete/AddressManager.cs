@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SilkPlaster.BusinessLayer.Concrete
 {
-    public class AddressManager : ManagerBase<Address>, IAddressManager
+    public class AddressManager : IAddressManager
     {
         public IAddressDal _addressDal { get; set; }
         private BusinessLayerResult<Address> _layerResult { get; set; }
@@ -26,70 +26,66 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public BusinessLayerResult<Address> Insert(AddressViewModel obj)
         {
-            using (_layerResult = new BusinessLayerResult<Address>())
+            _layerResult = new BusinessLayerResult<Address>();
+            int count = _addressDal.Insert(new Address
             {
-                int count = _addressDal.Insert(new Address
-                {
-                    MemberId = obj.MemberId,
-                    Name = obj.Name,
-                    FirstName = obj.FirstName,
-                    LastName = obj.LastName,
-                    PhoneNumber = obj.PhoneNumber,
-                    CountyId = obj.CountyId,
-                    CityId = obj.CityId,
-                    Description = obj.Description,
-                    CompanyName = obj.CompanyName,
-                    TaxAdministration = obj.TaxAdministration,
-                    TaxNumber = obj.TaxNumber,
-                    CitizenshipNumber = obj.CitizenshipNumber
-                });
+                MemberId = obj.MemberId,
+                Name = obj.Name,
+                FirstName = obj.FirstName,
+                LastName = obj.LastName,
+                PhoneNumber = obj.PhoneNumber,
+                CountyId = obj.CountyId,
+                CityId = obj.CityId,
+                Description = obj.Description,
+                CompanyName = obj.CompanyName,
+                TaxAdministration = obj.TaxAdministration,
+                TaxNumber = obj.TaxNumber,
+                CitizenshipNumber = obj.CitizenshipNumber
+            });
 
-                if (count == 0)
-                {
-                    _layerResult.AddError(ErrorMessageCode.FailedToAddRecord, "Adres eklenemedi!");
-                }
-                return _layerResult;
+            if (count == 0)
+            {
+                _layerResult.AddError(ErrorMessageCode.FailedToAddRecord, "Adres eklenemedi!");
             }
+            return _layerResult;
         }
 
         public BusinessLayerResult<AddressViewModel> Update(AddressViewModel obj)
         {
-            using (BusinessLayerResult<AddressViewModel> layerResult = new BusinessLayerResult<AddressViewModel>())
+            BusinessLayerResult<AddressViewModel> layerResult = new BusinessLayerResult<AddressViewModel>();
+            Address address = GetAddressWithMemberId(obj.Id, obj.MemberId);
+
+            if (ObjectHelper.ObjectIsNull(address))
             {
-                Address address = GetAddressWithMemberId(obj.Id, obj.MemberId);
-
-                if (ObjectHelper.ObjectIsNull(address))
-                {
-                    layerResult.AddError(ErrorMessageCode.ObjectNotFound, "Böyle bir adres bulunmamaktadır!");
-                    return layerResult;
-                }
-
-                address.Name = obj.Name;
-                address.FirstName = obj.FirstName;
-                address.LastName = obj.LastName;
-                address.Description = obj.Description;
-                address.PhoneNumber = obj.PhoneNumber;
-                address.CitizenshipNumber = obj.CitizenshipNumber;
-                address.CompanyName = obj.CompanyName;
-                address.CityId = obj.CityId;
-                address.CountyId = obj.CountyId;
-                address.TaxAdministration = obj.TaxAdministration;
-                address.TaxNumber = obj.TaxNumber;
-                address.Name = obj.Name;
-
-                int count = _addressDal.Update(address);
-
-                if (count == 0)
-                {
-                    layerResult.AddError(ErrorMessageCode.FailedToModifiedRecord, "Adres güncellenemedi!");
-                }
-
+                layerResult.AddError(ErrorMessageCode.ObjectNotFound, "Böyle bir adres bulunmamaktadır!");
                 return layerResult;
             }
 
+            address.Name = obj.Name;
+            address.FirstName = obj.FirstName;
+            address.LastName = obj.LastName;
+            address.Description = obj.Description;
+            address.PhoneNumber = obj.PhoneNumber;
+            address.CitizenshipNumber = obj.CitizenshipNumber;
+            address.CompanyName = obj.CompanyName;
+            address.CityId = obj.CityId;
+            address.CountyId = obj.CountyId;
+            address.TaxAdministration = obj.TaxAdministration;
+            address.TaxNumber = obj.TaxNumber;
+            address.Name = obj.Name;
+
+            int count = _addressDal.Update(address);
+
+            if (count == 0)
+            {
+                layerResult.AddError(ErrorMessageCode.FailedToModifiedRecord, "Adres güncellenemedi!");
+            }
+
+            return layerResult;
+
         }
 
-        public new BusinessLayerResult<Address> Delete(Address obj)
+        public BusinessLayerResult<Address> Delete(Address obj)
         {
             Address address = GetAddressWithMemberId(obj.Id, obj.MemberId);
 
@@ -108,9 +104,11 @@ namespace SilkPlaster.BusinessLayer.Concrete
             return _layerResult;
         }
 
-        public new BusinessLayerResult<AddressViewModel> Find(Expression<Func<Address, bool>> where)
+        public BusinessLayerResult<AddressViewModel> Find(Expression<Func<Address, bool>> where)
         {
             BusinessLayerResult<AddressViewModel> layerResult = new BusinessLayerResult<AddressViewModel>();
+
+            //WILL BE CORRECT LATER!
 
             layerResult.Result = _addressDal
                 .ListQueryable()
