@@ -17,5 +17,7 @@ namespace SilkPlaster.BusinessLayer.Abstract
         List<Basket> GetBasketItemsByMemberId(int memberId);
         int GetBasketItemsCountByMemberId(int memberId);
         BusinessLayerResult<Basket> DecreaseProductCount(int loggedInMemberId, int productId, int productCount);
+        void DeleteBasketItemById(int Id);
+        Basket GetBasketItemById(int Id);
     }
 }

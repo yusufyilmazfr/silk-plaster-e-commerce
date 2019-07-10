@@ -41,7 +41,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
             category.Name = obj.Name;
             category.Description = obj.Description;
 
-            int count = _categoryDal.Update(category);
+            _categoryDal.Update(category);
+            int count = _categoryDal.Save();
 
             if (count == 0)
             {
@@ -53,7 +54,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public BusinessLayerResult<Category> AddCategory(Category category)
         {
-            int count = _categoryDal.Insert(category);
+            _categoryDal.Insert(category);
+            int count = _categoryDal.Save();
 
             if (count > 0)
             {
@@ -69,7 +71,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public int RemoveCategory(Category category)
         {
-            return _categoryDal.Delete(category);
+            _categoryDal.Delete(category);
+            return _categoryDal.Save();
         }
 
         public List<Category> GetCategoriesWithProducts()

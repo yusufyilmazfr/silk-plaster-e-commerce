@@ -33,7 +33,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 return layerResult;
             }
 
-            int count = _wishListDal.Insert(obj);
+            _wishListDal.Insert(obj);
+            int count = _wishListDal.Save();
 
             if (count == 0)
             {
@@ -54,7 +55,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 return layerResult;
             }
 
-            int count = _wishListDal.Delete(layerResult.Result);
+            _wishListDal.Delete(layerResult.Result);
+            int count = _wishListDal.Save();
 
             if (count == 0)
             {

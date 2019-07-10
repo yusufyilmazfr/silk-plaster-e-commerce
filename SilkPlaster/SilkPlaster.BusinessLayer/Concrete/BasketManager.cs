@@ -39,7 +39,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 return _layerResult;
             }
 
-            int count = _basketDal.Delete(_layerResult.Result);
+            _basketDal.Delete(_layerResult.Result);
+            int count = _basketDal.Save();
 
             if (count == 0)
             {
@@ -90,7 +91,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
                 basketItem.ProductCount += productCount;
 
-                count = _basketDal.Update(basketItem);
+                _basketDal.Update(basketItem);
+                count = _basketDal.Save();
 
                 if (count == 0)
                 {
@@ -107,7 +109,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
                     MemberId = memberId
                 };
 
-                count = _basketDal.Insert(basket);
+                _basketDal.Insert(basket);
+                count = _basketDal.Save();
 
                 if (count == 0)
                 {
@@ -178,7 +181,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
                 basketItem.ProductCount -= increaseCount;
 
-                count = _basketDal.Update(basketItem);
+                _basketDal.Update(basketItem);
+                count = _basketDal.Save();
 
                 if (count == 0)
                 {
@@ -190,6 +194,17 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 _layerResult.AddError(ErrorMessageCode.ObjectNotFound, "Böyle bir kayıt bulunmamaktadır!");
             }
             return _layerResult;
+        }
+
+        public void DeleteBasketItemById(int Id)
+        {
+            Basket basket = GetBasketItemById(Id);
+            _basketDal.Delete(basket);
+        }
+
+        public Basket GetBasketItemById(int Id)
+        {
+            return _basketDal.Find(i => i.Id == Id);
         }
     }
 }

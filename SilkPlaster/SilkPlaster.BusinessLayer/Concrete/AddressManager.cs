@@ -27,7 +27,7 @@ namespace SilkPlaster.BusinessLayer.Concrete
         public BusinessLayerResult<Address> Insert(AddressViewModel obj)
         {
             _layerResult = new BusinessLayerResult<Address>();
-            int count = _addressDal.Insert(new Address
+            _addressDal.Insert(new Address
             {
                 MemberId = obj.MemberId,
                 Name = obj.Name,
@@ -42,6 +42,7 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 TaxNumber = obj.TaxNumber,
                 CitizenshipNumber = obj.CitizenshipNumber
             });
+            int count = _addressDal.Save();
 
             if (count == 0)
             {
@@ -74,7 +75,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
             address.TaxNumber = obj.TaxNumber;
             address.Name = obj.Name;
 
-            int count = _addressDal.Update(address);
+            _addressDal.Update(address);
+            int count = _addressDal.Save();
 
             if (count == 0)
             {
@@ -88,6 +90,7 @@ namespace SilkPlaster.BusinessLayer.Concrete
         public BusinessLayerResult<Address> Delete(Address obj)
         {
             Address address = GetAddressWithMemberId(obj.Id, obj.MemberId);
+            _layerResult = new BusinessLayerResult<Address>();
 
             if (ObjectHelper.ObjectIsNull(address))
             {
@@ -95,7 +98,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 return _layerResult;
             }
 
-            int count = _addressDal.Delete(address);
+            _addressDal.Delete(address);
+            int count = _addressDal.Save();
 
             if (count == 0)
             {

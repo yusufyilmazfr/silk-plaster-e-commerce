@@ -39,7 +39,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
             slider.Image = obj.Image;
             slider.AddedDate = obj.AddedDate;
 
-            int count = _sliderDal.Update(slider);
+            _sliderDal.Update(slider);
+            int count = _sliderDal.Save();
 
             if (count == 0)
             {
@@ -51,7 +52,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public BusinessLayerResult<Slider> AddSlider(Slider obj)
         {
-            int count = _sliderDal.Insert(obj);
+            _sliderDal.Insert(obj);
+            int count = _sliderDal.Save();
 
             if (count == 0)
             {
@@ -75,7 +77,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public int RemoveSlider(Slider slider)
         {
-            return _sliderDal.Delete(slider);
+            _sliderDal.Delete(slider);
+            return _sliderDal.Save();
         }
     }
 }

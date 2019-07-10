@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SilkPlaster.BusinessLayer.Concrete.Result
 {
-    public class BusinessLayerResult<T> : IDisposable
+    public class BusinessLayerResult<T> 
     {
         public BusinessLayerResult()
         {
@@ -27,9 +27,5 @@ namespace SilkPlaster.BusinessLayer.Concrete.Result
             return Errors.Count > 0 ? true : false;
         }
 
-        public void Dispose()
-        {
-            this.Dispose();
-        }
     }
 }

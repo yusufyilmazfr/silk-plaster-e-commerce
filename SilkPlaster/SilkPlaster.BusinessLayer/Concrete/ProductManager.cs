@@ -33,20 +33,31 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 return _layerResult;
             }
 
+            if (product.Quantity <= 0)
+            {
+                product.InStock = false;
+                product.IsContinued = false;
+                product.Quantity = 0;
+            }
+            else
+            {
+                product.IsContinued = obj.IsContinued;
+                product.InStock = obj.InStock;
+                product.Quantity = obj.Quantity;
+            }
+
             product.Name = obj.Name;
             product.LongDescription = obj.LongDescription;
             product.ShortDescription = obj.ShortDescription;
             product.LastPrice = obj.LastPrice;
             product.NewPrice = obj.NewPrice;
-            product.FirstImage = obj.FirstImage;
-            product.IsContinued = obj.IsContinued;
             product.IsFeatured = obj.IsFeatured;
-            product.InStock = obj.InStock;
-            product.Quantity = obj.Quantity;
+            product.FirstImage = obj.FirstImage;
             product.AddedDate = obj.AddedDate;
             product.CategoryId = obj.CategoryId;
 
-            int count = _productDal.Update(product);
+            _productDal.Update(product);
+            int count = _productDal.Save();
 
             if (count == 0)
             {
@@ -57,7 +68,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public BusinessLayerResult<Product> Insert(Product obj)
         {
-            int count = _productDal.Insert(obj);
+            _productDal.Insert(obj);
+            int count = _productDal.Save();
 
             if (count > 0)
             {
@@ -83,7 +95,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public int RemoveProduct(Product product)
         {
-            return _productDal.Delete(product);
+            _productDal.Delete(product);
+            return _productDal.Save();
         }
 
         public List<Product> GetMostCommentedProducts(int productCount)

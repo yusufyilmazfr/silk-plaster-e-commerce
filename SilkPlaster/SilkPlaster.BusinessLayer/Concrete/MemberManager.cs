@@ -35,13 +35,15 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 return _layerResult;
             }
 
-            int insertCount = _memberDal.Insert(new Member
+            _memberDal.Insert(new Member
             {
                 FirstName = obj.FirstName,
                 LastName = obj.LastName,
                 Email = obj.Email,
                 Password = obj.Password
             });
+
+            int insertCount = _memberDal.Save();
 
             if (insertCount > 0)
             {
@@ -78,7 +80,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
             _layerResult.Result.Email = obj.Email;
             _layerResult.Result.Password = obj.Password;
 
-            int count = _memberDal.Update(_layerResult.Result);
+            _memberDal.Update(_layerResult.Result);
+            int count = _memberDal.Save();
 
             if (count == 0)
             {

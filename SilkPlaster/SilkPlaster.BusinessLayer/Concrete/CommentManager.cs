@@ -26,7 +26,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public BusinessLayerResult<Comment> AddComment(Comment comment)
         {
-            int count = _commentDal.Insert(comment);
+                _commentDal.Insert(comment);
+            int count = _commentDal.Save();
 
             if (count == 0)
             {
@@ -50,7 +51,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
             _layerResult.Result.IsValid = comment.IsValid;
             _layerResult.Result.StarCount = comment.StarCount;
 
-            int count = _commentDal.Update(_layerResult.Result);
+            _commentDal.Update(_layerResult.Result);
+            int count = _commentDal.Save();
 
             if (count == 0)
             {
@@ -77,7 +79,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public int RemoveComment(Comment comment)
         {
-            return _commentDal.Delete(comment);
+            _commentDal.Delete(comment);
+            return _commentDal.Save();
         }
     }
 }
