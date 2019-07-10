@@ -22,10 +22,9 @@ namespace SilkPlaster.DataAccessLayer.Concrete
             _objectSet = _context.Set<T>();
         }
 
-        public int Delete(T obj)
+        public void Delete(T obj)
         {
             _objectSet.Remove(obj);
-            return Save();
         }
 
         public T Find(Expression<Func<T, bool>> where)
@@ -43,7 +42,7 @@ namespace SilkPlaster.DataAccessLayer.Concrete
             return _objectSet.Where(where).ToList();
         }
 
-        public int Insert(T obj)
+        public void Insert(T obj)
         {
             if (obj is EntityBase)
             {
@@ -52,7 +51,7 @@ namespace SilkPlaster.DataAccessLayer.Concrete
             }
 
             _objectSet.Add(obj);
-            return Save();
+
         }
 
         public IQueryable<T> ListQueryable()
@@ -62,18 +61,36 @@ namespace SilkPlaster.DataAccessLayer.Concrete
 
         public int Save()
         {
-            return _context.SaveChanges();
+            try
+            {
+                DbContextTransaction transaction = _context.Database.BeginTransaction();
+
+                try
+                {
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TO DO
+            }
+            return 0;
         }
 
-        public int Update(T obj)
+        public void Update(T obj)
         {
             if (obj is EntityBase)
             {
                 EntityBase o = obj as EntityBase;
                 o.ModifiedDate = DateTime.Now;
             }
-
-            return Save();
         }
     }
 }
