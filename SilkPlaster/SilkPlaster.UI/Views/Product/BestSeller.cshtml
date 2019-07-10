@@ -78,7 +78,18 @@
                                     </div>
                                 </div>
                                 <div class="txt">
-                                    <strong class="title"><a href="/Product/Details/@item.Id">@item.Name.Substring(0, 25)</a></strong>
+                                    <strong class="title">
+                                        <a href="/Product/Details/@item.Id">
+                                            @if (item.Name.Length > 25)
+                                            {
+                                                <span>@item.Name.Substring(0, 25)</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@item.Name</span>
+                                            }
+                                        </a>
+                                    </strong>
                                     <span class="price"><span>@item.NewPrice.ToString("c")</span></span>
                                 </div>
                             </div><!-- mt product1 center end here -->

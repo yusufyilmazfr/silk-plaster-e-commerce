@@ -82,46 +82,61 @@
     <section class="mt-detail-sec style1 wow fadeInUp" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
         <div class="container">
             <div class="row">
+                <form action="/Basket/Confirm" method="POST">
 
-                <div class="col-xs-12  col-sm-6">
-                    <h2>Ödeme Yöntemi</h2>
-                    @Html.DropDownList("PaymentType",
-                    EnumHelper.GetSelectList(typeof(EnumPaymentTypes)) ,
-                    "Bir Ödeme Yöntemi Seçin",
-                    new { @class = "form-control" })
+                    @Html.ValidationSummary(false)
 
-                </div>
+                    <div class="col-xs-12  col-sm-6">
+                        <div class="row col-xs-10 col-xs-offset-1">
+                            <div style="margin-top:20px">
+                                <h2 style="margin:0;padding:0;">Ödeme Yöntemi</h2>
+                                <br />
+                                @Html.DropDownList("paymentType",
+                                EnumHelper.GetSelectList(typeof(EnumPaymentTypes)) ,
+                                "Bir Ödeme Yöntemi Seçin",
+                                new { @class = "form-control"})
+                            </div>
+                            <div style="margin-top:20px">
+                                <h2 style="margin:0;padding:0;">Sipariş Adresi</h2>
 
-                <div class="col-xs-12 col-sm-6">
-                    <h2>CART TOTAL</h2>
-                    <ul class="list-unstyled block cart">
-                        <li>
-                            <div class="txt-holder">
-                                <strong class="title sub-title pull-left">CART SUBTOTAL</strong>
-                                <div class="txt pull-right">
-                                    <span>@Model.Sum(i => i.Product.NewPrice * i.Quantity).ToString("c")</span>
-                                </div>
+                                @Html.DropDownList("AddressId", (IEnumerable<SelectListItem>)ViewBag.Addresses, new { @class = "form-control" })
                             </div>
-                        </li>
-                        <li>
-                            <div class="txt-holder">
-                                <strong class="title sub-title pull-left">SHIPPING</strong>
-                                <div class="txt pull-right">
-                                    <strong>Free Shipping</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6" style="margin-top:20px">
+                        <h2>TOPLAM TUTAR</h2>
+                        <ul class="list-unstyled block cart">
+                            <li>
+                                <div class="txt-holder">
+                                    <strong class="title sub-title pull-left">TOTAL ÜRÜN FİYATI</strong>
+                                    <div class="txt pull-right">
+                                        <span>@Model.Sum(i => i.Product.NewPrice * i.Quantity).ToString("c")</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li style="border-bottom: none;">
-                            <div class="txt-holder">
-                                <strong class="title sub-title pull-left">CART TOTAL</strong>
-                                <div class="txt pull-right">
-                                    <span>@Model.Sum(i => i.Product.NewPrice * i.Quantity).ToString("c")</span>
+                            </li>
+                            <li>
+                                <div class="txt-holder">
+                                    <strong class="title sub-title pull-left">KARGO</strong>
+                                    <div class="txt pull-right">
+                                        <strong>Ücretsiz Kargo!</strong>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <a href="#" class="process-btn">Siparişe Devam Et <i class="fa fa-arrow-right"></i></a>
-                </div>
+                            </li>
+                            <li style="border-bottom: none;">
+                                <div class="txt-holder">
+                                    <strong class="title sub-title pull-left">SİPARİŞ TOPLAM</strong>
+                                    <div class="txt pull-right">
+                                        <span>@Model.Sum(i => i.Product.NewPrice * i.Quantity).ToString("c")</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <button type="submit" class="btn process-btn">Siparişe Devam Et <i class="fa fa-arrow-right"></i></button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </section>
