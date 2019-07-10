@@ -19,8 +19,7 @@ namespace SilkPlaster.Entities
         StringLength(25, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
         public string OrderNumber { get; set; }
 
-        [Required,
-        DisplayName("Açıklama"),
+        [DisplayName("Açıklama"),
         StringLength(250, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
         public string Description { get; set; }
 
@@ -32,6 +31,10 @@ namespace SilkPlaster.Entities
 
         public EnumOrderState OrderState { get; set; }
         public EnumPaymentTypes PaymentType { get; set; }
+
+        [DisplayName("Kargo Takip Numarası")]
+        [Required(AllowEmptyStrings =false)]
+        public string CargoTrackingNumber { get; set; }
 
         public string PaymentId { get; set; }
         public string PaymentToken { get; set; }
