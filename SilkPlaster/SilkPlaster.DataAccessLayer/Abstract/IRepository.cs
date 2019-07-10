@@ -18,11 +18,11 @@ namespace SilkPlaster.DataAccessLayer.Abstract
 
         T Find(Expression<Func<T, bool>> where);
 
-        int Insert(T obj);
+        void Insert(T obj);
 
-        int Update(T obj);
+        void Update(T obj);
 
-        int Delete(T obj);
+        void Delete(T obj);
 
         int Save();
     }

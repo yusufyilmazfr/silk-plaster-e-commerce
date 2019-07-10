@@ -10,5 +10,6 @@ namespace SilkPlaster.DataAccessLayer.Abstract
     public interface IBasketDal : IRepository<Basket>
     {
         List<Basket> GetBasketItemsByMemberId(int memberId);
+        void DeleteRange(List<int> IdList);
     }
 }

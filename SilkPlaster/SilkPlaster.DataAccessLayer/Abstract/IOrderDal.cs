@@ -9,6 +9,7 @@ namespace SilkPlaster.DataAccessLayer.Abstract
 {
     public interface IOrderDal : IRepository<Order>
     {
-
+        List<Order> GetAllOrdersWithDetails();
+        Order GetOrderDetailById(int Id);
     }
 }
