@@ -11,6 +11,15 @@ namespace SilkPlaster.DataAccessLayer.Concrete
 {
     public class BasketDal : EntityRepository<Basket>, IBasketDal
     {
+        public void DeleteRange(List<int> IdList)
+        {
+            foreach (var item in IdList)
+            {
+                Basket basket = Find(i => i.Id == item);
+                Delete(basket);
+            }
+        }
+
         public List<Basket> GetBasketItemsByMemberId(int memberId)
         {
             return ListQueryable()

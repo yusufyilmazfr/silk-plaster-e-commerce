@@ -1,11 +1,14 @@
 ﻿using SilkPlaster.BusinessLayer;
 using SilkPlaster.BusinessLayer.Abstract;
 using SilkPlaster.BusinessLayer.Concrete.Result;
+using SilkPlaster.Common.EntityValueObjects;
+using SilkPlaster.Common.HelperClasses;
 using SilkPlaster.Common.OrderMessageObj;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
+using SilkPlaster.UI.Models.Helpers.Image;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,13 +20,17 @@ namespace SilkPlaster.UI.Controllers
 {
     public class BasketController : Controller
     {
-        IWishListManager _wishListManager { get; set; }
-        IBasketManager _basketManager { get; set; }
+        private IWishListManager _wishListManager { get; set; }
+        private IBasketManager _basketManager { get; set; }
+        private IAddressManager _addressManager { get; set; }
+        private IOrderManager _orderManager { get; set; }
 
-        public BasketController(IWishListManager wishListManager, IBasketManager basketManager)
+        public BasketController(IWishListManager wishListManager, IBasketManager basketManager, IAddressManager addressManager, IOrderManager orderManager)
         {
             _wishListManager = wishListManager;
             _basketManager = basketManager;
+            _addressManager = addressManager;
+            _orderManager = orderManager;
         }
 
         [MemberAuthFilter]
@@ -52,13 +59,68 @@ namespace SilkPlaster.UI.Controllers
                     }
                 }).ToList();
 
+            ViewBag.Addresses = new SelectList(_addressManager.GetAddressesWithMemberId(loggedInMemberId), "Id", "Name");
+
             return PartialView(baskets);
         }
 
         [HttpPost]
-        public ActionResult Confirm()
+        [MemberAuthFilter]
+        public ActionResult Confirm(int? paymentType, int? addressId)
         {
-            return PartialView();
+            if (ObjectHelper.ObjectIsNull(paymentType) || ObjectHelper.ObjectIsNull(addressId))
+            {
+                ModelState.AddModelError("", "Lütfen geçerli değerler giriniz!");
+                return View("Index");
+            }
+
+            int loggedInMemberId = CurrentSession.Member.Id;
+            bool paymentTypeIsExists = Enum.IsDefined(typeof(EnumPaymentTypes), paymentType.Value);
+
+            Address address = _addressManager.GetAddressWithMemberId(addressId.Value, loggedInMemberId);
+
+            if (ObjectHelper.ObjectIsNull(address) || !paymentTypeIsExists)
+            {
+                ModelState.AddModelError("", "Lütfen geçerli değerler giriniz!");
+                return View("Index");
+            }
+
+            EnumPaymentTypes currentPaymentType = EnumHelper.ConvertValueToEnumObject<EnumPaymentTypes, int>(paymentType.Value);
+
+            OrderViewModel order = new OrderViewModel()
+            {
+                OrderState = (int)EnumOrderState.Waiting,
+                AddressId = addressId.Value,
+                Description = "xd",
+                MemberId = loggedInMemberId,
+                OrderNumber = ImageHelper.CreateUniqueString()
+            };
+
+            order.OrderDetails = new List<OrderDetailsViewModel>();
+
+            foreach (var item in _basketManager.GetBasketItemsByMemberId(loggedInMemberId))
+            {
+                order.OrderDetails.Add(new OrderDetailsViewModel()
+                {
+                    Id = item.Id,
+                    ProductId = item.ProductId,
+                    Price = item.Product.NewPrice,
+                    Quantity = item.ProductCount,
+                });
+            }
+
+            order.PaymentType = (int)currentPaymentType;
+            BusinessLayerResult<Order> layerResult = _orderManager.CheckOrder(order);
+
+            if (!layerResult.HasError())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
+
+
+            return View("Index");
         }
 
         [MemberAuthFilter]
@@ -156,8 +218,6 @@ namespace SilkPlaster.UI.Controllers
             }
             return Json(new { result = true });
         }
-
-
 
         [MemberAuthFilter]
         public JsonResult Remove(int productId)

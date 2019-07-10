@@ -41,7 +41,7 @@ namespace SilkPlaster.DataAccessLayer.Concrete
         {
             return ListQueryable()
                     .Include(i => i.Comments)
-                    .Where(i => i.InStock && i.IsFeatured && i.IsContinued)
+                    .Where(i => i.InStock && i.IsContinued)
                     .OrderByDescending(i => i.AddedDate)
                     .Take(productCount)
                     .ToList();
