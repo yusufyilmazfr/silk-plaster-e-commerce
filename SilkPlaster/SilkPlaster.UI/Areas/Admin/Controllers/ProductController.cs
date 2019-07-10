@@ -124,7 +124,7 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
             {
                 product.LongDescription = HttpUtility.HtmlEncode(product.LongDescription);
 
-                ImageUploadResultMessage message = ImageHelper.Save(file, Server.MapPath("~"));
+                ImageUploadResultMessage message = ImageHelper.Save(file, Server.MapPath("~/images/products/"));
 
                 if (message.Result)
                 {

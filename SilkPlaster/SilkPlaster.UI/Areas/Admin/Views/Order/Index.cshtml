@@ -1,0 +1,108 @@
+﻿@model IEnumerable<SilkPlaster.Entities.Order>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/admin-navbar-footer.cshtml";
+}
+
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="icon-gradient pe-7s-cart bg-happy-itmeo"></i>
+                </div>
+                <div>
+                    Siparişler
+                    <div class="page-title-subheading">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    Siparişler
+                </div>
+                <div class="table-responsive">
+                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Sipariş Numarası</th>
+                                <th>Kullanıcı</th>
+                                <th class="text-center">Adres</th>
+                                <th class="text-center">Sipariş Durumu</th>
+                                <th class="text-center">Ödeme Yöntemi</th>
+                                <th class="text-center">Kargo Takip No.</th>
+                                <th class="text-center">Toplam Tutar</th>
+                                <th class="text-center">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td class="text-center text-muted">@order.OrderNumber</td>
+                                    <td>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left flex2">
+                                                    <div class="widget-heading">
+                                                        @order.Member.FirstName @order.Member.LastName
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        @order.Address.City.Name/@order.Address.County.Name
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="badge badge-warning">
+                                            @order.OrderState
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="badge badge-warning">
+                                            @order.PaymentType
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="text-center">
+                                        <div class="badge badge-info">
+                                            @order.CargoTrackingNumber
+                                        </div>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <div class="badge badge-info">
+                                            @{
+                                                <span>
+                                                    @order.OrderDetails.Sum(i => i.Quantity * i.Price).ToString("c")
+                                                </span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="mb-1 mr-1 btn-transition btn btn-outline-info" href="/Admin/Order/Edit/@order.Id">
+                                            Güncelle
+                                        </a>
+
+                                        <a class="mb-1 mr-1 btn-transition btn btn-outline-primary" href="/Admin/Order/Details/@order.Id">
+                                            Detay
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
