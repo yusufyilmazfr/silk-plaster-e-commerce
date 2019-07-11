@@ -9,8 +9,8 @@ namespace SilkPlaster.Common.OrderMessageObj
 {
     public enum EnumPaymentTypes
     {
-        [Display(Name = "Kredi Kartı")]
-        CreditCart = 1,
+        //[Display(Name = "Kredi Kartı")]
+        //CreditCart = 1,
 
         [Display(Name = "Kapıda Ödeme")]
         PayAtTheDoor = 2,
