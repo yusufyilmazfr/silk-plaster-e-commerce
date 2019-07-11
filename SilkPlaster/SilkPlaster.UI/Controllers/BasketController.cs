@@ -120,7 +120,7 @@ namespace SilkPlaster.UI.Controllers
             layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
 
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [MemberAuthFilter]
