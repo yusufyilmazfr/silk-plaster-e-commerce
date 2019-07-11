@@ -1,0 +1,206 @@
+﻿@model SilkPlaster.Entities.Order
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/member-navbar-footer.cshtml";
+}
+<style>
+    *[disabled] {
+        background: transparent !important;
+    }
+</style>
+<main id="mt-main">
+    <section class="mt-about-sec" style="padding-bottom: 0;"></section>
+    <div class="row">
+        <div class="col-xs-12 col-md-9 col-md-offset-1">
+
+
+            <fieldset>
+                <h4>
+                    <b style="text-decoration:underline">
+                        Kullanıcı Bilgileri
+                    </b>
+                </h4>
+                <div class="form-group">
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.FirstName)
+                        @Html.TextBoxFor(model => model.Address.FirstName, new { @class = "form-control", disabled = "disabled" })
+
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.LastName)
+                        @Html.TextBoxFor(model => model.Address.LastName, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Member.Email)
+                        @Html.TextBoxFor(model => model.Member.Email, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.PhoneNumber)
+                        @Html.TextBoxFor(model => model.Address.PhoneNumber, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+                </div>
+            </fieldset>
+
+            <br />
+
+            <fieldset>
+                <h4>
+                    <b style="text-decoration:underline">
+                        Adres Bilgileri
+                    </b>
+                </h4>
+                <div class="form-group">
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.City.Name)
+                        @Html.TextBoxFor(model => model.Address.City.Name, new { @class = "form-control", disabled = "disabled" })
+
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.County.Name)
+                        @Html.TextBoxFor(model => model.Address.County.Name, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.Description)
+                        @Html.TextAreaFor(model => model.Address.Description, new { @class = "form-control", disabled = "disabled", rows = "6" })
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <h4>
+                    <b style="text-decoration:underline">
+                        Fatura Bilgileri
+                    </b>
+                </h4>
+                <div class="form-group">
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.CitizenshipNumber)
+                        @Html.TextBoxFor(model => model.Address.CitizenshipNumber, new { @class = "form-control", disabled = "disabled" })
+
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.CompanyName)
+                        @Html.TextBoxFor(model => model.Address.CompanyName, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.TaxAdministration)
+                        @Html.TextBoxFor(model => model.Address.TaxAdministration, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.Address.TaxNumber)
+                        @Html.TextBoxFor(model => model.Address.TaxNumber, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+                </div>
+            </fieldset>
+
+            <br />
+
+            <fieldset>
+                <h4>
+                    <b style="text-decoration:underline">
+                        Ödeme Bilgileri
+                    </b>
+                </h4>
+                <div class="form-group">
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.PaymentType)
+                        @Html.TextBoxFor(model => model.PaymentType, new { @class = "form-control", disabled = "disabled" })
+
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.OrderState)
+                        @Html.TextBoxFor(model => model.OrderState, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        @Html.LabelFor(model => model.CargoTrackingNumber)
+                        @Html.TextBoxFor(model => model.CargoTrackingNumber, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <label>Toplam Tutar</label>
+                        <input type="text" disabled value="@Model.OrderDetails.Sum(x=> x.Price*x.Quantity).ToString("c")" class="form-control" />
+                    </div>
+                </div>
+            </fieldset>
+
+            <br />
+            <br />
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    <h4>
+                        <b style="text-decoration:underline">
+                            Sipariş Detayı
+                        </b>
+                    </h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Ürün Numarası</th>
+                                <th>Ürün Fotoğrafı</th>
+                                <th>Ürün Adı</th>
+                                <th class="text-center">Fiyatı</th>
+                                <th class="text-center">Adeti</th>
+                                <th class="text-center">Ürün Toplam</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                    <td width="20" class="text-center text-muted">@item.ProductId</td>
+                                    <td>
+                                        <img src="~/images/products/@item.Product.FirstImage" alt="@item.Product.Name" style="width:100px !important" />
+                                    </td>
+
+                                    <td>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left flex2">
+                                                    <div class="widget-heading">
+                                                        <span>
+                                                            @if (item.Product.Name.Length > 30)
+                                                            {
+                                                                <span>@item.Product.Name.Substring(0, 30)..</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@item.Product.Name</span>
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+
+                                    <td class="text-center">
+                                        @item.Price.ToString("c")
+                                    </td>
+                                    <td class="text-center">
+                                        @item.Quantity
+                                    </td>
+                                    <td class="text-center">
+                                        <span>@((item.Price * item.Quantity).ToString("c"))</span>
+                                    </td>
+
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <section class="mt-about-sec" style="padding-bottom: 0;"></section>
+</main>

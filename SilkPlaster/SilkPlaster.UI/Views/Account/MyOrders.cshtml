@@ -1,0 +1,48 @@
+﻿@model List<SilkPlaster.Entities.Order>
+@{
+    ViewBag.Title = "MyOrders";
+    Layout = "~/Views/Shared/member-navbar-footer.cshtml";
+}
+
+
+<main id="mt-main">
+    <section class="mt-about-sec" style="padding-bottom: 0;"></section>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            <div class="bs-example table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Sipariş Numarası</th>
+                            <th>Sipariş Durumu</th>
+                            <th>Sipariş Tarihi</th>
+                            <th>Kargo Takip No</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <th scope="row">@(i + 1)</th>
+                                <td>@Model[i].OrderNumber</td>
+                                <td>@Model[i].OrderState</td>
+                                <td>@Model[i].AddedDate</td>
+                                <td>@Model[i].CargoTrackingNumber</td>
+                                <td width="100">
+                                    <a href="/Account/OrderDetail/@Model[i].Id" class="btn btn-xs btn-info">Görüntüle</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <section class="mt-about-sec" style="padding-bottom: 0;"></section>
+
+</main>

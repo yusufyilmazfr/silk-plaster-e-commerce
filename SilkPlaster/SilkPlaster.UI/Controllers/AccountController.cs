@@ -23,13 +23,15 @@ namespace SilkPlaster.UI.Controllers
         private IAddressManager _addressManager { get; set; }
         private ICityManager _cityManager { get; set; }
         private ICountyManager _countyManager { get; set; }
+        private IOrderManager _orderManager { get; set; }
 
-        public AccountController(IMemberManager memberManager, IAddressManager addressManager, ICityManager cityManager, ICountyManager countyManager)
+        public AccountController(IMemberManager memberManager, IAddressManager addressManager, ICityManager cityManager, ICountyManager countyManager, IOrderManager orderManager)
         {
             _memberManager = memberManager;
             _addressManager = addressManager;
             _cityManager = cityManager;
             _countyManager = countyManager;
+            _orderManager = orderManager;
         }
 
         [MemberAuthFilter]
@@ -107,20 +109,18 @@ namespace SilkPlaster.UI.Controllers
         [MemberAuthFilter]
         public ActionResult EditMyInformation()
         {
-            //int loggedInMemberId = CurrentSession.Member.Id;
+            int loggedInMemberId = CurrentSession.Member.Id;
 
-            //MemberDetailsModel model = _memberManager
-            //    .ListQueryable()
-            //    .Where(i => i.Id == loggedInMemberId)
-            //    .Select(i => new MemberDetailsModel
-            //    {
-            //        FirstName = i.FirstName,
-            //        LastName = i.LastName,
-            //        Email = i.Email
-            //    })
-            //    .FirstOrDefault();
+            Member member = _memberManager.GetMemberById(loggedInMemberId);
 
-            return View(/*model*/);
+            MemberDetailsModel model = new MemberDetailsModel()
+            {
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                Email = member.Email
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -195,6 +195,37 @@ namespace SilkPlaster.UI.Controllers
             }
 
             return View(model);
+        }
+
+        [MemberAuthFilter]
+        public ActionResult MyOrders()
+        {
+            int loggedInMemberId = CurrentSession.Member.Id;
+
+            List<Order> orders = _orderManager.GetOrdersByMemberId(loggedInMemberId);
+
+            return View(orders);
+        }
+
+        [MemberAuthFilter]
+        public ActionResult OrderDetail(int? Id)
+        {
+            if (Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            int loggedInMemberId = CurrentSession.Member.Id;
+
+            Order order = _orderManager.GetOrderDetailByMemberId(Id.Value, loggedInMemberId);
+
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            return View(order);
         }
 
         [MemberAuthFilter]
