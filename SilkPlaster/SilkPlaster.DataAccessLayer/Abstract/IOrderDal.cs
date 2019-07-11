@@ -11,5 +11,6 @@ namespace SilkPlaster.DataAccessLayer.Abstract
     {
         List<Order> GetAllOrdersWithDetails();
         Order GetOrderDetailById(int Id);
+        Order GetOrderDetailMemberId(int orderId, int memberId);
     }
 }

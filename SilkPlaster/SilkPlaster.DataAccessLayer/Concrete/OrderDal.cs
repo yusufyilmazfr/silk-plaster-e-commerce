@@ -19,6 +19,7 @@ namespace SilkPlaster.DataAccessLayer.Concrete
                     .Include(i => i.Address)
                     .Include(i => i.Address.City)
                     .Include(i => i.Address.County)
+                    .OrderByDescending(i => i.AddedDate)
                     .ToList();
         }
 
@@ -26,6 +27,22 @@ namespace SilkPlaster.DataAccessLayer.Concrete
         {
             return ListQueryable()
                     .Where(i => i.Id == Id)
+                    .Include(i => i.Address)
+                    .Include(i => i.Address.City)
+                    .Include(i => i.Address.County)
+                    .Include(i => i.Member)
+                    .Include(i => i.OrderDetails)
+                    .Include(i => i.OrderDetails.Select(k => k.Product))
+                    .FirstOrDefault();
+        }
+
+        public Order GetOrderDetailMemberId(int orderId, int memberId)
+        {
+            return ListQueryable()
+                    .Where(i => i.Id == orderId && i.MemberId == memberId)
+                    .Include(i => i.Address)
+                    .Include(i => i.Address.City)
+                    .Include(i => i.Address.County)
                     .Include(i => i.Member)
                     .Include(i => i.OrderDetails)
                     .Include(i => i.OrderDetails.Select(k => k.Product))
