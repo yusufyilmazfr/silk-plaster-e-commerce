@@ -29,7 +29,7 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
             if (ObjectHelper.ObjectIsNull(product))
             {
-                _layerResult.AddError(ErrorMessageCode.ObjectNotFound, "Böyle bir kategori bulunmamaktadır!");
+                _layerResult.AddError(ErrorMessageCode.ObjectNotFound, "Böyle bir ürün bulunmamaktadır!");
                 return _layerResult;
             }
 
@@ -57,6 +57,7 @@ namespace SilkPlaster.BusinessLayer.Concrete
             product.CategoryId = obj.CategoryId;
 
             _productDal.Update(product);
+
             int count = _productDal.Save();
 
             if (count == 0)
@@ -77,6 +78,14 @@ namespace SilkPlaster.BusinessLayer.Concrete
             }
             return _layerResult;
         }
+
+        //private BusinessLayerResult<Product> ChangeProductCount(int productId, int productCount)
+        //{
+        //    Product product = GetProductById(productId);
+        //    product.Quantity += productCount;
+
+        //    return Update(product);
+        //}
 
         public Product GetProductById(int Id)
         {
@@ -133,5 +142,6 @@ namespace SilkPlaster.BusinessLayer.Concrete
         {
             return _productDal.GetBestSellers(productCount);
         }
+
     }
 }

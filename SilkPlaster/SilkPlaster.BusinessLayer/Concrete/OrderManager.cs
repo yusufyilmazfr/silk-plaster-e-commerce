@@ -19,13 +19,15 @@ namespace SilkPlaster.BusinessLayer.Concrete
     {
         private IOrderDal _orderDal { get; set; }
         private IBasketDal _basketDal { get; set; }
+        private IProductManager _productManager { get; set; }
 
         public BusinessLayerResult<Order> _layerResult { get; set; }
 
-        public OrderManager(IOrderDal orderDal, IBasketManager basketManager, IBasketDal basketDal, IProductDal productDal)
+        public OrderManager(IOrderDal orderDal, IBasketManager basketManager, IBasketDal basketDal, IProductManager productManager)
         {
             _orderDal = orderDal;
             _basketDal = basketDal;
+            _productManager = productManager;
             _layerResult = new BusinessLayerResult<Order>();
         }
 
@@ -95,6 +97,96 @@ namespace SilkPlaster.BusinessLayer.Concrete
         public Order GetOrderDetailById(int Id)
         {
             return _orderDal.GetOrderDetailById(Id);
+        }
+
+        public BusinessLayerResult<Order> ChangeTrackingNumberAndState(int orderId, string orderTrackingNumber, EnumOrderState newOrderState)
+        {
+            _layerResult.Result = GetOrderDetailById(orderId);
+
+            EnumOrderState lastOrdeState = _layerResult.Result.OrderState;
+
+            if (ObjectHelper.ObjectIsNull(newOrderState))
+                _layerResult.AddError(ErrorMessageCode.ValuesNotCorrect, "Böyle bir sipariş tipi bulunmamaktadır!");
+
+            if (ObjectHelper.ObjectIsNull(_layerResult.Result))
+                _layerResult.AddError(ErrorMessageCode.ObjectNotFound, "Böyle bir sipariş bulunmamaktadır!");
+
+            if (_layerResult.HasError())
+                return _layerResult;
+
+
+            if (IncreaseTheProductCount(lastOrdeState, newOrderState))
+            {
+                var orderDetails = _layerResult.Result.OrderDetails;
+
+                foreach (var item in orderDetails)
+                {
+                    Product product = _productManager.GetProductById(item.ProductId);
+                    product.Quantity += item.Quantity;
+                    var tempResult = _productManager.Update(product);
+
+                    tempResult.Errors.ForEach(x => _layerResult.AddError(x.ErrorCode, x.ErrorMessage));
+                }
+            }
+
+            else if (DecreaseTheProductCount(lastOrdeState, newOrderState))
+            {
+                var orderDetails = _layerResult.Result.OrderDetails;
+
+                foreach (var item in orderDetails)
+                {
+                    Product product = _productManager.GetProductById(item.ProductId);
+                    product.Quantity -= item.Quantity;
+                    var tempResult = _productManager.Update(product);
+
+                    tempResult.Errors.ForEach(x => _layerResult.AddError(x.ErrorCode, x.ErrorMessage));
+                }
+            }
+
+            if (_layerResult.HasError())
+                return _layerResult;
+
+
+            _layerResult.Result.CargoTrackingNumber = orderTrackingNumber;
+            _layerResult.Result.OrderState = newOrderState;
+
+            _orderDal.Update(_layerResult.Result);
+            int count = _orderDal.Save();
+
+            if (count == 0)
+                _layerResult.AddError(ErrorMessageCode.FailedToModifiedRecord, "Sipariş güncellenemedi!");
+
+            return _layerResult;
+        }
+
+        private bool IncreaseTheProductCount(EnumOrderState lastOrdeState, EnumOrderState newOrderState)
+        {
+            //will be refactoring here for variable name:))
+
+            bool x = (EnumOrderState.Canceled == newOrderState || EnumOrderState.Dispatch == newOrderState);
+            bool y = (EnumOrderState.Preparing == lastOrdeState || EnumOrderState.SendToCargo == lastOrdeState || EnumOrderState.Completed == lastOrdeState);
+
+            return x && y;
+        }
+
+        private bool DecreaseTheProductCount(EnumOrderState lastOrdeState, EnumOrderState newOrderState)
+        {
+            //will be refactoring here for variable name :))
+
+            bool x = (EnumOrderState.Waiting == lastOrdeState || EnumOrderState.Dispatch == lastOrdeState || EnumOrderState.Canceled == lastOrdeState);
+            bool y = (EnumOrderState.Preparing == newOrderState || EnumOrderState.SendToCargo == newOrderState || EnumOrderState.Completed == newOrderState);
+
+            return x && y;
+        }
+
+        public List<Order> GetOrdersByMemberId(int Id)
+        {
+            return _orderDal.GetAll(i => i.MemberId == Id);
+        }
+
+        public Order GetOrderDetailByMemberId(int orderId, int memberId)
+        {
+            return _orderDal.GetOrderDetailMemberId(orderId, memberId);
         }
     }
 }
