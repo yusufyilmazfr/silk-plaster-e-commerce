@@ -1,118 +1,81 @@
-﻿@model SilkPlaster.Entities.Order
-
+﻿@using SilkPlaster.Common.OrderMessageObj
+@model SilkPlaster.Entities.Order
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/admin-navbar-footer.cshtml";
 }
 
-<h2>Edit</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Order</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="icon-gradient pe-7s-cart bg-happy-itmeo"></i>
+                </div>
+                <div>
+                    Sipariş Düzenleme
+                    <div class="page-title-subheading">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.OrderNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OrderNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AddressId, "AddressId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("AddressId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AddressId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MemberId, "MemberId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("MemberId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.MemberId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.OrderState, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.OrderState, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OrderState, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PaymentType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.PaymentType, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PaymentType, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PaymentId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PaymentId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PaymentId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PaymentToken, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PaymentToken, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PaymentToken, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ConversationId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ConversationId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ConversationId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AddedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AddedDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AddedDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ModifiedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ModifiedDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ModifiedDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Sipariş</h5>
+                    @using (Html.BeginForm("Edit", "Order", FormMethod.Post))
+                    {
+                        @Html.ValidationSummary(false)
+
+                        <div class="scrollbar-container ps--active-y ps">
+
+                            <div class="row">
+
+                                @Html.HiddenFor(i => i.Id)
+                                @Html.HiddenFor(i => i.OrderNumber)
+
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="Name">Kargo Takip No</label>
+                                        @Html.TextBoxFor(model => model.OrderNumber, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="Name">Sipariş Durumu</label>
+                                        @Html.DropDownList("OrderState",
+                                EnumHelper.GetSelectList(typeof(EnumOrderState)) ,
+                                new { @class = "form-control"})
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="Name">Kargo Takip Numarası</label>
+                                        @Html.TextBoxFor(model => model.CargoTrackingNumber, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="mb-1 mr-1 btn-transition btn btn-outline-info">Güncelle</button>
+                        <a class="mb-1 mr-1 btn-transition btn btn-outline-alternate" href="/Admin/Order">Listeye Geri Dön</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+
+    </div>
+    <div class="row">
+    </div>
 </div>
+

@@ -26,7 +26,119 @@
 
 
     <div class="row">
+
         <div class="col-md-12">
+            <h5><b>Kullanıcı Bilgileri</b></h5>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Kullanıcı Adı</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.FirstName">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Kullanıcı Soyadı</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.LastName">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Telefon</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.PhoneNumber">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">E-mail</label>
+                        <input class="form-control" type="text" disabled value="@Model.Member.Email">
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <h5><b>Adres Bilgileri</b></h5>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">İl</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.City.Name">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">İlçe</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.County.Name">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Adres</label>
+                        <textarea class="form-control" disabled style="width:250px;height:150px;">@Model.Address.Description</textarea>
+
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <h5><b>Fatura Bilgileri</b></h5>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">T.C No:</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.CitizenshipNumber">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Firma Adı</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.CompanyName">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Vergi Dairesi</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.TaxAdministration">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Vergi Numarası</label>
+                        <input class="form-control" type="text" disabled value="@Model.Address.TaxNumber">
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <h5><b>Ödeme Bilgileri</b></h5>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Ödeme Yöntemi</label>
+                        <input class="form-control" type="text" disabled value="@Model.PaymentType">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Sipariş Durumu</label>
+                        <input class="form-control" type="text" disabled value="@Model.OrderState">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Kargo Takip Numarası</label>
+                        <input class="form-control" type="text" disabled value="@Model.CargoTrackingNumber">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="Name">Toplam Tutar</label>
+                        <input class="form-control" type="text" disabled value="@(Model.OrderDetails.Sum(i=>i.Price * i.Quantity).ToString("c"))">
+                    </div>
+                </div>
+            </div>
+
             <div class="main-card mb-3 card">
                 <div class="card-header">
                     Sipariş Detayı
@@ -47,7 +159,7 @@
                             @foreach (var item in Model.OrderDetails)
                             {
                                 <tr>
-                                    <td width="20" class="text-center text-muted">@item.Id</td>
+                                    <td width="20" class="text-center text-muted">@item.ProductId</td>
                                     <td>
                                         <img src="~/images/products/@item.Product.FirstImage" alt="@item.Product.Name" height="60" />
                                     </td>
@@ -91,3 +203,19 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Sipariş Açıklaması</h5>
+                    <div class="scrollbar-container ps--active-y ps">
+                        <p>
+                            @Model.Description
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="mb-1 mr-1 btn-transition btn btn-outline-alternate" href="/Admin/Order">Listeye Geri Dön</a>
+</div>

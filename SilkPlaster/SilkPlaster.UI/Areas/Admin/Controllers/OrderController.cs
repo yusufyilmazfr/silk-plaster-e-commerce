@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 
@@ -60,15 +61,20 @@ namespace SilkPlaster.UI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "OrderState")] Order order)
+        public ActionResult Edit(Order currentOrder)
         {
             if (ModelState.IsValid)
             {
-                //db.Entry(order).State = EntityState.Modified;
-                //db.SaveChanges();
-                //return RedirectToAction("Index");
+                BusinessLayerResult<Order> layerResult =
+                    _orderManager.ChangeTrackingNumberAndState(currentOrder.Id, currentOrder.CargoTrackingNumber, currentOrder.OrderState);
+
+                if (!layerResult.HasError())
+                    return RedirectToAction("Index");
+
+                layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
+
             }
-            return View(order);
+            return View(currentOrder);
         }
 
     }
