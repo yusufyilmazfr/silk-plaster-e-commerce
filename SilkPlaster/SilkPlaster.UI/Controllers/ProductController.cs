@@ -2,6 +2,7 @@
 using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Common.HelperClasses;
+using SilkPlaster.Common.SarchFiltering;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -88,8 +90,63 @@ namespace SilkPlaster.UI.Controllers
             return View(productDetails);
         }
 
-        public ActionResult Search(string q, int page = 1)
+        public ActionResult Search(ProductFilter filter, string q)
         {
+            filter.IsContinued = true;
+
+            //will be refactoring here :)
+
+            BinaryExpression binaryExpression = null;
+            Expression defaultExpression = Expression.Constant(true);
+
+            var personList = _productManager.GetProductsWithDetails();
+            var parameter = Expression.Parameter(typeof(Product));
+
+            var filterList = filter.GetType().GetProperties()
+                                   .Select(prop =>
+                                   new
+                                   {
+                                       name = prop.Name,
+                                       value = prop.GetValue(filter, null)
+
+                                   }).Where(x => x.value != null).ToList();
+
+            filterList.ForEach(item =>
+            {
+                binaryExpression = Expression.AndAlso(binaryExpression == null ? defaultExpression : binaryExpression, Expression.Equal
+                                                   (
+                                                       Expression.PropertyOrField(parameter, item.name),
+                                                       Expression.Constant(item.value)
+                                                   ));
+            });
+
+
+            var filteredName = "Name";
+
+            // contains method
+            System.Reflection.MethodInfo containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
+
+            // reference a field
+            var fieldExpression = Expression.PropertyOrField(parameter, filteredName);
+
+            // your value
+            var valueExpression = Expression.Constant(q ?? "");
+
+            binaryExpression = Expression.AndAlso(binaryExpression == null ? defaultExpression : binaryExpression, Expression.Call
+                (
+                    fieldExpression, containsMethod, valueExpression
+                ));
+
+
+            var finalExpression = Expression.Lambda<Func<Product, bool>>(binaryExpression, parameter);
+
+
+            //will be refactoring here, BAD CODE, create a extract method :(
+            var result = personList.AsQueryable().Where(finalExpression).ToList() as List<Product>;
+            //var result = personList.AsQueryable().Where(finalExpression).Where(i => i.Name.Contains(q ?? "")).ToList() as List<Product>;
+
+            #region last product search model
+
             //page = page < 1 ? 1 : page;
 
             //List<ProductDetailsModel> products = _productManager
@@ -116,7 +173,10 @@ namespace SilkPlaster.UI.Controllers
 
             //ViewBag.ProductCount = _productManager.GetAllProductCount();
 
-            return View(/*products*/);
+            #endregion
+
+
+            return View(result);
         }
 
         public PartialViewResult QuicklyViewProduct(int Id)
