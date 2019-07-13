@@ -15,6 +15,7 @@ namespace SilkPlaster.BusinessLayer.Abstract
         Product GetProductDetails(int productId);
         BusinessLayerResult<Product> Update(Product product);
         BusinessLayerResult<Product> Insert(Product obj);
+        List<Product> GetProductsWithDetails();
         List<Product> GetBestSellers(int productCount);
         List<Product> GetNewProducts(int productCount);
         List<Product> GetProductsWithCategoriesDesc();

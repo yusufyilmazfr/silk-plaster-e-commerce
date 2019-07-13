@@ -2,7 +2,7 @@
 using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Common.HelperClasses;
-using SilkPlaster.Common.SarchFiltering;
+using SilkPlaster.Common.SearchFiltering;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;

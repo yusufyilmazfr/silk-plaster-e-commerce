@@ -143,5 +143,9 @@ namespace SilkPlaster.BusinessLayer.Concrete
             return _productDal.GetBestSellers(productCount);
         }
 
+        public List<Product> GetProductsWithDetails()
+        {
+            return _productDal.GetProductsWithDetails();
+        }
     }
 }
