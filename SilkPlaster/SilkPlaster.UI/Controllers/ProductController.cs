@@ -7,6 +7,7 @@ using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
+using SilkPlaster.UI.Models.Helpers.Session;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,6 +19,7 @@ using System.Web.Mvc;
 
 namespace SilkPlaster.UI.Controllers
 {
+    [ValidateInput(false)]
     public class ProductController : Controller
     {
         private IProductManager _productManager { get; set; }
@@ -37,6 +39,7 @@ namespace SilkPlaster.UI.Controllers
             return View();
         }
 
+        [Route("{product}-{Id:int?}")]
         public ActionResult Details(int? Id)
         {
             if (Id == null)
@@ -246,7 +249,6 @@ namespace SilkPlaster.UI.Controllers
             return PartialView(products);
         }
 
-
         [ChildActionOnly]
         public PartialViewResult MixedFeaturedProducts()
         {
@@ -307,7 +309,7 @@ namespace SilkPlaster.UI.Controllers
         [ChildActionOnly]
         public PartialViewResult GetBestProducts()
         {
-            ViewBag.Title = "En Çok İncelenen Ürünler";
+            ViewBag.Title = "En Çok İncelenenler";
 
             List<ProductDetailsModel> products =
                 _productManager

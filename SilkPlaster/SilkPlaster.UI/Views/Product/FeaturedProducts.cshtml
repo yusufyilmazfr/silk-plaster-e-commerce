@@ -1,11 +1,12 @@
 ﻿@model List<SilkPlaster.UI.Models.ProductDetailsModel>
-@using SilkPlaster.UI.Models.Helpers
+@using SilkPlaster.UI.Models.Helpers.Session
+@using SilkPlaster.UI.Models.Helpers.Url
 
 <!-- mt producttabs start here -->
 <div class="mt-producttabs wow fadeInUp" data-wow-delay="0.4s">
     <!-- producttabs start here -->
     <ul class="producttabs">
-        <li><a href="#tab1" class="active">FEATURED</a></li>
+        <li><a href="#tab1" class="active">ÖNE ÇIKARILAN ÜRÜNLER</a></li>
         @*<li><a href="#tab2">LATEST</a></li>*@
         @*<li><a href="#tab3">BEST SELLER</a></li>*@
     </ul>
@@ -25,7 +26,7 @@
                             <div class="box">
                                 <div class="b1">
                                     <div class="b2">
-                                        <a href="/Product/Details/@item.Id">
+                                        <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
                                             <img src="~/images/products/@item.FirstImage" width="215" height="215" alt="@item.Name">
                                         </a>
                                         <span class="caption">
@@ -98,11 +99,19 @@
                             <div class="txt">
                                 @if (item.Name.Length > 30)
                                 {
-                                    <strong class="title"><a href="/Product/Details/@item.Id">@item.Name.Substring(0, 30)..</a></strong>
+                                    <strong class="title">
+                                        <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+                                            @item.Name.Substring(0, 30)..
+                                        </a>
+                                    </strong>
                                 }
                                 else
                                 {
-                                    <strong class="title"><a href="/Product/Details/@item.Id">@item.Name</a></strong>
+                                    <strong class="title">
+                                        <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+                                            @item.Name
+                                        </a>
+                                    </strong>
                                 }
                                 <span class="price">@*<i class="fa fa-eur"></i>*@ <span>@item.NewPrice.ToString("c")</span></span>
                             </div>

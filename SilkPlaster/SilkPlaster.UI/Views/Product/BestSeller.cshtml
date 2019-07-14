@@ -1,12 +1,12 @@
-﻿@using SilkPlaster.UI.Models.Helpers
+﻿@using SilkPlaster.UI.Models.Helpers.Session
+@using SilkPlaster.UI.Models.Helpers.Url
 @model List<SilkPlaster.UI.Models.ProductDetailsModel>
 
 <div class="mt-bestseller bg-grey text-center wow fadeInUp" data-wow-delay="0.4s">
     <div class="container">
         <div class="row">
             <div class="col-xs-12 mt-heading text-uppercase">
-                <h2 class="heading">BEST SELLER</h2>
-                <p>EXCEPTEUR SINT OCCAECAT</p>
+                <h3 class="heading">EN ÇOK SATILAN ÜRÜNLER</h3>
             </div>
         </div>
         <div class="row">
@@ -20,7 +20,7 @@
                                 <div class="box">
                                     <div class="b1">
                                         <div class="b2">
-                                            <a href="/Product/Details/@item.Id">
+                                            <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
                                                 <img src="~/images/products/@item.FirstImage" alt="@item.Name" width="275" height="285">
                                             </a>
                                             <span class="caption">
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="txt">
                                     <strong class="title">
-                                        <a href="/Product/Details/@item.Id">
+                                        <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
                                             @if (item.Name.Length > 25)
                                             {
                                                 <span>@item.Name.Substring(0, 25)</span>

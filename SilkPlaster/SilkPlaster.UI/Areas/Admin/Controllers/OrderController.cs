@@ -10,9 +10,11 @@ using SilkPlaster.BusinessLayer.Abstract;
 using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
+using SilkPlaster.UI.Models.Filters;
 
 namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class OrderController : Controller
     {
         private IOrderManager _orderManager { get; set; }

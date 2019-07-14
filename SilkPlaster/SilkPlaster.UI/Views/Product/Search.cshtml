@@ -1,5 +1,6 @@
 ﻿@using SilkPlaster.UI.Models
-@using SilkPlaster.UI.Models.Helpers
+@using SilkPlaster.UI.Models.Helpers.Url
+@using SilkPlaster.UI.Models.Helpers.Session
 @*@model List<SilkPlaster.UI.Models.ProductDetailsModel>*@
 @model List<SilkPlaster.Entities.Product>
 
@@ -32,7 +33,7 @@
                 <!-- shop-widget of the Page end here -->
                 <!-- shop-widget of the Page start here -->
                 <section class="shop-widget">
-                    <h2>HOT SALE</h2>
+                    <h2>EN ÇOK SATANLAR</h2>
                     <!-- mt product4 start here -->
                     <div class="mt-product4 mt-paddingbottom20">
                         <div class="img">
@@ -143,7 +144,9 @@
                                 <div class="box">
                                     <div class="b1">
                                         <div class="b2">
-                                            <a href="/Product/Details/@item.Id"><img src="~/images/products/@item.FirstImage" alt="@item.Name" width="275" height="290"></a>
+                                            <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+                                                <img src="~/images/products/@item.FirstImage" alt="@item.Name" width="275" height="290">
+                                            </a>
                                             <ul class="mt-stars">
                                                 @{
                                                     if (item.Comments.Count > 0)
@@ -205,7 +208,8 @@
                                 </div>
                                 <div class="txt">
                                     <strong class="title">
-                                        <a href="/Product/Details/@item.Id">
+                                        <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+
                                             @if (item.Name.Length > 25)
                                             {
                                                 <span>@item.Name.Substring(0, 25)...</span>
@@ -216,7 +220,7 @@
                                             }
                                         </a>
                                     </strong>
-                                    <span class="price"><i class="fa fa-eur"></i> <span>@item.NewPrice</span></span>
+                                    <span class="price"><span>@item.NewPrice.ToString("c")</span></span>
                                 </div>
                             </div><!-- mt product1 center end here -->
                         </li>
@@ -229,21 +233,21 @@
                 <nav class="mt-pagination">
                     <ul class="list-inline">
                         @*@if (Model.Count > 0)
-                        {
-                            double pageCount = System.Math.Ceiling(ViewBag.ProductCount / 12.0);
-
-                            for (int i = 1; i <= pageCount; i++)
                             {
-                                <li>
-                                    @{
-                                        string queryData = Request.QueryString["q"];
+                                double pageCount = System.Math.Ceiling(ViewBag.ProductCount / 12.0);
+
+                                for (int i = 1; i <= pageCount; i++)
+                                {
+                                    <li>
+                                        @{
+                                            string queryData = Request.QueryString["q"];
 
 
-                                        @Html.ActionLink(i.ToString(), "Search", new { @q = queryData, @page = i });
-                                    }
-                                </li>
-                            }
-                        }*@
+                                            @Html.ActionLink(i.ToString(), "Search", new { @q = queryData, @page = i });
+                                        }
+                                    </li>
+                                }
+                            }*@
                     </ul>
                 </nav><!-- mt pagination end here -->
             </div>

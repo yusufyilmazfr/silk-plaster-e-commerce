@@ -15,7 +15,7 @@ using SilkPlaster.UI.Models.Filters;
 
 namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
-    //[AdminAuthFilter]
+    [AdminAuthFilter]
     public class CategoryController : Controller
     {
         private ICategoryManager _categoryManager { get; set; }

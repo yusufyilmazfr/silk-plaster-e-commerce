@@ -1,5 +1,5 @@
 ﻿@using SilkPlaster.UI.Models
-@using SilkPlaster.UI.Models.Helpers
+@using SilkPlaster.UI.Models.Helpers.Session
 @model SilkPlaster.UI.Models.ProductDetailsModel
 
 <link href="~/css/rating.css" rel="stylesheet" />
@@ -64,9 +64,9 @@
                             <div class="detial-holder">
                                 <!-- Breadcrumbs of the Page -->
                                 @*<ul class="list-unstyled breadcrumbs">
-            <li><a href="#">Chairs <i class="fa fa-angle-right"></i></a></li>
-            <li>Products</li>
-        </ul>*@
+                                        <li><a href="#">Chairs <i class="fa fa-angle-right"></i></a></li>
+                                        <li>Products</li>
+                                    </ul>*@
                                 <!-- Breadcrumbs of the Page end -->
                                 <h2 style="word-wrap: break-word">@Model.Name</h2>
                                 <!-- Rank Rating of the Page -->
@@ -173,15 +173,11 @@
                         <div class="col-xs-12">
                             <ul class="mt-tabs text-center text-uppercase">
                                 <li><a href="#tab1" class="active">AÇIKLAMA</a></li>
-                                <li><a href="#tab2">BİLGİ</a></li>
                                 <li><a href="#tab3">YORUMLAR (@Model.Comments.Count)</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div id="tab1" class="y-break">
                                     @Html.Raw(HttpUtility.HtmlDecode(Model.LongDescription))
-                                </div>
-                                <div id="tab2" class="y-break">
-                                    @Model.LongDescription
                                 </div>
                                 <div id="tab3">
                                     <div class="product-comment">

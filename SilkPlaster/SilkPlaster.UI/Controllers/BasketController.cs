@@ -9,6 +9,7 @@ using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
 using SilkPlaster.UI.Models.Helpers.Image;
+using SilkPlaster.UI.Models.Helpers.Session;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -34,6 +35,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("sepetim")]
         public ActionResult Index()
         {
             return View();

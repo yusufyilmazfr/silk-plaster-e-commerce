@@ -26,7 +26,7 @@
                                 <td>@item.Name</td>
                                 <td>@item.Description</td>
                                 <td width="100">
-                                    <a href="/Account/EditAddress/@item.Id" class="btn btn-xs btn-info">Güncelle</a>
+                                    <a href="@Url.Action("EditAddress","Account",new {Id = item.Id})" class="btn btn-xs btn-info">Güncelle</a>
                                     <form action="/Account/DeleteAddress" onsubmit="return false" method="post" style="display:inline-block">
                                         <input type="hidden" name="Id" value="@item.Id" />
                                         <button type="submit" name="deleteAddress" data-id="@item.Id" class="btn btn-xs btn-danger">Sil</button>
@@ -48,7 +48,7 @@
 
                                 if (result.result) {
                                     ShowSweetAlert('success', 'Adres Başarıyla Silindi!', '');
-                                    
+
                                     setTimeout(function () {
                                         location.reload();
                                     }, 2000);
@@ -64,7 +64,7 @@
             </div>
             <div class="col-md-4" style="margin-bottom: 5px">
                 <a href="#">
-                    <a href="/Account/CreateNewAddress" class="btn btn-block w-100 y-b-n" style="background-color:transparent; border: 2px solid #ddd; outline:none">
+                    <a href="@Url.Action("CreateNewAddress","Account")" class="btn btn-block w-100 y-b-n" style="background-color:transparent; border: 2px solid #ddd; outline:none">
                         Adres Ekle
                     </a>
                 </a>

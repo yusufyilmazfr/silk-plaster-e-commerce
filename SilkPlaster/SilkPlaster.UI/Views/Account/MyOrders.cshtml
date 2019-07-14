@@ -33,7 +33,8 @@
                                 <td>@Model[i].AddedDate</td>
                                 <td>@Model[i].CargoTrackingNumber</td>
                                 <td width="100">
-                                    <a href="/Account/OrderDetail/@Model[i].Id" class="btn btn-xs btn-info">Görüntüle</a>
+                                    @*<a href="/Account/OrderDetail/@Model[i].Id" class="btn btn-xs btn-info">Görüntüle</a>*@
+                                    <a href="@Url.Action("OrderDetail","Account", new { Id=Model[i].Id})" class="btn btn-xs btn-info">Görüntüle</a>
                                 </td>
                             </tr>
                         }

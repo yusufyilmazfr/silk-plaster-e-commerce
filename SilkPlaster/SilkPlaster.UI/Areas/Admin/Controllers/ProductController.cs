@@ -18,7 +18,7 @@ using SilkPlaster.UI.Models.Helpers.Image;
 
 namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
-    //[AdminAuthFilter]
+    [AdminAuthFilter]
     public class ProductController : Controller
     {
         private IProductManager _productManager { get; set; }

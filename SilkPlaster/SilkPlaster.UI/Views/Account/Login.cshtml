@@ -44,7 +44,14 @@
                         <div class="mt-side-widget">
                             <header>
                                 <h2 style="margin: 0 0 5px;">GİRİŞ YAP</h2>
-                                <p>Hoş Geldin! Hesabıma Giriş Yap</p>
+                                <p>
+                                    Henüz bir hesabınız yok mu?
+                                    <b>
+                                        <a href="@Url.Action("Register","Account")">
+                                            Hızlıca Kaydolun!
+                                        </a>
+                                    </b>
+                                </p>
                             </header>
                             @using (Html.BeginForm("Login", "Account", FormMethod.Post))
                             {

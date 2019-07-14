@@ -1,4 +1,5 @@
-﻿@model List<SilkPlaster.UI.Models.ProductDetailsModel>
+﻿@using SilkPlaster.UI.Models.Helpers.Url
+@model List<SilkPlaster.UI.Models.ProductDetailsModel>
 
 <div class="col-xs-12 col-sm-6 col-md-4 mt-paddingbottomsm">
     <h3 class="heading">@ViewBag.Title</h3>
@@ -8,7 +9,7 @@
     {
         <div class="mt-product4 mt-paddingbottom20">
             <div class="img">
-                <a href="/Product/Details/@item.Id">
+                <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
                     <img alt="@item.Name" width="80" height="80" src="~/images/products/@item.FirstImage">
                 </a>
             </div>
@@ -16,11 +17,13 @@
                 <div class="frame">
                     @if (item.Name.Length > 25)
                     {
-                        <strong><a href="/Product/Details/@item.Id" class="y-break">@item.Name.Substring(0, 25)..</a></strong>
+                        <strong>
+                            <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })" class="y-break">@item.Name.Substring(0, 25)..</a>
+                        </strong>
                     }
                     else
                     {
-                        <strong><a href="/Product/Details/@item.Id" class="y-break">@item.Name</a></strong>
+                        <strong><a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })" class="y-break">@item.Name</a></strong>
                     }
 
                     @{

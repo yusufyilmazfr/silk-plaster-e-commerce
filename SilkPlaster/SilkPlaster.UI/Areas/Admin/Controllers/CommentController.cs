@@ -15,6 +15,7 @@ using SilkPlaster.UI.Models.Filters;
 
 namespace SilkPlaster.UI.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class CommentController : Controller
     {
         private ICommentManager _commentManager { get; set; }

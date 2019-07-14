@@ -6,6 +6,7 @@ using SilkPlaster.Entities;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;
+using SilkPlaster.UI.Models.Helpers.Session;
 using SilkPlaster.UI.Models.Session;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,10 @@ using System.Web.Mvc;
 
 namespace SilkPlaster.UI.Controllers
 {
+    [RoutePrefix("hesabim")]
+    [ValidateInput(false)]
     public class AccountController : Controller
     {
-
         private IMemberManager _memberManager { get; set; }
         private IAddressManager _addressManager { get; set; }
         private ICityManager _cityManager { get; set; }
@@ -35,26 +37,27 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("~/hesabim")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Route("giris-yap")]
         public ActionResult Login(string returnUrl = "/")
         {
+            if (CurrentSession.Member != null)
+                return RedirectToAction("Index");
+
             TempData["returnUrl"] = returnUrl;
 
             return View();
         }
 
+        [Route("giris-yap")]
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
-            if (CurrentSession.Member != null)
-            {
-                return RedirectToAction("Login");
-            }
-
             if (ModelState.IsValid)
             {
                 Member member = _memberManager.GetMemberWithEmailAndPassword(model.Email, model.Password);
@@ -81,12 +84,17 @@ namespace SilkPlaster.UI.Controllers
             return View(model);
         }
 
+        [Route("kayit-ol")]
         public ActionResult Register()
         {
+            if (CurrentSession.Member != null)
+                return RedirectToAction("Index");
+
             return View();
         }
 
         [HttpPost]
+        [Route("kayit-ol")]
         public ActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -99,6 +107,16 @@ namespace SilkPlaster.UI.Controllers
                     return View(model);
                 }
 
+                Member member = _memberManager.GetMemberWithEmailAndPassword(model.Email, model.Password);
+
+                CurrentSession.Set<MemberSessionModel>("Member", new MemberSessionModel
+                {
+                    Id = member.Id,
+                    Email = member.Email,
+                    FirstName = member.FirstName,
+                    LastName = member.LastName
+                });
+
                 return RedirectToAction("Login");
 
             }
@@ -107,6 +125,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("bilgilerimi-duzenle")]
         public ActionResult EditMyInformation()
         {
             int loggedInMemberId = CurrentSession.Member.Id;
@@ -125,6 +144,7 @@ namespace SilkPlaster.UI.Controllers
 
         [HttpPost]
         [MemberAuthFilter]
+        [Route("bilgilerimi-duzenle")]
         public ActionResult EditMyInformation(MemberDetailsModel model)
         {
             if (ModelState.IsValid)
@@ -153,6 +173,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("sifremi-degistir")]
         public ActionResult EditPassword()
         {
             int loggedInMemberId = CurrentSession.Member.Id;
@@ -166,6 +187,7 @@ namespace SilkPlaster.UI.Controllers
 
         [HttpPost]
         [MemberAuthFilter]
+        [Route("sifremi-degistir")]
         public ActionResult EditPassword(MemberPasswordModel model)
         {
             if (ModelState.IsValid)
@@ -198,6 +220,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("siparislerim")]
         public ActionResult MyOrders()
         {
             int loggedInMemberId = CurrentSession.Member.Id;
@@ -208,12 +231,14 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("siparis-detaylarim-{Id}")]
         public ActionResult OrderDetail(int? Id)
         {
             if (Id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
 
             int loggedInMemberId = CurrentSession.Member.Id;
 
@@ -229,6 +254,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("adreslerim")]
         public ActionResult MyAddresses()
         {
             int loggedInMemberId = CurrentSession.Member.Id;
@@ -246,6 +272,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("yeni-adres-olustur")]
         public ActionResult CreateNewAddress()
         {
             ViewBag.Cities = new SelectList(_cityManager.GetAll(), "Id", "Name");
@@ -255,6 +282,7 @@ namespace SilkPlaster.UI.Controllers
 
         [HttpPost]
         [MemberAuthFilter]
+        [Route("yeni-adres-olustur")]
         public ActionResult CreateNewAddress(AddressViewModel model, bool billType = true)
         {
             ModelState.Remove("CountyId");
@@ -291,6 +319,7 @@ namespace SilkPlaster.UI.Controllers
         }
 
         [MemberAuthFilter]
+        [Route("adres-guncelle/{Id:int?}")]
         public ActionResult EditAddress(int? Id)
         {
             if (Id == null)
@@ -315,6 +344,7 @@ namespace SilkPlaster.UI.Controllers
 
         [MemberAuthFilter]
         [HttpPost]
+        [Route("adres-guncelle")]
         public ActionResult EditAddress(AddressViewModel model, bool billType = true)
         {
             if (billType)
@@ -369,6 +399,7 @@ namespace SilkPlaster.UI.Controllers
             return Json(new { result = false, message = layerResult.Errors.FirstOrDefault().ErrorMessage }, JsonRequestBehavior.AllowGet);
         }
 
+        [Route("cikis-yap")]
         public ActionResult Logout()
         {
             CurrentSession.Remove("Member");

@@ -11,11 +11,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 text-center">
-                    <h1>register</h1>
+                    <h1>KAYIT OL</h1>
                     <nav class="breadcrumbs">
                         <ul class="list-unstyled">
-                            <li><a href="index.html">home <i class="fa fa-angle-right"></i></a></li>
-                            <li>register</li>
+                            <li><a href="/">ANASAYFA <i class="fa fa-angle-right"></i></a></li>
+                            <li>Kayıt Ol</li>
                         </ul>
                     </nav>
                 </div>
@@ -46,7 +46,6 @@
                         <div class="mt-side-widget">
                             <header>
                                 <h2 style="margin: 0 0 5px;">KAYIT OL</h2>
-                                <p>Bir hesabın yok mu? Hemen kayıt ol!</p>
                             </header>
                             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { style = "margin: 0 0 80px;" }))
                             {
@@ -54,16 +53,16 @@
                                     @Html.ValidationSummary(false)
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6">
-                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "input", placeholder = "İsim" })
+                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "input", placeholder = "İsim", required = "required" })
                                         </div>
                                         <div class="col-xs-12 col-sm-6">
-                                            @Html.TextBoxFor(model => model.LastName, new { @class = "input", placeholder = "Soyisim" })
+                                            @Html.TextBoxFor(model => model.LastName, new { @class = "input", placeholder = "Soyisim", required = "required" })
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6">
-                                            @Html.TextBoxFor(model => model.Email, new { @class = "input", placeholder = "E-posta", type = "email" })
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "input", placeholder = "E-posta", type = "email", required = "required" })
                                         </div>
 
                                         <div class="col-xs-12 col-sm-6">
@@ -73,22 +72,22 @@
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6">
-                                            @Html.PasswordFor(model => model.Password, new { @class = "input", placeholder = "Parola" })
+                                            @Html.PasswordFor(model => model.Password, new { @class = "input", placeholder = "Parola", required = "required" })
                                         </div>
                                         <div class="col-xs-12 col-sm-6">
-                                            @Html.PasswordFor(model => model.RePassword, new { @class = "input", placeholder = "Parola Tekrar" })
+                                            @Html.PasswordFor(model => model.RePassword, new { @class = "input", placeholder = "Parola Tekrar", required = "required" })
                                         </div>
                                     </div>
 
                                     <div class="box">
-                                        <a href="/Account/Login" class="help">Bir hesabın var mı? Hemen giriş yap</a>
+                                        <a href="@Url.Action("Login","Account")" class="help">Bir hesabın var mı? Hemen giriş yapın.</a>
                                     </div>
                                     <button type="submit" class="btn-type1">Kayıt Ol</button>
                                 </fieldset>
                             }
                             <header>
-                                <h2 style="margin: 0 0 5px;">register with social</h2>
-                                <p>Create an account using social</p>
+                                <h2 style="margin: 0 0 5px;">Sosyal Medyayla Kaydol</h2>
+                                <p>Sosyal Medya İle Hızlıca Kayıt Olabilirsiniz.</p>
                             </header>
                             <ul class="mt-socialicons">
                                 <li class="mt-facebook"><a href="#"><i class="fa fa-facebook-f"></i></a></li>
