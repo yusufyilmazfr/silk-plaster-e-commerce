@@ -1,4 +1,5 @@
 ﻿using SilkPlaster.UI.Models.Helpers;
+using SilkPlaster.UI.Models.Helpers.Session;
 using SilkPlaster.UI.Models.Session;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace SilkPlaster.UI.Models.Filters
 
                 filterContext.Result = new RedirectToRouteResult
                     (
-                    new System.Web.Routing.RouteValueDictionary(new { controller = "Home", action = "Index", returnUrl = returnUrl })
+                    new System.Web.Routing.RouteValueDictionary(new { controller = "Home", action = "Login", returnUrl = returnUrl })
                     );
             }
         }

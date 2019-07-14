@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SilkPlaster.UI.Models.Helpers
+namespace SilkPlaster.UI.Models.Helpers.Session
 {
     public class CurrentSession
     {
