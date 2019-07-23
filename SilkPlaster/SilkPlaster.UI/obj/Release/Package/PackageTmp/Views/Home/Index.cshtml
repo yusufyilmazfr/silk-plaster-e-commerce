@@ -1,0 +1,80 @@
+﻿
+@Html.Action("Index", "Slider")
+
+
+<main id="mt-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- banner frame start here -->
+                <div class="banner-frame">
+                    <!-- banner-1 start here -->
+                    <div class="banner-1 wow fadeInLeft" data-wow-delay="0.4s">
+                        <img alt="image description" src="~/images/categories/smallwriting.jpg">
+                        <div class="holder">
+                            <h2>MY SMALL WRITING <br>DESK</h2>
+                            <div class="txts">
+                                <a class="btn-shop" href="product-detail.html">
+                                    <span>shop now</span>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                                <div class="discount">
+                                    <span>-20%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- banner-1 end here -->
+                    <!-- banner-box first start here -->
+                    <div class="banner-box first">
+                        <!-- banner-2 start here -->
+                        <div class="banner-2 wow fadeInUp" data-wow-delay="0.4s">
+                            <img alt="image description" src="~/images/categories/smallwriting2.jpg">
+                            <div class="holder">
+                                <h2>MODULAR LOUNGE <br>TEAK</h2>
+                                <span class="price">$ 129.00</span>
+                            </div>
+                        </div>
+                        <!-- banner-2 end here -->
+                        <!-- banner-3 start here -->
+                        <div class="banner-3 right wow fadeInDown" data-wow-delay="0.4s">
+                            <img alt="image description" src="~/images/categories/smallwriting3.jpg">
+                            <div class="holder">
+                                <h2>Modular technical <br>fabric sofa</h2>
+                                <a href="product-detail.html" class="shop">SHOP NOW</a>
+                            </div>
+                        </div>
+                        <!-- banner-3 end here -->
+                    </div>
+                    <!-- banner-box first end here -->
+                    <!-- banner-4 start here -->
+                    <div class="banner-4 hidden-sm wow fadeInRight" data-wow-delay="0.4s">
+                        <img alt="image description" src="~/images/categories/smallwriting4.jpg">
+                        <div class="holder">
+                            <h2>Direct light <br>pendant lamp</h2>
+                            <span class="price">$ 129.00</span>
+                            <a class="btn-shop add" href="product-detail.html">
+                                <span>shop now</span>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- banner-4 end here -->
+                </div>
+                <!-- banner frame end here -->
+
+                @Html.Action("FeaturedProducts", "Product")
+
+            </div>
+        </div>
+    </div>
+
+    <!-- mt bestseller start here -->
+    @Html.Action("BestSeller", "Product")
+
+    @Html.Action("MixedFeaturedProducts", "Product")
+
+    <!-- mt bestseller end here -->
+</main>
+
+<!-- mt main end here -->

@@ -1,0 +1,55 @@
+﻿@model List<SilkPlaster.UI.Models.BasketModel>
+
+<!-- mt drop sub start here -->
+<div class="mt-drop-sub">
+    <!-- mt side widget start here -->
+    <div class="mt-side-widget">
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+                if (i == 3)
+                {
+                    <h3>...</h3>
+                    break;
+                }
+                <!-- cart row start here -->
+                <div class="cart-row">
+                    <a href="/Product/Details/@item.Product.Id" class="img"><img src="~/images/products/@item.Product.FirstImage" alt="image" class="img-responsive"></a>
+                    <div class="mt-h">
+                        <span class="mt-h-title">
+                            <a href="/Product/Details/@item.Product.Id">
+                                @{
+                                    if (item.Product.Name.Length > 20)
+                                    {
+                                        <span>@item.Product.Name.Substring(0, 20)..</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.Product.Name</span>
+                                    }
+
+                                }
+                            </a>
+                        </span>
+                        <span class="price">@item.Product.NewPrice.ToString("c")</span>
+                        <span class="mt-h-title">Adet: @item.Quantity</span>
+                    </div>
+                </div><!-- cart row end here -->
+                i++;
+            }
+        }
+
+        @if (Model.Count == 0)
+        {
+            <h2 style="text-decoration: underline">Sepetiniz Boş!</h2>
+        }
+        else
+        {
+            <div class="cart-btn-row">
+                <a href="@Url.Action("Index","Basket")" class="btn-type2">SİPARİŞİ TAMAMLA</a>
+            </div>
+        }
+    </div><!-- mt side widget end here -->
+</div>
+<!-- mt drop sub end here -->

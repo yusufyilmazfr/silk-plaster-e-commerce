@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,10 +32,13 @@ namespace SilkPlaster.DataContext.Concrete
         public DbSet<County> Counties { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Slider> Sliders { get; set; }
+        public DbSet<InComingMail> InComingMails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+
+            modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
 
             //Fluent API
 

@@ -116,13 +116,25 @@ namespace SilkPlaster.UI.Controllers
 
             if (!layerResult.HasError())
             {
-                return RedirectToAction("Index", "Home");
+                TempData["OrderNumber"] = "test";
+                return RedirectToAction("OrderApproved", "Basket");
             }
 
             layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
 
 
             return RedirectToAction("Index");
+        }
+
+        [Route("sepetim/siparis-onaylandi")]
+        [MemberAuthFilter]
+        public ActionResult OrderApproved()
+        {
+            if (ObjectHelper.ObjectIsNull(TempData["OrderNumber"]))
+                return RedirectToAction("Index");
+
+
+            return View();
         }
 
         [MemberAuthFilter]

@@ -49,7 +49,10 @@ namespace SilkPlaster.DataAccessLayer.Concrete
 
         public List<Product> GetProductsWithCategoriesDesc()
         {
-            return ListQueryable().Include(i => i.Category).OrderByDescending(i => i.AddedDate).ToList();
+            return ListQueryable()
+                    .Include(i => i.Category)
+                    .OrderByDescending(i => i.AddedDate)
+                    .ToList();
         }
 
         public Product GetProductWithImages(int productId)
@@ -94,10 +97,19 @@ namespace SilkPlaster.DataAccessLayer.Concrete
             {
                 int id = mostSaledProductsId[i].Key;
 
-                products.Add(base.Find(k => k.Id == id && k.InStock && k.IsContinued));
+                products.Add(base.Find(k => k.Id == id));
+                //products.Add(base.Find(k => k.Id == id && k.InStock && k.IsContinued));
             }
 
             return products;
+        }
+
+        public List<Product> GetProductsWithDetails()
+        {
+            return ListQueryable()
+                .Include(i => i.ProductImages)
+                .Include(i => i.Comments)
+                .ToList();
         }
     }
 }

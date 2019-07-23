@@ -133,5 +133,16 @@ namespace SilkPlaster.UI.Controllers
 
             return View();
         }
+
+        [Route("Robots.txt")]
+        public ActionResult Robots()
+        {
+            StringBuilder robotsEntries = new StringBuilder();
+            robotsEntries.AppendLine("User-agent: *");
+
+            robotsEntries.AppendLine("Sitemap: http://silkplaster.somee.com/sitemap.xml");
+
+            return File(Encoding.UTF8.GetBytes(robotsEntries.ToString()), "text/plain");
+        }
     }
 }

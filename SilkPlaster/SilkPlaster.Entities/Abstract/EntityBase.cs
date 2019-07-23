@@ -17,5 +17,7 @@ namespace SilkPlaster.Entities.Abstract
         public DateTime AddedDate { get; set; }
         [Column(TypeName = "datetime2")]
         public DateTime ModifiedDate { get; set; }
+
+        public bool? IsDeleted { get; set; }
     }
 }

@@ -1,0 +1,103 @@
+﻿@using SilkPlaster.UI.Models.Helpers.Session
+@using SilkPlaster.UI.Models.Helpers.Url
+@model List<SilkPlaster.UI.Models.ProductDetailsModel>
+
+<div class="mt-bestseller bg-grey text-center wow fadeInUp" data-wow-delay="0.4s">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 mt-heading text-uppercase">
+                <h3 class="heading">EN ÇOK SATILAN ÜRÜNLER</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="bestseller-slider">
+                    @foreach (var item in Model)
+                    {
+                        <div class="slide">
+                            <!-- mt product1 center start here -->
+                            <div class="mt-product1 large">
+                                <div class="box">
+                                    <div class="b1">
+                                        <div class="b2">
+                                            <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+                                                <img src="~/images/products/@item.FirstImage" alt="@item.Name" width="275" height="285">
+                                            </a>
+                                            <span class="caption">
+                                                @{
+                                                    if (item.NewPrice < item.LastPrice)
+                                                    {
+                                                        var x = 100 - (item.NewPrice / item.LastPrice) * 100;
+
+                                                        <span class="best-price">%@Math.Floor(x) Daha Ucuz</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="best-price">En İyi Fiyat</span>
+                                                    }
+                                                }
+
+                                            </span>
+                                            <ul class="links add">
+                                                @if (CurrentSession.MemberIsLogged)
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="AddProductInBasket(@item.Id,1)">
+                                                            <i class="icon-handbag"></i>
+                                                            <span>Sepete Ekle</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="AddWishList(@item.Id)">
+                                                            <i class="icomoon icon-heart-empty"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                            <i class="icon-handbag"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                            <i class="icomoon icon-heart-empty"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                <li>
+                                                    <a href="#popup1" onclick="QuicklyViewProduct(@item.Id)" class="lightbox">
+                                                        <i class="icomoon icon-eye"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="txt">
+                                    <strong class="title">
+                                        <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+                                            @if (item.Name.Length > 25)
+                                            {
+                                                <span>@item.Name.Substring(0, 25)</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@item.Name</span>
+                                            }
+                                        </a>
+                                    </strong>
+                                    <span class="price"><span>@item.NewPrice.ToString("c")</span></span>
+                                </div>
+                            </div><!-- mt product1 center end here -->
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

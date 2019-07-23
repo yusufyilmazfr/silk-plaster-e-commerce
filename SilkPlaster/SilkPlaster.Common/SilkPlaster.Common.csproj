@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,13 +46,20 @@
     <Compile Include="EntityValueObjects\AddressViewModel.cs" />
     <Compile Include="EntityValueObjects\CommentViewModel.cs" />
     <Compile Include="EntityValueObjects\LoginViewModel.cs" />
+    <Compile Include="EntityValueObjects\OrderDetailsViewModel.cs" />
+    <Compile Include="EntityValueObjects\OrderViewModel.cs" />
     <Compile Include="EntityValueObjects\RegisterViewModel.cs" />
+    <Compile Include="HelperClasses\ConfigHelper.cs" />
+    <Compile Include="HelperClasses\EnumHelper.cs" />
+    <Compile Include="HelperClasses\MailHelper.cs" />
+    <Compile Include="HelperClasses\MD5Helper.cs" />
     <Compile Include="HelperClasses\ObjectHelper.cs" />
     <Compile Include="Message\ErrorMessageCode.cs" />
     <Compile Include="Message\ErrorMessageObject.cs" />
     <Compile Include="OrderMessageObj\EnumPaymentTypes.cs" />
     <Compile Include="OrderMessageObj\EnumOrderState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchFiltering\ProductFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

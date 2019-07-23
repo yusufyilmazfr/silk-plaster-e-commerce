@@ -12,9 +12,10 @@ namespace SilkPlaster.DataAccessLayer.Abstract
         Product GetProductWithImages(int productId);
         Product GetProductWithCommentAndImages(int productId);
         Product GetProductDetails(int productId);
+        List<Product> GetProductsWithCategoriesDesc();
+        List<Product> GetProductsWithDetails();
         List<Product> GetBestSellers(int productCount);
         List<Product> GetNewProducts(int productCount);
-        List<Product> GetProductsWithCategoriesDesc();
         List<Product> GetMostCommentedProducts(int productCount);
         List<Product> GetFeaturedProducts(int productCount);
     }

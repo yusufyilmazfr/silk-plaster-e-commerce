@@ -17,5 +17,6 @@ namespace SilkPlaster.BusinessLayer.Abstract
         Member GetMemberByPassword(int memberId, string password);
         BusinessLayerResult<Member> UpdateMember(Member member);
         BusinessLayerResult<Member> Register(RegisterViewModel obj);
+        BusinessLayerResult<Member> CreateRandomPasswordForMemberByEmail(string email);
     }
 }

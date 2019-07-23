@@ -514,6 +514,7 @@
     <Content Include="ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="ckeditor\styles.js" />
     <Content Include="css\starrating.css" />
+    <Content Include="images\logo\nishplas-ipek-siva-logo.png" />
     <Content Include="static\admin\assets\fonts\fa-solid-900.svg" />
     <Content Include="static\admin\assets\fonts\Pe-icon-7-stroke.svg" />
     <Content Include="static\admin\assets\images\avatars\1.jpg" />
@@ -603,13 +604,17 @@
     <Content Include="js\jquery.main.js" />
     <Content Include="js\particles.js" />
     <Content Include="js\plugins.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\SliderController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -619,6 +624,7 @@
     <Compile Include="Controllers\CountyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\SeoController.cs" />
     <Compile Include="Controllers\SliderController.cs" />
     <Compile Include="Controllers\WishListController.cs" />
     <Compile Include="Global.asax.cs">
@@ -631,9 +637,10 @@
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\Filters\AdminAuthFilter.cs" />
     <Compile Include="Models\Filters\MemberAuthFilter.cs" />
-    <Compile Include="Models\Helpers\CurrentSession.cs" />
+    <Compile Include="Models\Helpers\Session\CurrentSession.cs" />
     <Compile Include="Models\Helpers\Image\ImageHelper.cs" />
     <Compile Include="Models\Helpers\Image\ImageUploadResultMessage.cs" />
+    <Compile Include="Models\Helpers\Url\CreateFriendlyUrl.cs" />
     <Compile Include="Models\MemberDetailsModel.cs" />
     <Compile Include="Models\MemberPasswordModel.cs" />
     <Compile Include="Models\ProductDetailsModel.cs" />
@@ -702,6 +709,11 @@
     <Content Include="Areas\Admin\Views\Comment\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Comment\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Comment\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\member-navbar-footer.cshtml" />
@@ -732,6 +744,14 @@
     <Content Include="Views\Product\QuicklyViewProduct.cshtml" />
     <Content Include="Views\Account\CreateNewAddress.cshtml" />
     <Content Include="Views\Account\EditAddress.cshtml" />
+    <Content Include="Views\Account\MyOrders.cshtml" />
+    <Content Include="Views\Account\OrderDetail.cshtml" />
+    <Content Include="Views\Home\FAQ.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\AboutUs.cshtml" />
+    <Content Include="Views\Account\ForgetPassword.cshtml" />
+    <Content Include="Views\Basket\OrderApproved.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -747,6 +767,7 @@
     <Folder Include="static\admin\assets\css\" />
     <Folder Include="Views\Comment\" />
     <Folder Include="Views\County\" />
+    <Folder Include="Views\Seo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SilkPlaster.BusinessLayer\SilkPlaster.BusinessLayer.csproj">

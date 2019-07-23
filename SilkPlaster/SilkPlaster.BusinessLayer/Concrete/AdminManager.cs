@@ -1,4 +1,7 @@
 ﻿using SilkPlaster.BusinessLayer.Abstract;
+using SilkPlaster.BusinessLayer.Concrete.Result;
+using SilkPlaster.Common.HelperClasses;
+using SilkPlaster.DataAccessLayer.Abstract;
 using SilkPlaster.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,17 @@ namespace SilkPlaster.BusinessLayer.Concrete
 {
     public class AdminManager : IAdminManager
     {
+        private IAdminDal _adminDal { get; set; }
 
+        public AdminManager(IAdminDal adminDal)
+        {
+            _adminDal = adminDal;
+        }
+
+        public Admin GetAdminWithEmailAndPassword(string email, string password)
+        {
+            string currentPassword = MD5Helper.Create(password);
+            return _adminDal.Find(i => i.Email == email && i.Password == currentPassword);
+        }
     }
 }

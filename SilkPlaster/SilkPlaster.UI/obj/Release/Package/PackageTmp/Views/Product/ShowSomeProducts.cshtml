@@ -1,0 +1,56 @@
+﻿@using SilkPlaster.UI.Models.Helpers.Url
+@model List<SilkPlaster.UI.Models.ProductDetailsModel>
+
+<div class="col-xs-12 col-sm-6 col-md-4 mt-paddingbottomsm">
+    <h3 class="heading">@ViewBag.Title</h3>
+    <!-- mt product4 start here -->
+
+    @foreach (var item in Model)
+    {
+        <div class="mt-product4 mt-paddingbottom20">
+            <div class="img">
+                <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+                    <img alt="@item.Name" width="80" height="80" src="~/images/products/@item.FirstImage">
+                </a>
+            </div>
+            <div class="text">
+                <div class="frame">
+                    @if (item.Name.Length > 25)
+                    {
+                        <strong>
+                            <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })" class="y-break">@item.Name.Substring(0, 25)..</a>
+                        </strong>
+                    }
+                    else
+                    {
+                        <strong><a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })" class="y-break">@item.Name</a></strong>
+                    }
+
+                    @{
+                        if (item.Comments.Count > 0)
+                        {
+                            <ul class="mt-stars">
+                                @{
+
+                                    var avgStar = Math.Ceiling(item.Comments.Average(i => i.StarCount));
+
+                                    for (int i = 0; i < avgStar; i++)
+                                    {
+                                        <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                    }
+                                    for (int i = 0; i < 5 - avgStar; i++)
+                                    {
+                                        <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+                                    }
+                                }
+                            </ul>
+                        }
+                    }
+                </div>
+                <del class="off">@item.LastPrice.ToString("c")</del>
+                <span class="price">@item.NewPrice.ToString("c")</span>
+            </div>
+        </div><!-- mt product4 end here -->
+    }
+</div>
+

@@ -1,0 +1,147 @@
+﻿@model SilkPlaster.Entities.Product
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/admin-navbar-footer.cshtml";
+}
+
+
+<script src="~/ckeditor/ckeditor.js"></script>
+
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="icon-gradient pe-7s-diskette bg-happy-itmeo"></i>
+                    </i>
+                </div>
+                <div>
+                    Ürün Düzenleme
+                    <div class="page-title-subheading">
+                        @*Build whatever layout you need with our Architect framework.*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Ürün Düzenleme</h5>
+                    @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(model => model.FirstImage)
+                        @Html.HiddenFor(model => model.AddedDate)
+
+                        @Html.ValidationSummary(false)
+
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    @Html.LabelFor(model => model.Name)
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Ürün adı" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    @Html.LabelFor(model => model.LastPrice)
+                                    @Html.TextBoxFor(model => model.LastPrice, new { @class = "form-control", placeholder = "87.99" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    @Html.LabelFor(model => model.NewPrice)
+                                    @Html.TextBoxFor(model => model.NewPrice, new { @class = "form-control", placeholder = "59.99" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    @Html.LabelFor(model => model.Quantity)
+                                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control", type = "number", min = "0" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.CategoryId)
+                                @Html.DropDownList("CategoryId", (IEnumerable<SelectListItem>)ViewBag.Categories, new { @class = "form-control border-input" })
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="form-row">
+                            @Html.LabelFor(model => model.ShortDescription)
+                            @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control", rows = "3", placeholder = "Kısa Açıklama" })
+                        </div>
+
+                        <br />
+
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.LongDescription)
+                                @Html.TextAreaFor(model => model.LongDescription, new { @class = "form-control ckeditor", rows = "3", placeholder = "Uzun Açıklama" })
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="form-row">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="main-card mb-3">
+                                        <div class="position-relative form-group">
+                                            <div style="display:flex">
+                                                <div class="custom-checkbox custom-control">
+                                                    @Html.CheckBoxFor(model => model.IsContinued, new { @class = "custom-control-input" })
+                                                    @Html.LabelFor(model => model.IsContinued, new { @class = "custom-control-label" })
+                                                </div>
+                                                &nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;
+
+                                                <div class="custom-checkbox custom-control">
+                                                    @Html.CheckBoxFor(model => model.InStock, new { @class = "custom-control-input" })
+                                                    @Html.LabelFor(model => model.InStock, new { @class = "custom-control-label" })
+                                                </div>
+
+                                                &nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;
+
+                                                <div class="custom-checkbox custom-control">
+                                                    @Html.CheckBoxFor(model => model.IsFeatured, new { @class = "custom-control-input" })
+                                                    @Html.LabelFor(model => model.IsFeatured, new { @class = "custom-control-label" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label for="exampleFile" class="">Öne Çıkarılan Fotoğraf</label>
+                            <input name="file" id="exampleFile" type="file" class="form-control-file">
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label for="exampleFile" class="">Diğer Fotoğraflar (Çoklu Seçim Yapılabilir)</label>
+                            <input name="otherFiles" id="exampleFile" type="file" multiple class="form-control-file">
+                        </div>
+
+                        <br />
+                        <button type="submit" class="mb-1 mr-1 btn-transition btn btn-outline-info">Güncelle</button>
+
+                        @Html.ActionLink("Listeye Geri Dön", "Index", new { controller = "Product" }, new { @class = "mb-1 mr-1 btn-transition btn btn-outline-alternate" })
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

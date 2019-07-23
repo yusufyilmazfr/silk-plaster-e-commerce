@@ -1,0 +1,5 @@
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Core\bin\Release\SilkPlaster.Core.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Core\bin\Release\SilkPlaster.Core.pdb
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Core\obj\Release\SilkPlaster.Core.csproj.CoreCompileInputs.cache
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Core\obj\Release\SilkPlaster.Core.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Core\obj\Release\SilkPlaster.Core.pdb

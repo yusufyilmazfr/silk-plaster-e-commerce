@@ -1,0 +1,257 @@
+﻿@using SilkPlaster.UI.Models
+@using SilkPlaster.UI.Models.Helpers.Url
+@using SilkPlaster.UI.Models.Helpers.Session
+@*@model List<SilkPlaster.UI.Models.ProductDetailsModel>*@
+@model List<SilkPlaster.Entities.Product>
+
+<main id="mt-main">
+    <!-- Mt Contact Banner of the Page -->
+    <section class="mt-contact-banner style4 wow fadeInUp" data-wow-delay="0.4s" style="background-image: url(/images/login-background.jpg); visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h1>Ürünler</h1>
+                    <!-- Breadcrumbs of the Page -->
+                    <nav class="breadcrumbs">
+                        <ul class="list-unstyled">
+                            <li><a href="/">Anasayfa <i class="fa fa-angle-right"></i></a></li>
+                            <li>Ürünler </li>
+                        </ul>
+                    </nav><!-- Breadcrumbs of the Page end -->
+                </div>
+            </div>
+        </div>
+    </section><!-- Mt Contact Banner of the Page end -->
+
+    <div class="container">
+        <div class="row">
+            <!-- sidebar of the Page start here -->
+            <aside id="sidebar" class="col-xs-12 col-sm-4 col-md-3 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+
+                <!-- shop-widget of the Page start here -->
+                @Html.Action("GetCategories", "Category")
+                <!-- shop-widget of the Page end here -->
+                <!-- shop-widget of the Page start here -->
+                <section class="shop-widget">
+                    <h2>EN ÇOK SATANLAR</h2>
+                    <!-- mt product4 start here -->
+                    <div class="mt-product4 mt-paddingbottom20">
+                        <div class="img">
+                            <a href="product-detail.html"><img src="http://placehold.it/80x80" alt="image description"></a>
+                        </div>
+                        <div class="text">
+                            <div class="frame">
+                                <strong><a href="product-detail.html">Egon Wooden Chair</a></strong>
+                                <ul class="mt-stars">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star-o"></i></li>
+                                </ul>
+                            </div>
+                            <del class="off">$75,00</del>
+                            <span class="price">$55,00</span>
+                        </div>
+                    </div><!-- mt product4 end here -->
+                    <!-- mt product4 start here -->
+                    <div class="mt-product4 mt-paddingbottom20">
+                        <div class="img">
+                            <a href="product-detail.html"><img src="http://placehold.it/80x80" alt="image description"></a>
+                        </div>
+                        <div class="text">
+                            <div class="frame">
+                                <strong><a href="product-detail.html">Oyo Cantilever Chair</a></strong>
+                            </div>
+                            <del class="off">$75,00</del>
+                            <span class="price">$55,00</span>
+                        </div>
+                    </div><!-- mt product4 end here -->
+                    <!-- mt product4 start here -->
+                    <div class="mt-product4 mt-paddingbottom20">
+                        <div class="img">
+                            <a href="product-detail.html"><img src="http://placehold.it/80x80" alt="image description"></a>
+                        </div>
+                        <div class="text">
+                            <div class="frame">
+                                <strong><a href="product-detail.html">Kurve Chair</a></strong>
+                                <ul class="mt-stars">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star-o"></i></li>
+                                </ul>
+                            </div>
+                            <del class="off">$75,00</del>
+                            <span class="price">$55,00</span>
+                        </div>
+                    </div><!-- mt product4 end here -->
+                    <!-- mt product4 start here -->
+                    <div class="mt-product4 mt-paddingbottom20">
+                        <div class="img">
+                            <a href="product-detail.html"><img src="http://placehold.it/80x80" alt="image description"></a>
+                        </div>
+                        <div class="text">
+                            <div class="frame">
+                                <strong><a href="product-detail.html">Marvelous Wooden Chair</a></strong>
+                            </div>
+                            <del class="off">$75,00</del>
+                            <span class="price">$55,00</span>
+                        </div>
+                    </div><!-- mt product4 end here -->
+                </section><!-- shop-widget of the Page end here -->
+            </aside><!-- sidebar of the Page end here -->
+
+
+            <div class="col-xs-12 col-sm-8 col-md-9 wow fadeInRight" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInRight;">
+                <!-- mt shoplist header start here -->
+                <header class="mt-shoplist-header">
+                    <!-- btn-box start here -->
+                    <div class="btn-box">
+                        <ul class="list-inline">
+                            <li>
+                                <a href="#" class="drop-link">
+                                    Normal Sıralama <i aria-hidden="true" class="fa fa-angle-down"></i>
+                                </a>
+                                <div class="drop">
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">İsime Göre A-Z</a></li>
+                                        <li><a href="#">İsime Göre Z-A</a></li>
+                                        <li><a href="#">Artan Fiyata Göre</a></li>
+                                        <li><a href="#">Azalan Fiyata Göre</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div><!-- btn-box end here -->
+                    <!-- mt-textbox start here -->
+                    <div class="mt-textbox">
+                        <p>@*<strong>@ViewBag.ProductCount</strong>*@ üründen  <strong>@Model.Count</strong> tanesi gösteriliyor.</p>
+                    </div><!-- mt-textbox end here -->
+                </header><!-- mt shoplist header end here -->
+                <!-- mt productlisthold start here -->
+
+                @if (Model.Count == 0)
+                {
+                    <h4>Ops! Herhangi bir sonuç bulunmadı. <a href="/"><b>Anasayfaya</b></a> dön.</h4>
+                }
+
+                <ul class="mt-productlisthold list-inline">
+                    @foreach (var item in Model)
+                    {
+                        <li>
+                            <!-- mt product1 large start here -->
+                            <div class="mt-product1 large">
+                                <div class="box">
+                                    <div class="b1">
+                                        <div class="b2">
+                                            <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+                                                <img src="~/images/products/@item.FirstImage" alt="@item.Name" width="275" height="290">
+                                            </a>
+                                            <ul class="mt-stars">
+                                                @{
+                                                    if (item.Comments.Count > 0)
+                                                    {
+                                                        double avgStar = Math.Ceiling(item.Comments.Average(i => i.StarCount));
+
+                                                        for (int i = 0; i < avgStar; i++)
+                                                        {
+                                                            <li><i class="fa fa-star"></i></li>
+                                                        }
+                                                        for (int i = 0; i < 5 - avgStar; i++)
+                                                        {
+                                                            <li><i class="fa fa-star-o"></i></li>
+                                                        }
+                                                    }
+                                                }
+                                            </ul>
+                                            <ul class="links">
+
+                                                @if (CurrentSession.MemberIsLogged)
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="AddProductInBasket(@item.Id,1)">
+                                                            <i class="icon-handbag"></i>
+                                                            <span>Sepete Ekle</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="AddWishList(@item.Id)">
+                                                            <i class="icomoon icon-heart-empty"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                            <i class="icon-handbag"></i>
+                                                            <span>Sepete Ekle</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                            <i class="icomoon icon-heart-empty"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+
+                                                <li>
+                                                    <a href="#popup1" onclick="QuicklyViewProduct(@item.Id)" class="lightbox">
+                                                        <i class="icomoon icon-eye"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="txt">
+                                    <strong class="title">
+                                        <a href="@Url.Action("Details","Product",new {Id=item.Id,product=CreateFriendlyUrl.GenerateSlug(item.Name) })">
+
+                                            @if (item.Name.Length > 25)
+                                            {
+                                                <span>@item.Name.Substring(0, 25)...</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@item.Name</span>
+                                            }
+                                        </a>
+                                    </strong>
+                                    <span class="price"><span>@item.NewPrice.ToString("c")</span></span>
+                                </div>
+                            </div><!-- mt product1 center end here -->
+                        </li>
+
+                    }
+
+                </ul><!-- mt productlisthold end here -->
+                <!-- mt pagination start here -->
+
+                <nav class="mt-pagination">
+                    <ul class="list-inline">
+                        @*@if (Model.Count > 0)
+                            {
+                                double pageCount = System.Math.Ceiling(ViewBag.ProductCount / 12.0);
+
+                                for (int i = 1; i <= pageCount; i++)
+                                {
+                                    <li>
+                                        @{
+                                            string queryData = Request.QueryString["q"];
+
+
+                                            @Html.ActionLink(i.ToString(), "Search", new { @q = queryData, @page = i });
+                                        }
+                                    </li>
+                                }
+                            }*@
+                    </ul>
+                </nav><!-- mt pagination end here -->
+            </div>
+        </div>
+    </div>
+</main>
+

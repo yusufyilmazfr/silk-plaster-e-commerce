@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SilkPlaster.Entities.Comment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/admin-navbar-footer.cshtml";
+}
+
+
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div class="page-title-icon">
+                <i class="icon-gradient pe-7s-comment bg-happy-itmeo"></i>
+            </div>
+            <div>
+                Yorumlar
+                <div class="page-title-subheading">
+                    @*In this section you can view and edit the categories of products.*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="main-card mb-3 card">
+        <div class="card-body">
+            <h5 class="card-title">Yorumlar</h5>
+            <div class="table-responsive">
+                <table class="mb-0 table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Kullanıcı</th>
+                            <th>Yorum</th>
+                            <th>Ürün</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            string commentIsValidCss = item.IsValid ? "#bdfff9" : "#ffbdbd";
+
+                            <tr style="background:@commentIsValidCss;">
+                                <th scope="row">@item.Id</th>
+                                <td>@item.Member.FirstName @item.Member.LastName</td>
+                                <td width="200">
+                                    @if (item.Text.Length > 50)
+                                    {
+                                        <span>@item.Text.Substring(0, 50) ...</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.Text</span>
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.Product.Name.Length > 40)
+                                        {
+                                            <span>@item.Product.Name.Substring(0, 40) ..</span>
+                                        }
+                                        else
+                                        {
+                                            <span>item.Product.Name</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Güncelle", "Edit", "Comment", new { area = "Admin", Id = item.Id }, new { @class = "mb-1 mr-1 btn-transition btn btn-outline-info" })
+
+                                    @Html.ActionLink("Sil", "Delete", "Comment", new { area = "Admin", Id = item.Id }, new { @class = "mb-1 mr-1 btn-transition btn btn-outline-danger" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

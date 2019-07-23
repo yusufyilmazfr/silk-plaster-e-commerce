@@ -40,7 +40,9 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 CompanyName = obj.CompanyName,
                 TaxAdministration = obj.TaxAdministration,
                 TaxNumber = obj.TaxNumber,
-                CitizenshipNumber = obj.CitizenshipNumber
+                CitizenshipNumber = obj.CitizenshipNumber,
+                IsDeleted = false
+
             });
             int count = _addressDal.Save();
 
@@ -98,7 +100,8 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 return _layerResult;
             }
 
-            _addressDal.Delete(address);
+            address.IsDeleted = true;
+            _addressDal.Update(address);
             int count = _addressDal.Save();
 
             if (count == 0)
@@ -117,6 +120,7 @@ namespace SilkPlaster.BusinessLayer.Concrete
             layerResult.Result = _addressDal
                 .ListQueryable()
                 .Where(where)
+                .Where(i => i.IsDeleted == false)
                 .Select(i => new AddressViewModel
                 {
                     Id = i.Id,
@@ -145,12 +149,12 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public Address GetAddressWithMemberId(int addressId, int memberId)
         {
-            return _addressDal.Find(i => i.Id == addressId && i.MemberId == memberId);
+            return _addressDal.Find(i => i.Id == addressId && i.MemberId == memberId && i.IsDeleted == false);
         }
 
         public List<Address> GetAddressesWithMemberId(int memberId)
         {
-            return _addressDal.GetAll(i => i.MemberId == memberId);
+            return _addressDal.GetAll(i => i.MemberId == memberId && i.IsDeleted == false);
         }
     }
 }

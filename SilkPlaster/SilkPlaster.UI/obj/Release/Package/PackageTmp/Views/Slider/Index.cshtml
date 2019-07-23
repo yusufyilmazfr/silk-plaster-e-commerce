@@ -1,0 +1,34 @@
+﻿@model List<SilkPlaster.Entities.Slider>
+
+<!-- mt main slider start here -->
+<div class="mt-main-slider">
+    <!-- slider banner-slider start here -->
+    <div class="slider banner-slider">
+        @foreach (var slider in Model)
+        {
+            <!-- holder start here -->
+            <div class="holder text-center" style="background-image: url(/images/sliders/@slider.Image);  background-size:100%">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text centerize">
+                                <strong class="title"></strong>
+                                <h1></h1>
+                                <h2></h2>
+                                <div class="txt">
+                                    <p></p>
+                                </div>
+                                <a href="@slider.RedirectAddress" class="shop">Alışverişe Başla</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- holder end here -->
+        }
+
+    </div>
+    <!-- slider regular end here -->
+</div>
+
+<!-- mt main slider end here -->

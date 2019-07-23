@@ -1,0 +1,76 @@
+﻿@model List<SilkPlaster.UI.Models.AddressModel>
+
+<main id="mt-main">
+    <section class="mt-about-sec" style="padding-bottom: 0;"></section>
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            <div class="bs-example">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ad</th>
+                            <th>Detay</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            int i = 1;
+                            <tr>
+                                <th scope="row">@i</th>
+                                <td>@item.Name</td>
+                                <td>@item.Description</td>
+                                <td width="100">
+                                    <a href="@Url.Action("EditAddress","Account",new {Id = item.Id})" class="btn btn-xs btn-info">Güncelle</a>
+                                    <form action="/Account/DeleteAddress" onsubmit="return false" method="post" style="display:inline-block">
+                                        <input type="hidden" name="Id" value="@item.Id" />
+                                        <button type="submit" name="deleteAddress" data-id="@item.Id" class="btn btn-xs btn-danger">Sil</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+
+                <script>
+                    document.getElementsByName('deleteAddress').forEach(function (element) {
+                        element.addEventListener('click', function (e) {
+                            let addressId = e.target.getAttribute('data-id');
+
+                            new Post('/Account/DeleteAddress', { Id: addressId }, function (result) {
+                                result = JSON.parse(result);
+
+                                if (result.result) {
+                                    ShowSweetAlert('success', 'Adres Başarıyla Silindi!', '');
+
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
+                                }
+                                else {
+                                    ShowSweetAlert('error', 'Ops!', result.message);
+                                }
+                            });
+                        });
+                    });
+                </script>
+
+            </div>
+            <div class="col-md-4" style="margin-bottom: 5px">
+                <a href="#">
+                    <a href="@Url.Action("CreateNewAddress","Account")" class="btn btn-block w-100 y-b-n" style="background-color:transparent; border: 2px solid #ddd; outline:none">
+                        Adres Ekle
+                    </a>
+                </a>
+            </div>
+        </div>
+    </div>
+    <section class="mt-about-sec" style="padding-bottom: 0;"></section>
+
+</main>

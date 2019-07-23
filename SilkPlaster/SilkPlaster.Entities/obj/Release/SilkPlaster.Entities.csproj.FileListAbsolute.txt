@@ -1,0 +1,9 @@
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Release\SilkPlaster.Entities.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Release\SilkPlaster.Entities.pdb
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Release\SilkPlaster.Common.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Release\SilkPlaster.Common.pdb
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Release\SilkPlaster.Entities.csprojAssemblyReference.cache
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Release\SilkPlaster.Entities.csproj.CoreCompileInputs.cache
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Release\SilkPlaster.Entities.csproj.CopyComplete
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Release\SilkPlaster.Entities.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Release\SilkPlaster.Entities.pdb

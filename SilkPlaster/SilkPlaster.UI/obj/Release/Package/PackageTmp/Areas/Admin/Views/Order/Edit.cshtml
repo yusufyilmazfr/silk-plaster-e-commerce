@@ -1,0 +1,81 @@
+﻿@using SilkPlaster.Common.OrderMessageObj
+@model SilkPlaster.Entities.Order
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/admin-navbar-footer.cshtml";
+}
+
+
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="icon-gradient pe-7s-cart bg-happy-itmeo"></i>
+                </div>
+                <div>
+                    Sipariş Düzenleme
+                    <div class="page-title-subheading">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Sipariş</h5>
+                    @using (Html.BeginForm("Edit", "Order", FormMethod.Post))
+                    {
+                        @Html.ValidationSummary(false)
+
+                        <div class="scrollbar-container ps--active-y ps">
+
+                            <div class="row">
+
+                                @Html.HiddenFor(i => i.Id)
+                                @Html.HiddenFor(i => i.OrderNumber)
+
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="Name">Kargo Takip No</label>
+                                        @Html.TextBoxFor(model => model.OrderNumber, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="Name">Sipariş Durumu</label>
+                                        @Html.DropDownList("OrderState",
+                                EnumHelper.GetSelectList(typeof(EnumOrderState)) ,
+                                new { @class = "form-control"})
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="Name">Kargo Takip Numarası</label>
+                                        @Html.TextBoxFor(model => model.CargoTrackingNumber, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="mb-1 mr-1 btn-transition btn btn-outline-info">Güncelle</button>
+                        <a class="mb-1 mr-1 btn-transition btn btn-outline-alternate" href="/Admin/Order">Listeye Geri Dön</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+
+    </div>
+    <div class="row">
+    </div>
+</div>
+

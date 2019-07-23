@@ -34,13 +34,14 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
                 return _layerResult;
             }
+            string currentPassword = MD5Helper.Create(obj.Password);
 
             _memberDal.Insert(new Member
             {
                 FirstName = obj.FirstName,
                 LastName = obj.LastName,
                 Email = obj.Email,
-                Password = obj.Password
+                Password = currentPassword
             });
 
             int insertCount = _memberDal.Save();
@@ -75,10 +76,12 @@ namespace SilkPlaster.BusinessLayer.Concrete
                 return _layerResult;
             }
 
+            string currentPassword = MD5Helper.Create(obj.Password);
+
             _layerResult.Result.FirstName = obj.FirstName;
             _layerResult.Result.LastName = obj.LastName;
             _layerResult.Result.Email = obj.Email;
-            _layerResult.Result.Password = obj.Password;
+            _layerResult.Result.Password = currentPassword;
 
             _memberDal.Update(_layerResult.Result);
             int count = _memberDal.Save();
@@ -103,12 +106,40 @@ namespace SilkPlaster.BusinessLayer.Concrete
 
         public Member GetMemberWithEmailAndPassword(string email, string password)
         {
-            return _memberDal.Find(i => i.Email == email && i.Password == password);
+            string currentPassword = MD5Helper.Create(password);
+            return _memberDal.Find(i => i.Email == email && i.Password == currentPassword);
         }
 
         public Member GetMemberByPassword(int memberId, string password)
         {
-            return _memberDal.Find(i => i.Id == memberId && i.Password == password);
+            string currentPassword = MD5Helper.Create(password);
+            return _memberDal.Find(i => i.Id == memberId && i.Password == currentPassword);
+        }
+
+        public BusinessLayerResult<Member> CreateRandomPasswordForMemberByEmail(string email)
+        {
+            Member member = GetMemberByEmail(email);
+
+            if (ObjectHelper.ObjectIsNull(member))
+            {
+                _layerResult.AddError(ErrorMessageCode.ObjectNotFound, "Böyle bir kullanıcı bulunmamaktadır!");
+                return _layerResult;
+            }
+
+            Random random = new Random();
+            string newPassword = random.Next(0, 2600).ToString() + random.Next(5, 98652) + random.Next(6, 982);
+            member.Password = MD5Helper.Create(newPassword);
+
+            _memberDal.Update(member);
+            int count = _memberDal.Save();
+
+            if (count == 0)
+                _layerResult.AddError(ErrorMessageCode.FailedToAddRecord, "Yeni parola oluşturulamadı!");
+
+            _layerResult.Result = member;
+            _layerResult.Result.Password = newPassword;
+
+            return _layerResult;
         }
     }
 }

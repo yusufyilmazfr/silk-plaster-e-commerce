@@ -15,7 +15,7 @@ namespace SilkPlaster.Common.OrderMessageObj
         [Display(Name = "Kapıda Ödeme")]
         PayAtTheDoor = 2,
 
-        [Display(Name = "EFT/Havale")]
-        EFT = 3
+        //[Display(Name = "EFT/Havale")]
+        //EFT = 3
     }
 }

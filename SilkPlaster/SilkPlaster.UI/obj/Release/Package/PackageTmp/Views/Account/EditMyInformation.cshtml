@@ -1,0 +1,55 @@
+﻿@model SilkPlaster.UI.Models.MemberDetailsModel
+
+<main id="mt-main">
+    <section class="mt-about-sec" style="padding-bottom: 0;"></section>
+
+    <section class="mt-detail-sec toppadding-zero">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-10 col-sm-push-1">
+                    <div style="margin: 0;">
+                        <div class="mt-side-widget">
+                                @using (Html.BeginForm("EditMyInformation", "Account", FormMethod.Post))
+                                {
+                                    @Html.ValidationSummary(false)
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                @Html.TextBoxFor(model => model.FirstName, new { @class = "input", placeholder = "İsim" })
+
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6">
+                                                @Html.TextBoxFor(model => model.LastName, new { @class = "input", placeholder = "Soyisim" })
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "input", placeholder = "Eposta" })
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6">
+
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn-type1">Güncelle</button>
+                                    </fieldset>
+                                }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Mt Detail Section of the Page end -->
+</main>

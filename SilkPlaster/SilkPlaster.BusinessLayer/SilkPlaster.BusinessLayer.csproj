@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IInComingMailManager.cs" />
     <Compile Include="Abstract\IProductManager.cs" />
     <Compile Include="Abstract\IWishListManager.cs" />
     <Compile Include="Abstract\ISliderManager.cs" />
@@ -64,7 +65,6 @@
     <Compile Include="Abstract\IBasketManager.cs" />
     <Compile Include="Abstract\IAdminManager.cs" />
     <Compile Include="Abstract\IAddressManager.cs" />
-    <Compile Include="Abstract\ManagerBase.cs" />
     <Compile Include="Concrete\AddressManager.cs" />
     <Compile Include="Concrete\AdminManager.cs" />
     <Compile Include="Concrete\BasketManager.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="Concrete\CityManager.cs" />
     <Compile Include="Concrete\CommentManager.cs" />
     <Compile Include="Concrete\CountyManager.cs" />
+    <Compile Include="Concrete\InComingMailManager.cs" />
     <Compile Include="Concrete\MemberManager.cs" />
     <Compile Include="Concrete\OrderDetailManager.cs" />
     <Compile Include="Concrete\OrderManager.cs" />

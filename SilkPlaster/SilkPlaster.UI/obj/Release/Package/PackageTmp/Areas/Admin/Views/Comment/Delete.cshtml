@@ -1,0 +1,73 @@
+﻿@model SilkPlaster.Entities.Comment
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/admin-navbar-footer.cshtml";
+}
+
+<link href="~/css/starrating.css" rel="stylesheet" />
+
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div class="page-title-icon">
+                <i class="pe-7s-comment icon-gradient bg-happy-itmeo">
+                </i>
+            </div>
+            <div>
+                Yorum Silme
+                <div class="page-title-subheading">
+                    @*In this section you can view and edit the categories of products.*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="main-card mb-3 card">
+        <div class="card-body">
+            <h5 class="card-title">Yorum Silme</h5>
+            <div class="mb-3 text-center card card-body">
+                <h5>Bu yorumu silmek istediğinize emin misiniz?</h5>
+                <hr />
+                <h4>@Model.Member.FirstName @Model.Member.LastName</h4>
+
+                <div class="rate" style="display:flex; justify-content:center; align-items:center; flex-direction: row-reverse">
+                    @{
+                        string elementId = "";
+                        for (int i = 5; i >= 1; i--)
+                        {
+                            elementId = "star" + i;
+                            int starCount = (int)Model.StarCount;
+
+                            if (starCount == i)
+                            {
+                                <input type="radio" checked id="@elementId" name="StarCount" value="@i" />
+                                <label for="@elementId" title="text">@i stars</label>
+                            }
+                            else
+                            {
+                                <input type="radio" id="@elementId" name="StarCount" value="@i" />
+                                <label for="@elementId" title="text">@i stars</label>
+                            }
+                        }
+                    }
+
+                </div>
+
+                <p style="word-break:break-all">
+                    @Model.Text
+                </p>
+
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(i => i.Id)
+                <button type="submit" class="mb-1 mr-1 btn-transition btn btn-outline-danger">Sil</button>
+                <a class="mb-1 mr-1 btn-transition btn btn-outline-alternate" href="/Admin/Category">Listeye Geri Dön</a>
+            }
+        </div>
+    </div>
+</div>

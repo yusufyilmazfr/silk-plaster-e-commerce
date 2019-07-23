@@ -1,0 +1,491 @@
+﻿@using SilkPlaster.UI.Models
+@using SilkPlaster.UI.Models.Helpers.Session
+@model SilkPlaster.UI.Models.ProductDetailsModel
+
+<link href="~/css/rating.css" rel="stylesheet" />
+
+<!-- main container of all the page elements -->
+<div id="wrapper">
+    <!-- W1 start here -->
+    <div class="w1">
+        <!-- mt main start here -->
+        <main id="mt-main">
+            <!-- Mt Product Detial of the Page -->
+            <section class="mt-product-detial wow fadeInUp" data-wow-delay="0.4s">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- Slider of the Page -->
+                            <div class="slider">
+                                @*<!-- Comment List of the Page -->
+                                    <ul class="list-unstyled comment-list">
+                                        <li><a href="#"><i class="fa fa-heart"></i>27</a></li>
+                                        <li><a href="#"><i class="fa fa-comments"></i>12</a></li>
+                                        <li><a href="#"><i class="fa fa-share-alt"></i>14</a></li>
+                                    </ul>
+                                    <!-- Comment List of the Page end -->*@
+                                <!-- Product Slider of the Page -->
+                                <div class="product-slider">
+                                    <div class="slide">
+                                        <img src="~/images/products/@Model.FirstImage" width="610" height="490" alt="@Model.Name">
+                                    </div>
+
+
+                                    @if (Model.Images.Count != 0)
+                                    {
+                                        foreach (var item in Model.Images)
+                                        {
+                                            <div class="slide">
+                                                <img src="~/images/products/@item.Name" width="610" height="490" alt="@Model.Name">
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                                <!-- Product Slider of the Page end -->
+                                <!-- Pagg Slider of the Page -->
+                                <ul class="list-unstyled slick-slider pagg-slider">
+
+                                    <li><div class="img"><img src="~/images/products/@Model.FirstImage" width="105" height="105" alt="@Model.Name"></div></li>
+
+                                    @if (Model.Images.Count > 0)
+                                    {
+                                        foreach (var item in Model.Images)
+                                        {
+                                            <li><div class="img"><img src="~/images/products/@item.Name" width="105" height="105" alt="@Model.Name"></div></li>
+                                        }
+                                    }
+
+                                </ul>
+                                <!-- Pagg Slider of the Page end -->
+                            </div>
+                            <!-- Slider of the Page end -->
+                            <!-- Detail Holder of the Page -->
+                            <div class="detial-holder">
+                                <!-- Breadcrumbs of the Page -->
+                                @*<ul class="list-unstyled breadcrumbs">
+                                        <li><a href="#">Chairs <i class="fa fa-angle-right"></i></a></li>
+                                        <li>Products</li>
+                                    </ul>*@
+                                <!-- Breadcrumbs of the Page end -->
+                                <h2 style="word-wrap: break-word">@Model.Name</h2>
+                                <!-- Rank Rating of the Page -->
+                                <div class="rank-rating">
+                                    @if (Model.Comments.Count == 0)
+                                    {
+                                        <span class="total-price">Henüz bir yorum yapılmamış.</span>
+                                    }
+                                    else
+                                    {
+                                        <ul class="list-unstyled rating-list">
+                                            @{
+                                                var avgStar = Math.Ceiling(Model.Comments.Average(i => i.StarCount));
+
+                                                for (int i = 0; i < avgStar; i++)
+                                                {
+                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                }
+                                                for (int i = 0; i < 5 - avgStar; i++)
+                                                {
+                                                    <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+                                                }
+                                            }
+                                        </ul>
+                                        <span class="total-price">Yorumlar (@Model.Comments.Count)</span>
+                                    }
+                                </div>
+                                <!-- Rank Rating of the Page end -->
+                                <ul class="list-unstyled list">
+                                    @*<li><a href="#"><i class="fa fa-share-alt"></i>SHARE</a></li>*@
+                                    @*<li><a href="#"><i class="fa fa-exchange"></i>COMPARE</a></li>*@
+                                    @if (CurrentSession.MemberIsLogged)
+                                    {
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddWishList(@Model.Id)">
+                                                <i class="fa fa-heart"></i>
+                                                İstek Listeme Ekle
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="ShowLoginSweetAlert()">
+                                                <i class="fa fa-heart"></i>
+                                                İstek Listeme Ekle
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                                <div class="txt-wrap y-break">
+                                    @Model.ShortDescription
+                                </div>
+                                <div class="text-holder">
+                                    <span class="price">@Model.NewPrice.ToString("c") <del>@Model.LastPrice.ToString("c")</del></span>
+                                </div>
+                                <!-- Product Form of the Page -->
+                                <form action="#" onsubmit="return false" class="product-form">
+                                    <fieldset>
+                                        <div class="row-val">
+                                            <label for="qty">Adet</label>
+                                            <input type="number" id="qty" value="1" min="1">
+                                        </div>
+                                        <div class="row-val">
+                                            <button type="submit" id="submit_btn">SEPETE EKLE</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+
+                                @if (CurrentSession.MemberIsLogged)
+                                {
+                                    <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                            document.getElementById('submit_btn').addEventListener('click', function (e) {
+                                            var productCount = document.getElementById('qty').value;
+                                            var productId = @Model.Id;
+                                            AddProductInBasket(productId, productCount);
+                                        });
+                                    });
+                                    </script>
+                                }
+                                else
+                                {
+                                    <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                            document.getElementById('submit_btn').addEventListener('click', function (e) {
+                                                ShowLoginSweetAlert();
+                                        });
+                                    });
+                                    </script>
+                                }
+
+
+                                <!-- Product Form of the Page end -->
+                            </div>
+                            <!-- Detail Holder of the Page end -->
+                        </div>
+                    </div>
+                </div>
+            </section><!-- Mt Product Detial of the Page end -->
+            <div class="product-detail-tab wow fadeInUp" data-wow-delay="0.4s">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ul class="mt-tabs text-center text-uppercase">
+                                <li><a href="#tab1" class="active">AÇIKLAMA</a></li>
+                                <li><a href="#tab3">YORUMLAR (@Model.Comments.Count)</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab1" class="y-break">
+                                    @Html.Raw(HttpUtility.HtmlDecode(Model.LongDescription))
+                                </div>
+                                <div id="tab3">
+                                    <div class="product-comment">
+
+                                        @if (CurrentSession.Member == null)
+                                        {
+                                            <div class="txt-wrap y-break">
+                                                <span>
+                                                    Yorum yapmadan önce
+                                                </span>
+                                                <a href="/Account/Login">
+                                                    <b>giriş</b>
+                                                </a>
+
+                                                <span>
+                                                    yapmanız gerekmektedir..
+                                                </span>
+
+                                                <br /><br />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <form onsubmit="return false" class="p-commentform">
+                                                <fieldset>
+                                                    <div class="mt-row">
+                                                        <label>Puan</label>
+                                                        <div class="page">
+                                                            <div class="page__demo">
+                                                                <div class="page__group">
+                                                                    <div class="rating">
+                                                                        <input type="radio" name="starCount" value="1" class="rating__control" id="rc6">
+                                                                        <input type="radio" name="starCount" value="2" class="rating__control" id="rc7">
+                                                                        <input type="radio" name="starCount" value="3" class="rating__control" id="rc8">
+                                                                        <input type="radio" name="starCount" value="4" class="rating__control" id="rc9" checked>
+                                                                        <input type="radio" name="starCount" value="5" class="rating__control" id="rc10">
+                                                                        <label for="rc6" class="rating__item">
+                                                                            <svg class="rating__star">
+                                                                                <use xlink:href="#star"></use>
+                                                                            </svg>
+                                                                            <span class="rating__label">1</span>
+                                                                        </label>
+                                                                        <label for="rc7" class="rating__item">
+                                                                            <svg class="rating__star">
+                                                                                <use xlink:href="#star"></use>
+                                                                            </svg>
+                                                                            <span class="rating__label">2</span>
+                                                                        </label>
+                                                                        <label for="rc8" class="rating__item">
+                                                                            <svg class="rating__star">
+                                                                                <use xlink:href="#star"></use>
+                                                                            </svg>
+                                                                            <span class="rating__label">3</span>
+                                                                        </label>
+                                                                        <label for="rc9" class="rating__item">
+                                                                            <svg class="rating__star">
+                                                                                <use xlink:href="#star"></use>
+                                                                            </svg>
+                                                                            <span class="rating__label">4</span>
+                                                                        </label>
+                                                                        <label for="rc10" class="rating__item">
+                                                                            <svg class="rating__star">
+                                                                                <use xlink:href="#star"></use>
+                                                                            </svg>
+                                                                            <span class="rating__label">5</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                                                            <symbol id="star" viewBox="0 0 26 28">
+                                                                <path d="M26 10.109c0 .281-.203.547-.406.75l-5.672 5.531 1.344 7.812c.016.109.016.203.016.313 0 .406-.187.781-.641.781a1.27 1.27 0 0 1-.625-.187L13 21.422l-7.016 3.687c-.203.109-.406.187-.625.187-.453 0-.656-.375-.656-.781 0-.109.016-.203.031-.313l1.344-7.812L.39 10.859c-.187-.203-.391-.469-.391-.75 0-.469.484-.656.875-.719l7.844-1.141 3.516-7.109c.141-.297.406-.641.766-.641s.625.344.766.641l3.516 7.109 7.844 1.141c.375.063.875.25.875.719z" />
+                                                            </symbol>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="mt-row">
+                                                        <label>Yorum</label>
+                                                        <textarea id="commentTextArea" class="form-control"></textarea>
+                                                    </div>
+                                                    <button id="sendComment" type="submit" class="btn-type4">YORUM YAP</button>
+                                                </fieldset>
+                                            </form>
+
+                                            <script>
+                                                window.addEventListener('DOMContentLoaded', function () {
+                                                    document.getElementById('sendComment').addEventListener('click', function (e) {
+
+
+                                                        let value = 5;
+                                                        let textArea = document.getElementById('commentTextArea');
+                                                        let productId = @Model.Id;
+
+
+                                                        let inputList = document.getElementsByName('starCount');
+
+                                                        inputList.forEach(function (item) {
+                                                            if (item.checked) {
+                                                                value = item.value;
+                                                            }
+                                                        })
+
+
+                                                        let data = {
+                                                            'starCount': value,
+                                                            'text': textArea.value,
+                                                            'productId': productId
+                                                        };
+
+                                                        new Post('/Product/AddComment', data, function (result) {
+                                                            if (JSON.parse(result).result) {
+                                                                Swal.fire(
+                                                                    'Yorum Ekleme Başarılı!',
+                                                                    'Yorumunuz başarıyla eklendi, yönetici onayından sonra yayımlanacaktır. :)',
+                                                                    'success'
+                                                                )
+
+                                                                textArea.value = '';
+                                                            }
+                                                            else {
+                                                                Swal.fire({
+                                                                    type: 'error',
+                                                                    title: 'Oops...',
+                                                                    text: 'Ters giden bir şeyler var, lütfen bütün alanları doldurunuz..'
+                                                                })
+                                                            }
+                                                        });
+
+                                                    })
+
+
+                                                });
+
+
+                                            </script>
+
+
+                                        }
+
+                                        @foreach (var item in Model.Comments.OrderByDescending(i => i.AddedDate))
+                                        {
+                                            <div class="mt-box">
+                                                <div class="mt-hold">
+                                                    <ul class="mt-star">
+                                                        @{
+                                                            int starCount = (int)item.StarCount;
+                                                            for (int i = 0; i < starCount; i++)
+                                                            {
+                                                                <li><i class="fa fa-star"></i></li>
+                                                            }
+                                                            for (int i = 0; i < 5 - starCount; i++)
+                                                            {
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                    <span class="name">@item.Member.FirstName @item.Member.LastName</span>
+                                                    <time datetime="@item.AddedDate.ToShortDateString()">@item.AddedDate</time>
+                                                </div>
+                                                <p class="y-break">
+                                                    @item.Text
+                                                </p>
+                                            </div>
+                                        }
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- related products start here -->
+            @*<div class="related-products wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2>RELATED PRODUCTS</h2>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <!-- mt product1 center start here -->
+                                        <div class="mt-product1 mt-paddingbottom20">
+                                            <div class="box">
+                                                <div class="b1">
+                                                    <div class="b2">
+                                                        <a href="product-detail.html"><img src="http://placehold.it/215x215" alt="image description"></a>
+                                                        <span class="caption">
+                                                            <span class="new">NEW</span>
+                                                        </span>
+                                                        <ul class="mt-stars">
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star-o"></i></li>
+                                                        </ul>
+                                                        <ul class="links">
+                                                            <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-exchange"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="txt">
+                                                <strong class="title"><a href="product-detail.html">Puff Chair</a></strong>
+                                                <span class="price"><i class="fa fa-eur"></i> <span>287,00</span></span>
+                                            </div>
+                                        </div><!-- mt product1 center end here -->
+                                        <!-- mt product1 center start here -->
+                                        <div class="mt-product1 mt-paddingbottom20">
+                                            <div class="box">
+                                                <div class="b1">
+                                                    <div class="b2">
+                                                        <a href="product-detail.html"><img src="http://placehold.it/215x215" alt="image description"></a>
+                                                        <ul class="links">
+                                                            <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-exchange"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="txt">
+                                                <strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
+                                                <span class="price"><i class="fa fa-eur"></i> <span>399,00</span></span>
+                                            </div>
+                                        </div><!-- mt product1 center end here -->
+                                        <!-- mt product1 center start here -->
+                                        <div class="mt-product1 mt-paddingbottom20">
+                                            <div class="box">
+                                                <div class="b1">
+                                                    <div class="b2">
+                                                        <a href="product-detail.html"><img src="http://placehold.it/215x215" alt="image description"></a>
+                                                        <ul class="links">
+                                                            <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-exchange"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="txt">
+                                                <strong class="title"><a href="product-detail.html">Wood Chair</a></strong>
+                                                <span class="price"><i class="fa fa-eur"></i> <span>198,00</span></span>
+                                            </div>
+                                        </div><!-- mt product1 center end here -->
+                                        <!-- mt product1 center start here -->
+                                        <div class="mt-product1 mt-paddingbottom20">
+                                            <div class="box">
+                                                <div class="b1">
+                                                    <div class="b2">
+                                                        <a href="product-detail.html"><img src="http://placehold.it/215x215" alt="image description"></a>
+                                                        <span class="caption">
+                                                            <span class="off">15% Off</span>
+                                                            <span class="new">NEW</span>
+                                                        </span>
+                                                        <ul class="mt-stars">
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star-o"></i></li>
+                                                        </ul>
+                                                        <ul class="links">
+                                                            <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-exchange"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="txt">
+                                                <strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
+                                                <span class="price"><i class="fa fa-eur"></i> <span>200,00</span></span>
+                                            </div>
+                                        </div><!-- mt product1 center end here -->
+                                        <!-- mt product1 center start here -->
+                                        <div class="mt-product1 mt-paddingbottom20">
+                                            <div class="box">
+                                                <div class="b1">
+                                                    <div class="b2">
+                                                        <a href="product-detail.html"><img src="http://placehold.it/215x215" alt="image description"></a>
+                                                        <ul class="links">
+                                                            <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
+                                                            <li><a href="#"><i class="icomoon icon-exchange"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="txt">
+                                                <strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
+                                                <span class="price"><i class="fa fa-eur"></i> <span>200,00</span></span>
+                                            </div>
+                                        </div><!-- mt product1 center end here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- related products end here -->
+                </div>*@
+
+
+
+
+
+        </main><!-- mt main end here -->
+        <!-- footer of the Page -->
+    </div><!-- W1 end here -->
+</div>

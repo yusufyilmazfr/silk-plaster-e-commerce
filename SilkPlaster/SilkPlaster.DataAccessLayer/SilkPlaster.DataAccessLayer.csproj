@@ -59,6 +59,7 @@
     <Compile Include="Abstract\ICommentDal.cs" />
     <Compile Include="Abstract\ICountyDal.cs" />
     <Compile Include="Abstract\IMemberDal.cs" />
+    <Compile Include="Abstract\IInComingMailDal.cs" />
     <Compile Include="Abstract\IOrderDal.cs" />
     <Compile Include="Abstract\IOrderDetailDal.cs" />
     <Compile Include="Abstract\IProductDal.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Concrete\CommentDal.cs" />
     <Compile Include="Concrete\CountyDal.cs" />
     <Compile Include="Concrete\EntityRepository.cs" />
+    <Compile Include="Concrete\InComingMailDal.cs" />
     <Compile Include="Concrete\MemberDal.cs" />
     <Compile Include="Concrete\OrderDal.cs" />
     <Compile Include="Concrete\OrderDetailDal.cs" />

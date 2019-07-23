@@ -51,6 +51,7 @@
     <Compile Include="City.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="County.cs" />
+    <Compile Include="InComingMail.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderDetail.cs" />

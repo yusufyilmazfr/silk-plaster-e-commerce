@@ -1,0 +1,90 @@
+﻿@using SilkPlaster.UI.Models.Helpers.Session
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="wrapper">
+    <div class="w1">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+
+                <div class="col-md-12">
+                    <h3>
+                        <i class="icon icon-user"></i> Hoş Geldin @CurrentSession.Member.FirstName
+                    </h3>
+                </div>
+
+                <div class="row" style="margin: 10px 0;">
+
+                    <div class="col-md-4" style="margin-bottom: 5px;">
+                        <a href="@Url.Action("MyOrders", "Account")">
+                            <button class="btn btn-block w-100 y-b-n y-btn-hover" style="background-color: #ddd">
+                                Siparişlerim
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4" style="margin-bottom: 5px">
+                        <a href="@Url.Action("EditMyInformation", "Account")">
+
+                            <button class="btn btn-block w-100 y-b-n y-btn-hover" style="background-color: #ddd">
+                                Bilgilerimi Düzenle
+                            </button>
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4" style="margin-bottom: 5px">
+                        <a href="@Url.Action("Index", "Account")">
+                            <button class="btn btn-block w-100 y-b-n y-btn-hover" style="background-color: #ddd">
+                                Mesajlarım
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4" style="margin-bottom: 5px">
+                        <a href="@Url.Action("MyAddresses", "Account")">
+                            <button class="btn btn-block w-100 y-b-n y-btn-hover" style="background-color: #ddd">
+                                Adres Bilgilerim
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4" style="margin-bottom: 5px">
+                        <a href="@Url.Action("EditPassword", "Account")">
+                            <button class="btn btn-block w-100 y-b-n y-btn-hover" style="background-color: #ddd">
+                                Şifremi Değiştir
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4" style="margin-bottom: 5px">
+                        <a href="@Url.Action("Index","WishList")">
+                            <button class="btn btn-block w-100 y-b-n y-btn-hover" style="background-color: #ddd">
+                                Beğendiklerim
+                            </button>
+                        </a>
+                    </div>
+
+
+                    <div class="col-md-4" style="margin-bottom: 5px">
+                        <a href="@Url.Action("Index","Basket")">
+                            <button class="btn btn-block w-100 y-b-n y-btn-hover" style="background-color: #ddd">
+                                Sepetim
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4" style="margin-bottom: 5px">
+                        <a href="@Url.Action("Logout", "Account")">
+                            <button class="btn btn-block w-100 y-b-n y-btn-hover" style="background-color: #ddd">
+                                Çıkış Yap
+                            </button>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

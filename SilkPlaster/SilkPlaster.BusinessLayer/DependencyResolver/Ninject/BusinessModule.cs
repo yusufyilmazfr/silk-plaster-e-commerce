@@ -28,6 +28,7 @@ namespace SilkPlaster.BusinessLayer.DependencyResolver.Ninject
             Bind<IProductManager>().To<ProductManager>();
             Bind<ISliderManager>().To<SliderManager>();
             Bind<IWishListManager>().To<WishListManager>();
+            Bind<IInComingMailManager>().To<InComingMailManager>();
 
 
             Bind<IAddressDal>().To<AddressDal>();
@@ -43,6 +44,7 @@ namespace SilkPlaster.BusinessLayer.DependencyResolver.Ninject
             Bind<IProductDal>().To<ProductDal>();
             Bind<ISliderDal>().To<SliderDal>();
             Bind<IWishListDal>().To<WishListDal>();
+            Bind<IInComingMailDal>().To<InComingMailDal>();
         }
     }
 }
