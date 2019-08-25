@@ -63,24 +63,28 @@
     <Compile Include="Abstract\IOrderDal.cs" />
     <Compile Include="Abstract\IOrderDetailDal.cs" />
     <Compile Include="Abstract\IProductDal.cs" />
-    <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Abstract\ISliderDal.cs" />
     <Compile Include="Abstract\IWishListDal.cs" />
-    <Compile Include="Concrete\AddressDal.cs" />
-    <Compile Include="Concrete\AdminDal.cs" />
-    <Compile Include="Concrete\BasketDal.cs" />
-    <Compile Include="Concrete\CategoryDal.cs" />
-    <Compile Include="Concrete\CityDal.cs" />
-    <Compile Include="Concrete\CommentDal.cs" />
-    <Compile Include="Concrete\CountyDal.cs" />
-    <Compile Include="Concrete\EntityRepository.cs" />
-    <Compile Include="Concrete\InComingMailDal.cs" />
-    <Compile Include="Concrete\MemberDal.cs" />
-    <Compile Include="Concrete\OrderDal.cs" />
-    <Compile Include="Concrete\OrderDetailDal.cs" />
-    <Compile Include="Concrete\ProductDal.cs" />
-    <Compile Include="Concrete\SliderDal.cs" />
-    <Compile Include="Concrete\WishListDal.cs" />
+    <Compile Include="Abstract\Repository\IRepository.cs" />
+    <Compile Include="Abstract\UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="Concrete\EntityFramework\Context\DatabaseContext.cs" />
+    <Compile Include="Concrete\EntityFramework\Context\MyInitializer.cs" />
+    <Compile Include="Concrete\EntityFramework\EfAddressDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfAdminDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfBasketDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfCategoryDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfCityDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfCommentDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfCountyDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfInComingMailDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfMemberDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfOrderDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfOrderDetailDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfProductDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfSliderDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EfWishListDal.cs" />
+    <Compile Include="Concrete\EntityFramework\Repository\EfEntityRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,23 +92,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SilkPlaster.Common\SilkPlaster.Common.csproj">
-      <Project>{1f776d43-4a84-4bf8-a61a-70ef87968bf8}</Project>
-      <Name>SilkPlaster.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SilkPlaster.Core\SilkPlaster.Core.csproj">
       <Project>{91d83800-ecdc-412e-ab2d-3eb5641b1d58}</Project>
       <Name>SilkPlaster.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SilkPlaster.DataContext\SilkPlaster.DataContext.csproj">
-      <Project>{f633b931-3817-4eff-bfe6-038ab09dbe52}</Project>
-      <Name>SilkPlaster.DataContext</Name>
     </ProjectReference>
     <ProjectReference Include="..\SilkPlaster.Entities\SilkPlaster.Entities.csproj">
       <Project>{898b9791-bc80-410a-8262-fc31e9dfb54e}</Project>
       <Name>SilkPlaster.Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Concrete\NHibernate\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

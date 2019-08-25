@@ -1,4 +1,4 @@
-﻿using SilkPlaster.BusinessLayer.DependencyResolver.Ninject;
+﻿using SilkPlaster.BusinessLayer.Concrete.DependencyResolver.Ninject;
 using SilkPlaster.UI.Infrastructure.Ninject;
 using System;
 using System.Collections.Generic;

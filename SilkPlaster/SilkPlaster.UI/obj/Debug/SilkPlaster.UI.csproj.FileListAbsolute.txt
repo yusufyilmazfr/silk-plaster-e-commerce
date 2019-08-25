@@ -82,9 +82,6 @@ D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\S
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\SilkPlaster.DataAccessLayer.dll.config
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\EntityFramework.SqlServer.xml
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\FakeData.pdb
-D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\SilkPlaster.DataContext.dll
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\SilkPlaster.BusinessLayer.dll.config
-D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\SilkPlaster.DataContext.pdb
-D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\SilkPlaster.DataContext.dll.config
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\Ninject.dll
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.UI\bin\Ninject.xml

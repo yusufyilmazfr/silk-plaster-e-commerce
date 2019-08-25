@@ -3,6 +3,7 @@ using SilkPlaster.BusinessLayer.Abstract;
 using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Common.Message;
 using SilkPlaster.Entities;
+using SilkPlaster.Entities.Concrete;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;

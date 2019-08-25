@@ -3,3 +3,4 @@ D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Common\b
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Common\obj\Debug\SilkPlaster.Common.csproj.CoreCompileInputs.cache
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Common\obj\Debug\SilkPlaster.Common.dll
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Common\obj\Debug\SilkPlaster.Common.pdb
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Common\obj\Debug\SilkPlaster.Common.csprojAssemblyReference.cache

@@ -1,5 +1,6 @@
 ﻿using SilkPlaster.BusinessLayer.Abstract;
 using SilkPlaster.Entities;
+using SilkPlaster.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace SilkPlaster.UI.Controllers
     public class HomeController : Controller
     {
         private IInComingMailManager _inComingMailService { get; set; }
+        private IMemberManager _memberManager { get; set; }
 
-        public HomeController(IInComingMailManager inComingMailService)
+        public HomeController(IInComingMailManager inComingMailService, IMemberManager memberManager)
         {
             _inComingMailService = inComingMailService;
+            _memberManager = memberManager;
         }
 
         public ActionResult Index()
@@ -58,6 +61,13 @@ namespace SilkPlaster.UI.Controllers
             }
 
             return View(model);
+        }
+
+        public string DoSomething()
+        {
+
+            _memberManager.Test();
+            return "Ok .s";
         }
     }
 }

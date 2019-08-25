@@ -1,5 +1,6 @@
 ﻿using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Entities;
+using SilkPlaster.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -8,6 +8,5 @@ namespace SilkPlaster.BusinessLayer.Abstract
 {
     public interface IOrderDetailManager
     {
-
     }
 }

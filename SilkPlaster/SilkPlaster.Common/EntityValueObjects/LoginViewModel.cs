@@ -19,6 +19,5 @@ namespace SilkPlaster.Common.EntityValueObjects
         DisplayName("Parola"),
         StringLength(64, ErrorMessage = "{0} alanı max. {1} karakter olmalıdır.")]
         public string Password { get; set; }
-
     }
 }

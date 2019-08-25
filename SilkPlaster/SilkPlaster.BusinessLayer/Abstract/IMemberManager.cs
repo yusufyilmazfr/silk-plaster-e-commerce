@@ -1,6 +1,7 @@
 ﻿using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Entities;
+using SilkPlaster.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,7 @@ namespace SilkPlaster.BusinessLayer.Abstract
         BusinessLayerResult<Member> UpdateMember(Member member);
         BusinessLayerResult<Member> Register(RegisterViewModel obj);
         BusinessLayerResult<Member> CreateRandomPasswordForMemberByEmail(string email);
+
+        void Test();
     }
 }

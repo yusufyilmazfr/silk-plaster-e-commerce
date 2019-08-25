@@ -42,32 +42,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\EntityBase.cs" />
     <Compile Include="Abstract\IEntity.cs" />
-    <Compile Include="Address.cs" />
-    <Compile Include="Admin.cs" />
-    <Compile Include="Basket.cs" />
-    <Compile Include="Category.cs" />
-    <Compile Include="City.cs" />
-    <Compile Include="Comment.cs" />
-    <Compile Include="County.cs" />
-    <Compile Include="InComingMail.cs" />
-    <Compile Include="Member.cs" />
-    <Compile Include="Order.cs" />
-    <Compile Include="OrderDetail.cs" />
-    <Compile Include="OrderStatus.cs" />
-    <Compile Include="PaymentMethod.cs" />
-    <Compile Include="Product.cs" />
-    <Compile Include="ProductImage.cs" />
+    <Compile Include="Concrete\EntityBase.cs" />
+    <Compile Include="Concrete\Address.cs" />
+    <Compile Include="Concrete\Admin.cs" />
+    <Compile Include="Concrete\Basket.cs" />
+    <Compile Include="Concrete\Category.cs" />
+    <Compile Include="Concrete\City.cs" />
+    <Compile Include="Concrete\Comment.cs" />
+    <Compile Include="Concrete\County.cs" />
+    <Compile Include="Concrete\InComingMail.cs" />
+    <Compile Include="Concrete\Member.cs" />
+    <Compile Include="Concrete\Order.cs" />
+    <Compile Include="Concrete\OrderDetail.cs" />
+    <Compile Include="Concrete\OrderStatus.cs" />
+    <Compile Include="Concrete\PaymentMethod.cs" />
+    <Compile Include="Concrete\Product.cs" />
+    <Compile Include="Concrete\ProductImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Slider.cs" />
-    <Compile Include="WishList.cs" />
+    <Compile Include="Concrete\Slider.cs" />
+    <Compile Include="Concrete\WishList.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SilkPlaster.Common\SilkPlaster.Common.csproj">
       <Project>{1F776D43-4A84-4BF8-A61A-70EF87968BF8}</Project>
       <Name>SilkPlaster.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SilkPlaster.Core\SilkPlaster.Core.csproj">
+      <Project>{91D83800-ECDC-412E-AB2D-3EB5641B1D58}</Project>
+      <Name>SilkPlaster.Core</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

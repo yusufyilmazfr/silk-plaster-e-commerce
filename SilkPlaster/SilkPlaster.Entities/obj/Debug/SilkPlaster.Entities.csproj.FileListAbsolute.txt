@@ -7,3 +7,6 @@ D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Debug\SilkPlaster.Common.dll
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Debug\SilkPlaster.Common.pdb
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\obj\Debug\SilkPlaster.Entities.csproj.CopyComplete
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Debug\SilkPlaster.Core.dll
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Debug\SilkPlaster.Core.pdb
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Entities\bin\Debug\SilkPlaster.Core.dll.config

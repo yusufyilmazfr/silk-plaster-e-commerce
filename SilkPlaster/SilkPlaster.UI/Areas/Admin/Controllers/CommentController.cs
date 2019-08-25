@@ -10,6 +10,7 @@ using SilkPlaster.BusinessLayer;
 using SilkPlaster.BusinessLayer.Abstract;
 using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Entities;
+using SilkPlaster.Entities.Concrete;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
 

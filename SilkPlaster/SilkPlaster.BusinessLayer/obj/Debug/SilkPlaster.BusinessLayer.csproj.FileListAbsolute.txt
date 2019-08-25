@@ -20,9 +20,7 @@ D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.Business
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\obj\Debug\SilkPlaster.BusinessLayer.csproj.CopyComplete
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\obj\Debug\SilkPlaster.BusinessLayer.dll
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\obj\Debug\SilkPlaster.BusinessLayer.pdb
-D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\bin\Debug\SilkPlaster.DataContext.dll
-D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\bin\Debug\SilkPlaster.DataContext.pdb
-D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\bin\Debug\SilkPlaster.DataContext.dll.config
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\bin\Debug\SilkPlaster.BusinessLayer.dll.config
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\bin\Debug\Ninject.dll
 D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\bin\Debug\Ninject.xml
+D:\Program Files\GitHub\silk-plaster-e-commerce\SilkPlaster\SilkPlaster.BusinessLayer\bin\Debug\SilkPlaster.Core.dll.config

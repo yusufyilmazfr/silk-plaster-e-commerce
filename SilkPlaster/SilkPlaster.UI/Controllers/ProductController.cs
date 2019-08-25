@@ -4,6 +4,7 @@ using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Common.HelperClasses;
 using SilkPlaster.Common.SearchFiltering;
 using SilkPlaster.Entities;
+using SilkPlaster.Entities.Concrete;
 using SilkPlaster.UI.Models;
 using SilkPlaster.UI.Models.Filters;
 using SilkPlaster.UI.Models.Helpers;

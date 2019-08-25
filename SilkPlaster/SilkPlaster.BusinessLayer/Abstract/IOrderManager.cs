@@ -2,6 +2,7 @@
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Common.OrderMessageObj;
 using SilkPlaster.Entities;
+using SilkPlaster.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
