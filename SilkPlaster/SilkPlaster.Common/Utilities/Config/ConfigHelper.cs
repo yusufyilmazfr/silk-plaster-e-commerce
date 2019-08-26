@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SilkPlaster.Common.HelperClasses
+namespace SilkPlaster.Common.Utilities.Config
 {
     public class ConfigHelper
     {

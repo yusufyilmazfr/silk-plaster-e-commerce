@@ -146,7 +146,7 @@ namespace SilkPlaster.UI.Controllers
 
             BusinessLayerResult<Basket> layerResult = _basketManager.AddProductInBasket(loggedInMemberId, productId, productCount);
 
-            if (layerResult.Errors.Count > 0)
+            if (layerResult.HasError())
             {
                 return Json(new { result = false, message = layerResult.Errors.FirstOrDefault() }, JsonRequestBehavior.AllowGet);
             }
@@ -247,7 +247,7 @@ namespace SilkPlaster.UI.Controllers
                     MemberId = loggedInMemberId
                 });
 
-                if (layerResult.Errors.Count == 0)
+                if (!layerResult.HasError())
                 {
                     return Json(new { result = true }, JsonRequestBehavior.AllowGet);
                 }

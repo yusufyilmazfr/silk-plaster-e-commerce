@@ -114,25 +114,13 @@ namespace SilkPlaster.UI.Controllers
                 return View();
             }
 
-            BusinessLayerResult<Member> layerResult = _memberManager.CreateRandomPasswordForMemberByEmail(email);
+            BusinessLayerResult<Member> layerResult = _memberManager.SendNewPasswordByEmail(email);
 
             if (layerResult.HasError())
             {
                 layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
                 return View();
             }
-
-            string body = $"Sayın {layerResult.Result.FirstName} {layerResult.Result.LastName}, yeni parolanız: {layerResult.Result.Password}";
-            string to = email;
-            string subject = "Nishplas - Yeni Parola";
-
-            Thread thread = new Thread(delegate ()
-            {
-                MailHelper.SendMail(body, to, subject);
-            });
-
-            thread.IsBackground = true;
-            thread.Start();
 
             TempData["success"] = $"Yeni parolanız {email} adresine başarıyla gönderilmiştir! Lütfen e postanızı kontrol ediniz. Mail gelmemiş ise 1 dakika sonra tekrardan deneyiniz, hiç gelmemesi durumunda ise lütfen iletişim formundan bize ulaşınız.";
 
@@ -147,7 +135,7 @@ namespace SilkPlaster.UI.Controllers
             {
                 BusinessLayerResult<Member> layerResult = _memberManager.Register(model);
 
-                if (layerResult.Errors.Count > 0)
+                if (layerResult.HasError())
                 {
                     layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
                     return View(model);
@@ -206,7 +194,7 @@ namespace SilkPlaster.UI.Controllers
 
                 BusinessLayerResult<Member> layerResult = _memberManager.UpdateMember(member);
 
-                if (layerResult.Errors.Count > 0)
+                if (layerResult.HasError())
                 {
                     layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
                     return View(model);
@@ -252,7 +240,7 @@ namespace SilkPlaster.UI.Controllers
 
                 BusinessLayerResult<Member> layerResult = _memberManager.UpdateMember(member);
 
-                if (layerResult.Errors.Count > 0)
+                if (layerResult.HasError())
                 {
                     layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
 
@@ -350,7 +338,7 @@ namespace SilkPlaster.UI.Controllers
             {
                 BusinessLayerResult<Address> layerResult = _addressManager.Insert(model);
 
-                if (layerResult.Errors.Count > 0)
+                if (layerResult.HasError())
                 {
                     layerResult.Errors.ForEach(x => ModelState.AddModelError("", x.ErrorMessage));
                     return View(model);
@@ -411,7 +399,7 @@ namespace SilkPlaster.UI.Controllers
             {
                 BusinessLayerResult<AddressViewModel> layerResult = _addressManager.Update(model);
 
-                if (layerResult.Errors.Count == 0)
+                if (!layerResult.HasError())
                 {
                     return RedirectToAction("MyAddresses");
                 }
@@ -436,7 +424,7 @@ namespace SilkPlaster.UI.Controllers
                 MemberId = loggedInMemberId
             });
 
-            if (layerResult.Errors.Count == 0)
+            if (!layerResult.HasError())
             {
                 return Json(new { result = true, message = "Adres başarıyla silindi!" }, JsonRequestBehavior.AllowGet);
             }

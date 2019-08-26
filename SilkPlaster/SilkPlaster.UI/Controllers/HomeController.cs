@@ -57,17 +57,10 @@ namespace SilkPlaster.UI.Controllers
                 int count = _inComingMailService.Insert(model);
 
                 if (count > 0)
-                    TempData["success"] = $"Sayın {model.PersonFirstName} {model.PersonLastName}, mesajınızı aldık, en yakın zamanda dönüş yapacağız. İyi günlerde kalın :)";
+                    TempData["success"] = $"Sayın {model.PersonFirstName} {model.PersonLastName}, mesajınızı aldık. En yakın zamanda dönüş yapacağız. İyi günlerde kalın :)";
             }
 
             return View(model);
-        }
-
-        public string DoSomething()
-        {
-
-            _memberManager.Test();
-            return "Ok .s";
         }
     }
 }
