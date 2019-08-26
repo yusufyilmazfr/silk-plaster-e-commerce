@@ -3,6 +3,9 @@ using SilkPlaster.BusinessLayer.Concrete.Result;
 using SilkPlaster.Common.EntityValueObjects;
 using SilkPlaster.Common.HelperClasses;
 using SilkPlaster.Common.Message;
+using SilkPlaster.Common.Services.Hash;
+using SilkPlaster.Common.Services.Mail;
+using SilkPlaster.Common.Utilities.PasswordGenerator;
 using SilkPlaster.DataAccessLayer.Abstract;
 using SilkPlaster.DataAccessLayer.Abstract.UnitOfWork;
 using SilkPlaster.DataAccessLayer.Concrete.EntityFramework;
@@ -22,55 +25,19 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
     {
         private IMemberDal _memberDal { get; set; }
         private IUnitOfWork _unitOfWork { get; set; }
+        private IHashGeneratorService _hashGeneratorService { get; set; }
+        private IMailService _mailService { get; set; }
         private BusinessLayerResult<Member> _layerResult;
 
-        public MemberManager(IUnitOfWork unitOfWork, IMemberDal memberDal)
+        public MemberManager(IUnitOfWork unitOfWork, IMemberDal memberDal, IHashGeneratorService hashGeneratorService, IMailService mailService)
         {
             _memberDal = memberDal;
             _unitOfWork = unitOfWork;
+            _hashGeneratorService = hashGeneratorService;
+            _mailService = mailService;
             _layerResult = new BusinessLayerResult<Member>();
         }
 
-        public void Test()
-        {
-            var member = _memberDal.Find(i => i.Id == 1);
-
-            member.FirstName = "Yusuf";
-            member.LastName = "Yılmaz";
-
-            _unitOfWork.SaveChanges();
-
-
-            #region CreateInstance
-            //var memberRepository = _unitOfWork.GetRepository<Member>();
-            //var member = memberRepository.Find(i => i.Id == 1);
-
-            //member.FirstName = "Selami";
-
-            //_unitOfWork.SaveChanges();
-
-            #endregion
-
-            #region WithConcreteObjects
-            //DatabaseContext databaseContext = new DatabaseContext();
-
-            //UnitOfWork unitOfWork = new UnitOfWork(databaseContext);
-            //EfMemberDal efMemberDal = new EfMemberDal(databaseContext);
-            //EfCategoryDal efCategoryDal = new EfCategoryDal(databaseContext);
-
-            //var member = efMemberDal.Find(i => i.Id == 1);
-            //member.FirstName = "Yusuf";
-            //member.LastName = "Yılmaz";
-
-            //efCategoryDal.Insert(new Category
-            //{
-            //});
-
-            //unitOfWork.SaveChanges();
-            #endregion
-        }
-
-        #region OtherOperations
         public BusinessLayerResult<Member> Register(RegisterViewModel obj)
         {
             _layerResult.Result = GetMemberByEmail(obj.Email);
@@ -82,7 +49,7 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
                 return _layerResult;
             }
 
-            string currentPassword = MD5Helper.Create(obj.Password);
+            string currentPassword = _hashGeneratorService.GenerateHash(obj.Password);
 
             _memberDal.Insert(new Member
             {
@@ -124,7 +91,7 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
                 return _layerResult;
             }
 
-            string currentPassword = MD5Helper.Create(obj.Password);
+            string currentPassword = _hashGeneratorService.GenerateHash(obj.Password);
 
             _layerResult.Result.FirstName = obj.FirstName;
             _layerResult.Result.LastName = obj.LastName;
@@ -155,17 +122,18 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
 
         public Member GetMemberWithEmailAndPassword(string email, string password)
         {
-            string currentPassword = MD5Helper.Create(password);
+            string currentPassword = _hashGeneratorService.GenerateHash(password);
+
             return _memberDal.Find(i => i.Email == email && i.Password == currentPassword);
         }
 
         public Member GetMemberByPassword(int memberId, string password)
         {
-            string currentPassword = MD5Helper.Create(password);
+            string currentPassword = _hashGeneratorService.GenerateHash(password);
             return _memberDal.Find(i => i.Id == memberId && i.Password == currentPassword);
         }
 
-        public BusinessLayerResult<Member> CreateRandomPasswordForMemberByEmail(string email)
+        public BusinessLayerResult<Member> SendNewPasswordByEmail(string email)
         {
             Member member = GetMemberByEmail(email);
 
@@ -175,10 +143,9 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
                 return _layerResult;
             }
 
-            Random random = new Random();
-            string newPassword = random.Next(0, 2600).ToString() + random.Next(5, 98652) + random.Next(6, 982);
-            member.Password = MD5Helper.Create(newPassword);
+            string newPassword = GenerateRandomPassword.Generate();
 
+            member.Password = _hashGeneratorService.GenerateHash(newPassword);
             _memberDal.Update(member);
 
             int count = _unitOfWork.SaveChanges();
@@ -186,12 +153,16 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
             if (count == 0)
                 _layerResult.AddError(ErrorMessageCode.FailedToAddRecord, "Yeni parola oluşturulamadı!");
 
-            _layerResult.Result = member;
-            _layerResult.Result.Password = newPassword;
+            else
+            {
+                string body = $"Sayın {member.FirstName} {member.LastName}, yeni parolanız: {newPassword}";
+                string to = email;
+                string subject = "Nishplas - Yeni Parola";
+
+                _mailService.SendMailAsync(body, to, subject);
+            }
 
             return _layerResult;
         }
-
-        #endregion
     }
 }

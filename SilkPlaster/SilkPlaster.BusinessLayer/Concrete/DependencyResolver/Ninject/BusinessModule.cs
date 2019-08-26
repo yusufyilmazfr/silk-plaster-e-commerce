@@ -1,10 +1,11 @@
 ﻿using Ninject.Modules;
 using SilkPlaster.BusinessLayer.Abstract;
-using SilkPlaster.BusinessLayer.Concrete;
 using SilkPlaster.BusinessLayer.Concrete.Manager;
+using SilkPlaster.Common.Services.Hash;
+using SilkPlaster.Common.Services.Hash.Md5;
+using SilkPlaster.Common.Services.Mail;
 using SilkPlaster.DataAccessLayer.Abstract;
 using SilkPlaster.DataAccessLayer.Abstract.UnitOfWork;
-using SilkPlaster.DataAccessLayer.Concrete;
 using SilkPlaster.DataAccessLayer.Concrete.EntityFramework;
 using SilkPlaster.DataAccessLayer.Concrete.EntityFramework.Context;
 using SilkPlaster.DataAccessLayer.Concrete.EntityFramework.UnitOfWork;
@@ -24,6 +25,9 @@ namespace SilkPlaster.BusinessLayer.Concrete.DependencyResolver.Ninject
             Bind<IUnitOfWork>().To<UnitOfWork>();
             Bind<DbContext>().To<DatabaseContext>().InThreadScope();
 
+            Bind<IHashGeneratorService>().To<Md5GeneratorService>();
+
+            Bind<IMailService>().To<MailService>();
 
             Bind<IAddressManager>().To<AddressManager>();
             Bind<IAdminManager>().To<AdminManager>();

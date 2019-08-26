@@ -76,7 +76,7 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
             else if (product.Quantity < productCount)
                 _layerResult.AddError(ErrorMessageCode.QuantityOverflow, $"{product.Name} üründen en fazla {product.Quantity} adet alabilirsiniz!");
 
-            if (_layerResult.Errors.Count > 0)
+            if (_layerResult.HasError())
                 return _layerResult;
 
             //The process of finding product in the basket.
@@ -171,7 +171,7 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
             else if (!product.InStock)
                 _layerResult.AddError(ErrorMessageCode.OutOfStock, $"{product.Name} stokta bulunmamatadır!");
 
-            if (_layerResult.Errors.Count > 0)
+            if (_layerResult.HasError())
                 return _layerResult;
 
             //The process of finding product in the basket.

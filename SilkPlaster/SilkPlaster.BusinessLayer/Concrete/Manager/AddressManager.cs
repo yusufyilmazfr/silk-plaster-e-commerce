@@ -46,7 +46,6 @@ namespace SilkPlaster.BusinessLayer.Concrete.Manager
                 TaxNumber = obj.TaxNumber,
                 CitizenshipNumber = obj.CitizenshipNumber,
                 IsDeleted = false
-
             });
 
             int count = _unitOfWork.SaveChanges();
